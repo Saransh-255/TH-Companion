@@ -1,0 +1,18 @@
+{
+    "name": "TH-Companion",
+    "description": "tools for brainly.",
+    "manifest_version": 3,
+    "version":"1.0.0",
+    "host_permissions": [
+      "*://brainly.com/*"
+    ],
+    "permissions": ["storage"],
+    "content_scripts": [
+      {
+        "matches": ["*://brainly.com/*"],
+        "css": ["css/homepage/index.css"],
+        "js": ["js/homepage.js"],
+        "run_at": "document_start"
+      }
+    ]
+  }
