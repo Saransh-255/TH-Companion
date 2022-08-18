@@ -51,7 +51,7 @@ export interface QuestionLogEntry {
     "100": string;
   }
   
-  export interface Task {
+export interface Task {
     attachments: Attachment[];
     client_type: string;
     content: string;
@@ -90,7 +90,7 @@ export interface QuestionLogEntry {
     comments: CommentsData;
   }
   
-  export interface Response {
+export interface Response {
     approved: {
       date?: string; 
       approver?: {
@@ -134,12 +134,12 @@ export interface QuestionLogEntry {
     user_id: number;
   }
   
-  export interface QuestionData {
+export interface QuestionData {
     task: Task;
     responses: Response[];
   }
   
-  export interface User {
+export interface User {
     id: number;
     nick: string;
     gender: 1 | 2;
@@ -161,7 +161,7 @@ export interface QuestionLogEntry {
     ranks_ids: number[];
   }
   
-  export type CommonResponse<T = void> = {
+export type CommonResponse<T = void> = {
     success: true;
     users_data?: User[];
     data: T;
@@ -170,11 +170,11 @@ export interface QuestionLogEntry {
     schema?: string;
   };
   
-  export type GetConversationResponse = CommonResponse<{
+export type GetConversationResponse = CommonResponse<{
     conversation_id: number;
   }>
   
-  export type GetMessagesResponse = CommonResponse<{
+export type GetMessagesResponse = CommonResponse<{
     last_id: number;
     conversation: {
       id: number;
@@ -194,11 +194,11 @@ export interface QuestionLogEntry {
     }[];
   }>;
   
-  export type GetQuestionResponse = CommonResponse<{
+export type GetQuestionResponse = CommonResponse<{
     task: Task;
     responses: Response[];
     users_data: User[];
   }>
   
-  export type GetQuestionLogResponse = CommonResponse<QuestionLogEntry[]>;
+export type GetQuestionLogResponse = CommonResponse<QuestionLogEntry[]>;
   
