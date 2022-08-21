@@ -15,8 +15,9 @@
       "@lib/*": ["lib/*"],
       "@api/*": ["lib/api/*"],
       "@typings/*": ["typings/*"],
-      "@components/*": ["components/*"],
+      "@components": ["components/index.ts"],
       "@utils/*": ["utils/*"],
+      "@modals/*": ["modals/*"],
     }
   }
 }

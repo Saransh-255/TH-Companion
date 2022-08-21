@@ -37,7 +37,7 @@
       }],
       "no-multi-spaces": "error",
       "space-infix-ops": "error",
-      //"no-await-in-loop": "error",
+      "no-await-in-loop": "error",
       "space-before-blocks": "error",
       "camelcase": "off",
       "jsx-quotes": "error",

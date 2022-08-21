@@ -14,7 +14,7 @@ type spinnerSize =
 | "xsmall"
 | "xxsmall"
 
-export default function addSpinner(
+export function addSpinner(
   element: HTMLElement,
   color: spinnerColor | "black",
   size: spinnerSize | "small",
@@ -24,4 +24,7 @@ export default function addSpinner(
             <span class="sg-visually-hidden">loading</span>
         </div>
     `);
+}
+export function removeSpinner(element: HTMLElement) {
+  element.querySelector(".sg-spinner").remove();
 }

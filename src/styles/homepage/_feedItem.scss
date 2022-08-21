@@ -6,4 +6,9 @@ div[data-testid = 'feed-item']{
             }
         }
     }
+    .report-flag{
+        &:hover{
+            background:transparent!important;
+        }
+    }
 }

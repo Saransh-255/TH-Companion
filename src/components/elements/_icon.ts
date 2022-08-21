@@ -18,11 +18,13 @@ export type iconTypes = {
 
 export default (data:iconTypes):HTMLElement => {
   let icon = document.createElement("div");
+
   icon.classList.add("sg-icon", `sg-icon--icon-${data.color}`, `sg-icon--x${data.size}`);
+
   icon.innerHTML = /*html*/`
   <svg class="sg-icon__svg">
     <use xlink:href="#icon-${data.type}"></use>
   </svg>`;
-
+    
   return icon;
 };

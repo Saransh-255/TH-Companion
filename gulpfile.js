@@ -16,7 +16,8 @@ gulp.task("manifest", (done) => {
 });
 gulp.task("zip", (done) => {
   gulp.src("./dist/*")
-    .pipe(zip("bcomp.zip"));
+    .pipe(zip("bcomp.zip"))
+    .pipe(gulp.dest("./dist/"));
   done();
 });
 

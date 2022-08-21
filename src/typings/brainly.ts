@@ -1,5 +1,24 @@
 /* eslint-disable camelcase */
-
+export interface ReportData {
+  success: boolean,
+  validates: boolean,
+  message: string,
+  protocol: string,
+  impl: string,
+  schema: string,
+  data: {
+    visible: boolean,
+    text: string,
+    id: number,
+    subcategories?: {
+      id: number,
+      text: string,
+      data?: {
+        type: string
+      }
+    }[]
+  }[]
+}
 export interface QuestionLogEntry {
     class: 
       | "accepted"
