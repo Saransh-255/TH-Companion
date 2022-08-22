@@ -36,6 +36,25 @@ async function homeObserver() {
       item.querySelector(".report-flag").classList.add("sg-button--disabled");
       item.querySelector(".report-flag use").setAttribute("xlink:href", "#icon-report_flag");
     }
+
+    let actionMenu = document.createElement("div");
+    actionMenu.classList.add("action-menu"); //removing the answer button
+    if (item?.querySelector("a.sg-button")) {
+      item.querySelector("a.sg-button").remove();
+      item.insertAdjacentElement("beforeend", actionMenu);
+
+      actionMenu.insertAdjacentElement("afterbegin", buttonElem({
+        type: "solid",
+        icon: {
+          type: "answer",
+          size: "24",
+          color: "white"
+        },
+        iconOnly: true,
+        href: `/question/${questionId}?answering=true`,
+        size: "m"
+      }));
+    }
   }
 }
 

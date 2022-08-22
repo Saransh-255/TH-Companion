@@ -22,12 +22,13 @@ export default async function reportMenu(
       <RadioGroup 
         name = "report-menu"
         className = "reportRadiogrp" 
-        onChange={() => {
-          console.log(document.querySelector(".reportRadiogrp input:checked"));
+        onChange={(e) => {
+          let eventTarget = e.target as HTMLElement;
+          console.log(reasons.data[+eventTarget.getAttribute("value")]);
         }} >
         {
           reasons.data.map((item, index) => {
-            return <Radio key = {item.id} value = {String(index)}>{item.text}</Radio>;
+            return <Radio key = {item.id} value = {index + ""}>{item.text}</Radio>;
           })
         }
       </RadioGroup>
