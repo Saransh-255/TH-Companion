@@ -2,7 +2,8 @@ import getId from "@lib/getId";
 import observeMutation from "@lib/observeMutation";
 import BrainlyAPI from "@api/brainly/BrainlyAPI";
 import { buttonElem } from "@components";
-import reportMenu from "@modals/report";
+import reportMenu from "@modals/Report/report";
+import Preview from "@modals/Preview/Preview";
 
 async function homeObserver() {
   const items = document.querySelectorAll(".brn-feed-items > div[data-testid = 'feed-item']");
@@ -38,10 +39,11 @@ async function homeObserver() {
     }
 
     let actionMenu = document.createElement("div");
-    actionMenu.classList.add("action-menu"); //removing the answer button
+    actionMenu.classList.add("action-menu");
+    
     if (item?.querySelector("a.sg-button")) {
       item.querySelector("a.sg-button").remove();
-      item.insertAdjacentElement("beforeend", actionMenu);
+      item.querySelector(".brn-feed-item__footer div").insertAdjacentElement("beforeend", actionMenu);
 
       actionMenu.insertAdjacentElement("afterbegin", buttonElem({
         type: "solid",
@@ -53,6 +55,27 @@ async function homeObserver() {
         iconOnly: true,
         href: `/question/${questionId}?answering=true`,
         size: "m"
+      }));
+
+      actionMenu.insertAdjacentElement("afterbegin", buttonElem({
+        type: "solid-indigo",
+        icon: {
+          type: "seen",
+          size: "24",
+          color: "adaptive"
+        },
+        iconOnly: true,
+        size: "m",
+        clickEvent: () => {
+          Preview(questionId + "");
+        },
+        attributes:[{
+          item: "style",
+          value: `
+            margin-right:4px;
+            background: #bdc7fb;
+          `
+        }]
       }));
     }
   }

@@ -1,0 +1,14 @@
+#modal{
+  .reportRadiogrp{
+    .sg-flex{
+      .sg-select{
+        display:none;
+      }
+      &.select{
+        .sg-select{
+          display:inline-block;
+        }
+      }
+    }
+  }
+}

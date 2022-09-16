@@ -13,9 +13,13 @@ div[data-testid = 'feed-item']{
         }
     }
 
-    .action-menu{
-        position:absolute;
-        right:24px;
-        bottom:24px;
+    .brn-feed-item__footer{
+        >div{
+            display:flex;
+            justify-content: space-around;
+            .action-menu{
+                display:flex;
+            }
+        }
     }
 }

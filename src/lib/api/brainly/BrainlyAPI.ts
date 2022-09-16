@@ -1,7 +1,9 @@
 import type {
   CommonResponse,
   GetQuestionResponse,
-  ReportData
+  ReportData,
+  ReferenceData,
+  PreviewData
 } from "@typings/brainly";
 
 export default new class BrainlyAPI {
@@ -17,7 +19,7 @@ export default new class BrainlyAPI {
     this.tokenLong = cookie?.split("=")?.pop();
   }
 
-  async Legacy<T>(
+  private async Legacy<T>(
     method: "GET" | "POST",
     apiMethod: string,
     body?
@@ -32,7 +34,7 @@ export default new class BrainlyAPI {
     return res;
   }
 
-  public async GQL(
+  private async GQL(
     query: string, 
     variables?
   ) {
@@ -54,7 +56,6 @@ export default new class BrainlyAPI {
       "task" : 1,
       "response" : 2
     };
-
     return await fetch("https://brainly.com/api/28/moderation_new/get_abuse_reasons", {
       method: "POST",
       body: JSON.stringify({
@@ -62,5 +63,38 @@ export default new class BrainlyAPI {
         model_type_id: MODEL_ID[type]
       })
     }).then(data => data.json()).then(data => data);
+  }
+  async ReferenceData():Promise<ReferenceData> {
+    return await fetch("https://brainly.com/api/28/api_config/desktop_view")
+      .then(data => data.json());
+  }
+  async PreviewData(id:string):Promise<PreviewData> {
+    return await fetch(`https://brainly.com/api/28/api_tasks/main_view/${id}`)
+      .then(data => data.json());
+  }
+  async ReportContent(data: {
+    id: number, 
+    type: "task" | "response",
+    categoryId: number,
+    subId?: number,
+    data?: string
+  }) {
+    const MODEL_ID = {
+      "task" : 1,
+      "response" : 2
+    };
+
+    return await fetch("https://brainly.com/api/28/api_moderation/abuse_report", {
+      method: "POST",
+      body: JSON.stringify({
+        abuse: {
+          category_id: data.categoryId,
+          subcategory_id: data.subId ?? null,
+          data: data.data ?? null
+        },
+        model_id: data.id,
+        model_type_id: MODEL_ID[data.type],
+      })
+    });
   }
 };

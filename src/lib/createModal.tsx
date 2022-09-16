@@ -4,7 +4,9 @@ import reactDOM from "react-dom/client";
 import { Overlay, Flex, Box, Button, Icon } from "brainly-style-guide";
 
 export default function createModal(
-  element: react.ReactNode
+  element: react.ReactNode,
+  minWidth?: string,
+  maxWidth?: string
 ) {
   document.body.insertAdjacentHTML("afterbegin", "<div id = \"modal\"></div>");
   let root = reactDOM.createRoot(document.querySelector("#modal"));
@@ -14,8 +16,11 @@ export default function createModal(
         alignItems="center"
         fullHeight
       >
-        <Box color="white" className="modal-box" style={{
-          position: "relative"
+        <Box color="white" className="modal-box sg-flex sg-flex--column" style={{
+          position: "relative",
+          minWidth: minWidth,
+          maxWidth: maxWidth,
+          maxHeight: "90%"
         }}>
           <Button
             icon={<Icon color="adaptive" size={24} type="close"/>}
@@ -23,7 +28,12 @@ export default function createModal(
             size="m"
             className = "closeModal"
             type="transparent"
-            onClick = {() => document.querySelector("#modal").remove()}
+            onClick = {
+              (e) => {
+                let button = e.target as HTMLElement;
+                button.closest("#modal").remove();
+              }
+            }
             style = {{
               position: "absolute", top: "18px", right: "18px"
             }}

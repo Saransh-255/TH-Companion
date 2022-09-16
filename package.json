@@ -42,7 +42,8 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "brainly-style-guide": "^218.0.1",
+    "brainly-style-guide": "^219.1.0",
+    "clsx": "^1.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript-eslint": "^0.0.1-alpha.0",

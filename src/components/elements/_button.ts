@@ -33,6 +33,10 @@ export default (data: {
   classes?: string[],
   href?: string,
   iconOnly: boolean,
+  attributes?:{
+    item:string, 
+    value:string
+  }[]
   clickEvent?: () => void,
 }) => {
   let button : HTMLElement;
@@ -42,13 +46,16 @@ export default (data: {
     (<HTMLAnchorElement>button).href = data.href;
     (<HTMLAnchorElement>button).target = "_blank";
   } else {
-    button = document.createElement("div");
+    button = document.createElement("button");
   }
 
   button.classList.add("sg-button", `sg-button--${data.type}`, `sg-button--${data.size}`);
   data.classes ? button.classList.add(...data.classes) : {};
   data.clickEvent ? button.onclick = data.clickEvent : {};
   data.disabled ? button.classList.add("sg-button--disabled") : {};
+  data.attributes?.forEach(item => {
+    button.setAttribute(item.item, item.value);
+  });
 
   if (data.loading) {
     button.classList.add("sg-button--loading");
