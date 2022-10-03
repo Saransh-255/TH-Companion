@@ -1,45 +1,64 @@
 import { Input, Select, Textarea } from "brainly-style-guide";
 import React from "react";
 
-export default function Subcategories(
-  { reason, subcategory, setSubcategory }
-) {
-  return (
-    <>
-      <Select
-        onChange={
-          (e) => {
-            let eventTarget = e.target as HTMLInputElement;
-            setSubcategory(+eventTarget.value);
+export default class Subcategories extends React.Component<
+  { reason, subcategory, setSubcategory, repData, setRep }> {
+  constructor(props) {
+    super(props);
+    
+    this.props.setRep("");
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.props.setRep(event.target.value);
+  }
+
+  render() {
+    return (
+      <>
+        <Select
+          onChange={
+            (e) => {
+              let eventTarget = e.target as HTMLInputElement;
+              this.props.setSubcategory(+eventTarget.value);
+            }
           }
+          options = {
+            this.props.reason.subcategories.map(item => {
+              return {
+                text: item.text,
+                value: item.id + ""
+              };
+            })
+          }
+        />
+        {
+          this.props.reason.subcategories.find(
+            (subcat) => subcat.id === this.props.subcategory
+          )?.data?.type === "text" &&
+            <Input
+              type="text" 
+              className = "reportData" 
+              
+              onChange = { this.handleChange }
+              value = { this.props.repData } 
+            />
         }
-        options = {
-          reason.subcategories.map(item => {
-            return {
-              text: item.text,
-              value: item.id + ""
-            };
-          })
+        {
+          this.props.reason.subcategories.find(
+            (subcat) => subcat.id === this.props.subcategory
+          )?.data?.type === "textarea" &&
+            <Textarea
+              type="text" 
+              className = "reportData" 
+              
+              onChange = { this.handleChange }
+              value = { this.props.repData } 
+            />
         }
-      />
-      {
-        reason.subcategories.find(
-          (subcat) => {
-            if (subcat.id === subcategory) return subcat; 
-          })?.data?.type === "text" ? 
-          <Input
-            type="text"
-          /> : ""
-      }
-      {
-        reason.subcategories.find(
-          (subcat) => {
-            if (subcat.id === subcategory) return subcat; 
-          })?.data?.type === "textarea" ?
-          <Textarea
-            type="text"
-          /> : ""
-      }
-    </>
-  );
+      </>
+    );
+  }
 }

@@ -7,6 +7,7 @@ import Subcategories from "./Subcategory";
 export default function ReportReasons(props: { reasons:ReportData, id, type }) {
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState(0);
+  const [repData, setRepData] = useState("");
   return (
     <RadioGroup 
       name ="report-menu"
@@ -37,12 +38,14 @@ export default function ReportReasons(props: { reasons:ReportData, id, type }) {
                 {reason.text}
               </Radio>
               {
-                reason.subcategories ? 
+                reason.subcategories &&
                   <Subcategories 
                     reason={reason} 
                     subcategory={subcategory} 
                     setSubcategory={setSubcategory} 
-                  /> : ""
+                    repData = {repData}
+                    setRep = {setRepData}
+                  />
               }
             </Flex>
           );
@@ -57,7 +60,8 @@ export default function ReportReasons(props: { reasons:ReportData, id, type }) {
               id: props.id,
               type: props.type,
               categoryId: +category,
-              subId: subcategory ? subcategory : null
+              subId: subcategory || null,
+              data: repData || null
             });
           }
         }

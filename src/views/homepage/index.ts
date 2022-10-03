@@ -83,7 +83,7 @@ async function homeObserver() {
 
 observeMutation({
   targetSelector: ".sg-layout__content",
-  hookInterval: 100,
+  hookInterval: 50,
   itemFn: homeObserver,
   settings: {
     attributes: true,

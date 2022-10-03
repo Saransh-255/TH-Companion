@@ -2,12 +2,15 @@
   .reportRadiogrp{
     .sg-flex{
       .sg-select{
-        display:none;
+        display: none;
       }
       &.select{
         .sg-select{
-          display:inline-block;
+          display: inline-block;
         }
+      }
+      .reportData{
+        margin-top: 8px;
       }
     }
   }
