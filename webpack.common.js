@@ -4,7 +4,8 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
   entry: {
-    homepage: path.join(__dirname, "src/views/homepage/index.ts")
+    homepage: path.join(__dirname, "src/views/homepage/index.ts"),
+    question: path.join(__dirname, "src/views/question/index.tsx")
   },
   output: {
     path: path.join(__dirname, "dist/js"),

@@ -13,6 +13,12 @@
         "css": ["css/homepage/index.css"],
         "js": ["js/homepage.js"],
         "run_at": "document_start"
+      },
+      {
+        "matches": ["*://brainly.com/question/*"],
+        "js": ["js/question.js"],
+        "css": ["css/question/index.css"],
+        "run_at": "document_start"
       }
     ]
   }

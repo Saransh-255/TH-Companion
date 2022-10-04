@@ -35,7 +35,7 @@ export default function createModal(
               }
             }
             style = {{
-              position: "absolute", top: "18px", right: "18px"
+              position: "absolute", top: "18px", right: "18px", zIndex: "1"
             }}
           />
           {element}
