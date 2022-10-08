@@ -18,6 +18,7 @@
       "@components": ["components/index.ts"],
       "@utils/*": ["utils/*"],
       "@modals/*": ["modals/*"],
+      "@config/*": ["config/*"],
     }
   }
 }

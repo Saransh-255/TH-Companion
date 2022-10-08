@@ -1,0 +1,7 @@
+div[data-testid = 'add_answer_box']{
+  span[data-slate-node = 'text'].highlight{
+    padding: 4px 8px;
+    background: #ff7968;
+    border-radius: 7px;
+  }
+}

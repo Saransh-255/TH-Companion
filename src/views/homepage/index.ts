@@ -4,6 +4,15 @@ import BrainlyAPI from "@api/brainly/BrainlyAPI";
 import { buttonElem } from "@components";
 import reportMenu from "@modals/Report/report";
 import Preview from "@modals/Preview/Preview";
+import Profanity from "@config/profanity";
+
+let testStr = "as f(x)";
+
+testStr.split("\n").forEach(line => {
+  Profanity.forEach(regProf => {
+    if (regProf.test(line)) console.log(line);
+  });
+});
 
 async function homeObserver() {
   const items = document.querySelectorAll(".brn-feed-items > div[data-testid = 'feed-item']");

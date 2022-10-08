@@ -24,6 +24,10 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     plugins: [
       new TsconfigPathsPlugin()
-    ]
+    ],
+    modules: ["node_modules"],
+    fallback: {
+      "fs": false
+    },
   }
 };

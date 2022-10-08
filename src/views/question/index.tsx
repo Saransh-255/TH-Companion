@@ -2,6 +2,7 @@ import observeMutation from "@lib/observeMutation";
 import { buttonElem } from "@components";
 import createModal from "@lib/createModal";
 import { TextBit } from "brainly-style-guide";
+import Profanity from "@config/profanity";
 
 //answering box observer
 observeMutation({
@@ -34,10 +35,38 @@ observeMutation({
               <TextBit size="small">graphing calculator</TextBit>
               <iframe 
                 id="calculator" 
-                src="https://www.geogebra.org/classic" />
+                src="https://www.geogebra.org/classic" 
+              />
             </>, "90vw"
           );
         }
       }));
-  }
+    observeMutation({
+      targetSelector: "#slate-editable",
+      hookInterval: 0,
+      settings: {
+        attributes: false,
+        characterData: true,
+        subtree: true,
+        childList: true
+      },
+      itemFn: () => {
+        console.log("input");
+        let answerLines = document.querySelectorAll("span[data-slate-string = 'true']"); 
+  
+        document.querySelectorAll(".highlight").forEach(
+          item => item.classList.remove("highlight")
+        );
+  
+        answerLines.forEach(line => {
+          Profanity.forEach(regProf => {
+            if (regProf.test(line.innerHTML)) {
+              line.closest("span[data-slate-node = 'text']").classList.add("highlight");
+              console.log(regProf);
+            }
+          });
+        });
+      }
+    });
+  } 
 });

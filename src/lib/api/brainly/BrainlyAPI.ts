@@ -97,4 +97,17 @@ export default new class BrainlyAPI {
       })
     });
   }
+
+  async UploadImage() {
+    let img = new Blob([], { type: "image/png" });
+
+    let form = new FormData();
+    form.append("model_type_id", "2");
+    form.append("payload", img);
+    
+    await fetch("https://brainly.com/api/28/api_attachments/upload", {
+      method: "POST",
+      body: form
+    });
+  }
 };
