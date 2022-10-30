@@ -51,7 +51,6 @@ observeMutation({
         childList: true
       },
       itemFn: () => {
-        console.log("input");
         let answerLines = document.querySelectorAll("span[data-slate-string = 'true']"); 
   
         document.querySelectorAll(".highlight").forEach(
@@ -61,8 +60,8 @@ observeMutation({
         answerLines.forEach(line => {
           Profanity.forEach(regProf => {
             if (regProf.test(line.innerHTML)) {
-              line.closest("span[data-slate-node = 'text']").classList.add("highlight");
               console.log(regProf);
+              return line.closest("span[data-slate-node = 'text']").classList.add("highlight");
             }
           });
         });

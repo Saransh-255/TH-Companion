@@ -1,0 +1,14 @@
+.progress .sg-box{
+  > .sg-flex{
+    height:100%;
+    >svg{
+      height:80%;
+      width:max-content;
+      text{
+        font-family:"ProximaNova","Helvetica","Arial",sans-serif;
+        font-size:2rem!important;
+        font-weight:bold;
+      }
+    }
+  }
+}

@@ -1,19 +1,19 @@
 /* eslint-disable max-lines */
 /* eslint-disable camelcase */
 export interface ReportData {
-  success: boolean,
-  validates: boolean,
-  message: string,
-  protocol: string,
-  impl: string,
-  schema: string,
+  success: boolean;
+  validates: boolean;
+  message: string;
+  protocol: string;
+  impl: string;
+  schema: string;
   data: {
-    visible: boolean,
-    text: string,
-    id: number,
+    visible: boolean;
+    text: string;
+    id: number;
     subcategories?: {
-      id: number,
-      text: string,
+      id: number;
+      text: string;
       data?: {
         type: string
       }
@@ -54,39 +54,137 @@ interface Attachment {
 export interface ReferenceData {
   data: {
     grades:{
-      id: number,
-      icon: string,
-      name: string,
-      slug: string,
+      id: number;
+      icon: string;
+      name: string;
+      slug: string;
       filter_name: string
-    }[],
+    }[];
     rankings:{
-      id: number,
+      id: number;
       name: string
-    }[],
+    }[];
     ranks:{
-      color: string,
-      description: string,
-      name: string,
-      promoted_text: string,
-      type: number,
-      the_best_resps: number,
-      points: number,
+      color: string;
+      description: string;
+      name: string;
+      promoted_text: string;
+      type: number;
+      the_best_resps: number;
+      points: number;
       id: number
-    }[],
+    }[];
     subjects:{
-      best_in_name: string,
-      enabled: boolean,
-      filter_name: string,
-      name: string,
-      icon: string,
-      slug: string,
-      id: number,
-      occupants: number,
+      best_in_name: string;
+      enabled: boolean;
+      filter_name: string;
+      name: string;
+      icon: string;
+      slug: string;
+      id: number;
+      occupants: number;
       rankable: string
     }[]
   }
 }
+export interface ContentList {
+  data: {
+    task?: Task[];
+    responses?: {
+      items: {
+        content: string,
+        created: string,
+        id: number,
+        is_the_best: boolean,
+        points: number,
+        points_for_best: number,
+        task_id: number,
+        thanks: number,
+        user_id: number,
+        vote: number,
+        wrong: number
+      }[],
+      last_id: number
+    }
+  };
+  users_data: User[]
+}
+export interface Notifications {
+  data:{
+    items:{
+      button?: string,
+      content: string,
+      created: string,
+      event: number,
+      id: number,
+      model_id: number,
+      model_type_id: number,
+      notification_type: number,
+      response_id?: number,
+      text: string,
+      type: string,
+      user_id: number
+    }[]
+  },
+  users_data: User[]
+}
+export interface UserInfo {
+  data:{
+    auth:{
+      comet:{
+        auth_hash: string;
+        avatar_url: string;
+        hash: string
+      }
+    };
+    ban:{
+      active: boolean;
+      expires: string | null;
+    };
+    comments: number;
+    current_best_answers: number;
+    preferences:{
+      stream:{
+        grade_ids: number[];
+        subject_ids: number[]
+      }
+    };
+    priviledges: number[];
+    responses: number;
+    tasks: number;
+    user: {
+      activated: string;
+      avatar: Avatar;
+      avatars: Avatar;
+      category: number,
+      client_type: number,
+      entry: number,
+      gender: number,
+      grade_id: number,
+      id: number,
+      is_deleted: boolean,
+      nick: string,
+      points: number,
+      ranks: {
+        color: string,
+        count: number,
+        names: string[]
+      },
+      ranks_ids: number[],
+      registration_datetime: string,
+      username: string //email
+    };
+  }
+}
+// interface Rank {
+//   best_responses: number;
+//   color: string;
+//   description: string;
+//   id: number;
+//   name: string;
+//   points: number;
+//   type: number
+// }
 interface CommentsData {
   items: {
     can_mark_abuse: boolean;
@@ -104,6 +202,7 @@ interface CommentsData {
 interface Avatar {
   "64": string;
   "100": string;
+  avatar_id?: number;
 }
 
 export interface Task {
@@ -128,25 +227,25 @@ export interface Task {
   subject_id: number;
   settings: {
     [x in keyof {
-      "can_comment",
-      "can_edit",
-      "can_follow",
-      "can_mark_abuse",
-      "can_moderate",
-      "can_unfollow",
-      "is_answer_button",
-      "is_closed",
-      "is_confirmed",
-      "is_deleted",
-      "is_following",
+      "can_comment";
+      "can_edit";
+      "can_follow";
+      "can_mark_abuse";
+      "can_moderate";
+      "can_unfollow";
+      "is_answer_button";
+      "is_closed";
+      "is_confirmed";
+      "is_deleted";
+      "is_following";
       "is_marked_abuse"
     }]: boolean;
   };
   comments: CommentsData;
 }
 interface Points{
-  ptsForBest: number,
-  ptsForTask: number,
+  ptsForBest: number;
+  ptsForTask: number;
   ptsForResp: number
 }
 export interface Response {
@@ -174,15 +273,15 @@ export interface Response {
   points: number;
   settings: {
     [x in keyof {
-      "can_comment",
-      "can_edit",
-      "can_mark_abuse",
-      "can_mark_as_best",
-      "can_moderate",
-      "is_confirmed",
-      "is_deleted",
-      "is_excellent",
-      "is_marked_abuse",
+      "can_comment";
+      "can_edit";
+      "can_mark_abuse";
+      "can_mark_as_best";
+      "can_moderate";
+      "is_confirmed";
+      "is_deleted";
+      "is_excellent";
+      "is_marked_abuse";
       "is_to_correct"
     }]: boolean;
   };
@@ -204,73 +303,73 @@ interface PrevSettings{
   is_confirmed: boolean
   is_deleted: boolean
   is_following?: boolean
-  is_marked_abuse: boolean,
-  can_mark_as_best?: boolean,
-  is_excellent?: boolean,
+  is_marked_abuse: boolean;
+  can_mark_as_best?: boolean;
+  is_excellent?: boolean;
   is_to_correct?: boolean
 }
 export interface PreviewData {
   data: {
     task:{
-      attachments: Attachment[],
-      client_type: string,
-      content: string,
-      created: string,
-      first_resp: string,
-      grade_id: number,
-      id: number,
-      responses: number,
-      source: string,
-      subject_id: number,
-      the_best_resp_id?: number,
-      tickets: number,
-      user_category: number,
-      user_id: number,
-      comments: CommentsData,
-      points: Points,
+      attachments: Attachment[];
+      client_type: string;
+      content: string;
+      created: string;
+      first_resp: string;
+      grade_id: number;
+      id: number;
+      responses: number;
+      source: string;
+      subject_id: number;
+      the_best_resp_id?: number;
+      tickets: number;
+      user_category: number;
+      user_id: number;
+      comments: CommentsData;
+      points: Points;
       settings: PrevSettings
-    },
+    };
     responses:{
-      attachments: Attachment[],
-      client_type: string,
-      content: string,
-      created: string,
-      best: boolean,
-      source: string,
-      id: number,
-      mark: number,
-      mark_precise: number,
-      marks_count: number,
-      points: number,
-      settings: PrevSettings,
-      user_best_rank_id: number,
-      thanks: number,
-      task_id: number,
+      attachments: Attachment[];
+      client_type: string;
+      content: string;
+      created: string;
+      best: boolean;
+      source: string;
+      id: number;
+      mark: number;
+      mark_precise: number;
+      marks_count: number;
+      points: number;
+      settings: PrevSettings;
+      user_best_rank_id: number;
+      thanks: number;
+      task_id: number;
       user_id: number
     }[]
-  },
+  };
   users_data:{
     avatar: {
-      64: string,
+      64: string;
       100: string
-    },
+    };
     avatars: {
-      64: string,
+      64: string;
       100: string
-    },
-    gender: number,
-    id: number,
-    is_deleted: boolean,
-    nick: string,
+    };
+    gender: number;
+    id: number;
+    is_deleted: boolean;
+    nick: string;
     ranks: {
-      color: string,
-      count: number,
+      color: string;
+      count: number;
       names: string[]
-    },
-    rank_ids: number[],
+    };
+    rank_ids: number[];
     stats: {
-      questions: number,
-      answers: number,
+      questions: number;
+      answers: number;
       comments: number
     }
   }[]
@@ -292,7 +391,7 @@ export interface User {
     comments: number;
   };
   avatars: {
-    [x in keyof {64, 100}]?: string;
+    [x in keyof {64; 100}]?: string;
   };
   ranks: {
     color: string;

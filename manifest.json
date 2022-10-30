@@ -2,22 +2,21 @@
     "name": "TH-Companion",
     "description": "tools for brainly.",
     "manifest_version": 3,
-    "version":"1.0.0",
+    "version":"1.0.9",
     "host_permissions": [
       "*://brainly.com/*"
     ],
-    "permissions": ["storage"],
     "content_scripts": [
-      {
-        "matches": ["*://brainly.com/*"],
-        "css": ["css/homepage/index.css"],
-        "js": ["js/homepage.js"],
-        "run_at": "document_start"
-      },
       {
         "matches": ["*://brainly.com/question/*"],
         "js": ["js/question.js"],
         "css": ["css/question/index.css"],
+        "run_at": "document_start"
+      },
+      {
+        "matches": ["*://brainly.com/companion/answering"],
+        "js": ["js/answerDash.js"],
+        "css": ["css/answering/index.css"],
         "run_at": "document_start"
       }
     ]

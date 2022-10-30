@@ -5,7 +5,9 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 module.exports = {
   entry: {
     homepage: path.join(__dirname, "src/views/homepage/index.ts"),
-    question: path.join(__dirname, "src/views/question/index.tsx")
+    question: path.join(__dirname, "src/views/question/index.tsx"),
+
+    answerDash: ["core-js", path.join(__dirname, "src/views/answering/index.tsx")]
   },
   output: {
     path: path.join(__dirname, "dist/js"),
@@ -16,7 +18,7 @@ module.exports = {
       {
         exclude: /node_modules/,
         test: /\.tsx?$/,
-        use: "ts-loader"
+        use: ["ts-loader"]
       }
     ]
   },

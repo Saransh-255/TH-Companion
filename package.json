@@ -29,6 +29,8 @@
     "@types/webextension-polyfill": "^0.9.0",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
+    "core-js": "^3.25.5",
+    "css-loader": "^6.7.1",
     "eslint": "^8.22.0",
     "gulp": "^4.0.2",
     "gulp-sass": "^5.1.0",
@@ -43,19 +45,19 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@types/leo-profanity": "^1.5.0",
     "brainly-style-guide": "^219.1.0",
+    "chartjs-react": "^3.6.0",
     "clsx": "^1.2.1",
+    "date-fns": "^2.29.3",
+    "date-fns-tz": "^1.3.7",
     "devspeed-filterjs": "^2.0.6",
-    "leo-profanity": "^1.6.1",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.37",
     "react": "^18.2.0",
+    "react-chartjs-2": "^4.3.1",
     "react-dom": "^18.2.0",
-    "regexcensor": "^1.0.4",
-    "swearfilter": "^2.0.4",
-    "swearjar-extended2": "^0.2.9",
+    "react-js-progressbar": "^1.1.1",
     "typescript-eslint": "^0.0.1-alpha.0",
-    "webextension-polyfill": "^0.10.0",
-    "whoolso-word-filter": "^1.0.8",
-    "word-match-helper": "^1.3.0"
+    "webextension-polyfill": "^0.10.0"
   }
 }

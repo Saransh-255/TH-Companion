@@ -3,7 +3,10 @@ import type {
   GetQuestionResponse,
   ReportData,
   ReferenceData,
-  PreviewData
+  PreviewData,
+  UserInfo,
+  ContentList,
+  Notifications
 } from "@typings/brainly";
 
 export default new class BrainlyAPI {
@@ -71,6 +74,28 @@ export default new class BrainlyAPI {
   async PreviewData(id:string):Promise<PreviewData> {
     return await fetch(`https://brainly.com/api/28/api_tasks/main_view/${id}`)
       .then(data => data.json());
+  }
+  async MyData():Promise<UserInfo> {
+    return await fetch(`https://brainly.com/api/28/api_users/me`).then(data => data.json());
+  }
+  async GetContent(type: "tasks" | "responses"):Promise<ContentList> {
+    return await fetch(`https://brainly.com/api/28/api_${type}/view_list`, 
+      {
+        method: "POST", 
+        body: JSON.stringify({ 
+          limit: 10000, 
+          last_id: null })
+      }).then(data => data.json());
+  }
+  async GetNotifications():Promise<Notifications> {
+    return await fetch("https://brainly.com/api/28/api_notifications/view", 
+      {
+        method: "POST", 
+        body: JSON.stringify({
+          last_id: null, 
+          limit: 500
+        })
+      }).then(data => data.json());
   }
   async ReportContent(data: {
     id: number, 

@@ -1,0 +1,17 @@
+@use "./sidebar";
+@use "./content";
+@use "./progress";
+.js-page-wrapper{
+  display:none;
+}
+.companion-app{
+  height:100vh;
+  overflow:hidden;
+
+  .sg-spinner-container{
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+    background: white;
+    z-index: 999;
+  }
+}
