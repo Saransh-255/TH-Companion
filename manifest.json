@@ -2,11 +2,17 @@
     "name": "TH-Companion",
     "description": "tools for brainly.",
     "manifest_version": 3,
-    "version":"1.0.9",
+    "version":"1.0.12",
     "host_permissions": [
       "*://brainly.com/*"
     ],
     "content_scripts": [
+      {
+        "matches": ["*://brainly.com/*"],
+        "js": ["js/homepage.js"],
+        "css": ["css/homepage/index.css"],
+        "run_at": "document_start"
+      },
       {
         "matches": ["*://brainly.com/question/*"],
         "js": ["js/question.js"],

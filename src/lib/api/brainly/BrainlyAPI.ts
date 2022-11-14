@@ -135,4 +135,50 @@ export default new class BrainlyAPI {
       body: form
     });
   }
+  async ForYou(id: string) {
+    return this.GQL(
+      `query($id:ID!){
+        user(id:$id){
+          answers{
+            edges{
+              node{
+                question{
+                  similar{
+                    question{
+                      content 
+                      id
+                      points
+                      attachments{
+                        url
+                      }
+                      canBeAnswered
+                      subject{
+                        name
+                        icon
+                      }
+                      author{
+                        id
+                        avatar{
+                          thumbnailUrl
+                        }
+                      }
+                      answers{
+                        nodes{
+                          author{
+                            nick
+                            id
+                          }
+                        }
+                      }
+                    }
+                    similarity
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`, { "id":btoa(`user:${id}`) }
+    );
+  }
 };

@@ -11,7 +11,7 @@ import {
   SeparatorHorizontal,
   Text } from "brainly-style-guide";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
-import { UserInfo, ContentList, Notifications, ReferenceData } from "@typings/brainly";
+import { UserInfo, ContentList, Notifications } from "@typings/brainly";
 
 import Progress from "./_progress";
 import AnsGraph from "./_ansGraph";
@@ -21,7 +21,6 @@ export default function Content({ changeLoadState }) {
   const [user, setUser] = React.useState<UserInfo>();
   const [answers, setAnswers] = React.useState<ContentList>();
   const [notifications, setNotif] = React.useState<Notifications>();
-  const [reference, setRef] = React.useState<ReferenceData>();
 
   const teamLinks = [
     {
@@ -68,8 +67,6 @@ export default function Content({ changeLoadState }) {
       setNotif(notifs);
       let ans = await BrainlyAPI.GetContent("responses");
       setAnswers(ans);
-      let ref = await BrainlyAPI.ReferenceData();
-      setRef(ref);
       changeLoadState(false);
     };
     if (!user) {
@@ -81,10 +78,10 @@ export default function Content({ changeLoadState }) {
         setNotif(notifs);
         let ans = await BrainlyAPI.GetContent("responses");
         setAnswers(ans);
-      }, 2000);
+      }, 15000);
     }
   });
-  if (user && answers && notifications && reference) return (
+  if (user && answers && notifications) return (
     <Flex className="content">
       <Flex
         className = "f1"

@@ -1,5 +1,5 @@
-import filterByTime from "@lib/filterTime";
 import React from "react";
+import filterByTime from "@lib/filterTime";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,12 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { eachMonthOfInterval, endOfMonth, startOfYear } from "date-fns";
+import { 
+  eachDayOfInterval,
+  endOfDay,
+  sub 
+} from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 ChartJS.register(
   CategoryScale,
@@ -21,23 +26,24 @@ ChartJS.register(
   Tooltip
 );
 
-export default function AnsGraph({ usersArr }) { 
-  let intervalArr = eachMonthOfInterval({ start: startOfYear(new Date()), end: new Date() });
+export default function AnsGraph({ usersArr }) {
+  let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
+  let intervalArr = eachDayOfInterval({ start: sub(now, { months: 1 }), end: now });
   return (
     <div className="ansGraph">
       <Line 
         data={{
           labels:intervalArr.map(
             date => {
-              return String(date).split(" ")[1];
+              return String(date).split(" ")[2];
             }
           ),
           datasets: [
             {
               label: "You",
-              data: eachMonthOfInterval({ start: startOfYear(new Date()), end: new Date() }).map(
-                (month) => {
-                  return filterByTime(usersArr, month, endOfMonth(month), "created").length;
+              data: intervalArr.map(
+                (day) => {
+                  return filterByTime(usersArr, day, endOfDay(day), "created").length;
                 } 
               ),
               borderColor: "#014a82",
@@ -48,7 +54,8 @@ export default function AnsGraph({ usersArr }) {
         }}
         options={{
           responsive: true,
-          maintainAspectRatio: false
+          maintainAspectRatio: false,
+          animation: false
         }}
       />
     </div>

@@ -51,7 +51,8 @@ export default function Progress({ allAnswers }) {
               }]
             }} 
             options={{
-              responsive: true
+              responsive: true,
+              animation: false
             }} 
             id="quota"
             />
@@ -81,7 +82,8 @@ export default function Progress({ allAnswers }) {
               }]
             }} 
             options={{
-              responsive: true
+              responsive: true,
+              animation: false
             }} />
             <Text sizes = "m">History</Text>
           </Flex>
