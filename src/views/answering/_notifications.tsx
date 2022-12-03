@@ -1,23 +1,34 @@
 //import React from "react";
-import { Text, Accordion, AccordionItem, Flex, Headline, Link, Box } from "brainly-style-guide";
+import { 
+  Text, 
+  Accordion, 
+  AccordionItem, 
+  Flex, 
+  Headline, 
+  Link, 
+  Box, 
+  Button, 
+  Icon 
+} from "brainly-style-guide";
 import filterByTime from "@lib/filterTime";
 import { startOfDay, startOfISOWeek, startOfMonth } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { formatDistance } from "date-fns";
+import showPreview from "@modals/Preview/Preview";
 
 export default function NotificationItem({ notif }) {
   notif = notif.data.items.filter(item => item.text.includes("commented"));
-  let date = new Date();
-  let now = new Date(formatInTimeZone(date, "America/New_York", "yyyy-MM-dd HH:mm:ss"));
+  let now = new Date(formatInTimeZone(new Date(), "CET", "yyyy-MM-dd HH:mm:ss"));
 
-  let thisDay = filterByTime(notif, startOfDay(now), now, "created");
-  let thisWeek = filterByTime(notif, startOfISOWeek(now), startOfDay(now), "created");
-  let thisMonth = filterByTime(notif, startOfMonth(now), startOfISOWeek(now), "created");
-  let allVis = filterByTime(notif, startOfMonth(now), now, "created");
+  let thisDay = filterByTime(notif, startOfDay(now), now);
+  let thisWeek = filterByTime(notif, startOfISOWeek(now), startOfDay(now));
+  let thisMonth = filterByTime(notif, startOfMonth(now), startOfISOWeek(now));
+  let allVis = filterByTime(notif, startOfMonth(now), now);
 
   if (allVis.length) return (
     <Flex
       className = "comments f1"
+      style = {{ minWidth:"350px" }}
     >
       <Box
         border
@@ -60,25 +71,42 @@ function NotifItem({ arr }) {
       distinctIds(arr).map(item => {
         return (
           <Box border color="transparent" padding="s" key = {item[0].id} >
-            <Flex alignItems="center" style = {{ gap:"1rem" }}>
-              <Headline>{ item.length }</Headline> 
-              <Flex wrap = {true} direction = "column" >
-                <Text size="small" color="text-gray-50" >
+            <Flex alignItems="center">
+              <Flex justifyContent="space-between" style={{ width:"100%" }} >
+                <Flex style = {{ gap:"1rem" }}>
+                  <Headline>{ item.length }</Headline> 
+                  <Flex wrap = {true} direction = "column" >
+                    <Text size="small" color="text-gray-50" >
                   thread
-                  <Link 
-                    hideNewTabIndicator 
-                    target="_blank" 
-                    href = {`https://brainly.com/question/${item[0].model_id}`}> #{item[0].model_id }
-                  </Link>
-                </Text>
-                <Text color="text-gray-70" style = {{ lineHeight: "1rem" }}>
-                  {
-                    formatDistance(
-                      new Date(new Date(item[0].created).toUTCString()), 
-                      new Date(new Date().toUTCString())
-                    )
+                      <Link 
+                        hideNewTabIndicator 
+                        target="_blank" 
+                        href = {`https://brainly.com/question/${item[0].model_id}`}> #{item[0].model_id }
+                      </Link>
+                    </Text>
+                    <Text color="text-gray-70" style = {{ lineHeight: "1rem" }}>
+                      {
+                        formatDistance(
+                          new Date(new Date(item[0].created).toUTCString()), 
+                          new Date(new Date().toUTCString())
+                        )
+                      }
+                    </Text>
+                  </Flex>
+                </Flex>
+                <Button 
+                  variant={"transparent"} 
+                  icon={
+                    <Icon type="seen" title="preview" color="icon-gray-50" size={24} />
                   }
-                </Text>
+                  size="m"
+                  iconOnly
+                  onClick={
+                    () => {
+                      if (!document.querySelector(".loading-ext#prev")) showPreview(item[0].model_id);
+                    }
+                  }
+                />
               </Flex>
             </Flex>
           </Box>

@@ -5,11 +5,12 @@ import { Overlay, Flex, Box, Button, Icon } from "brainly-style-guide";
 
 export default function createModal(
   element: react.ReactNode,
+  className: string,
   minWidth?: string,
-  maxWidth?: string
+  maxWidth?: string,
 ) {
-  document.body.insertAdjacentHTML("afterbegin", "<div id = \"modal\"></div>");
-  let root = reactDOM.createRoot(document.querySelector("#modal"));
+  document.body.insertAdjacentHTML("afterbegin", `<div id = "modal" class = ${className} ></div>`);
+  let root = reactDOM.createRoot(document.querySelector(`.${className}#modal`));
   root.render(
     <Overlay color="black">
       <Flex
@@ -27,7 +28,7 @@ export default function createModal(
             iconOnly
             size="m"
             className = "closeModal"
-            type="transparent"
+            variant="transparent"
             onClick = {
               (e) => {
                 let button = e.target as HTMLElement;

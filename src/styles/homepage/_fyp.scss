@@ -28,19 +28,31 @@
       flex-direction: column;
       justify-content: space-between;
       gap:1.5rem;
-      >.second > .user{
-        > a, > div{
-          display:flex;
-          align-items:center;
-        }
-      }
       >.sg-flex{
         width:100%;
         justify-content: space-between;
       }
+      .info{ 
+        align-items:flex-end;
+        .user{
+          height:max-content;
+          > a, > div{
+            display:flex;
+            align-items:center;
+          }
+        }
+      }
+      .headrow{
+        display:flex;
+        align-items:flex-start;
+        .report-pts{
+          display:flex;
+          align-items:center;
+        }
+      }
       .fyp-content{
         height:3rem;
-        overflow: hidden;
+        overflow:hidden;
       }
     }
   }

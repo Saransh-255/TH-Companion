@@ -1,10 +1,33 @@
-#modal{
-  .sg-media{
-    min-height: 2.75rem;
-  }
-  .attachments{
-    img{
-      width:100%;
+@use "./app";
+#modal.preview{
+  z-index: 998;
+  .sg-box{
+    gap:0.5rem;
+    .sg-media{
+      min-height: 2.75rem;
+    }
+    .content{
+      overflow:auto;
+    }
+    .attachments{
+      .attachment-view{
+        padding: 8px 0px;
+        display:flex;
+        justify-content: center;
+        background: #ebf2f7;
+        border-radius:10px;
+        img{
+          max-height: 200px;
+          max-width:90%;
+          border-radius:10px;
+        }
+      }
+    }
+    .preview-comments{
+      border-top: 1px solid #c3d1dd;
+      margin-top:4px;
+      padding: 12px 0px;
+      gap: 0.75rem;
     }
   }
 }

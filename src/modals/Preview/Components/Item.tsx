@@ -1,19 +1,22 @@
 import React from "react";
-import { Avatar, Text, Media, Button, Icon, Box } from "brainly-style-guide";
+import { Avatar, Text, Media, Button, Icon, Box, Flex } from "brainly-style-guide";
 import Attachments from "./Attachments";
 import reportMenu from "@modals/Report/report";
 
 export default function Item({ id, data, users, type }) {
-  let user = users.find(({ id }) => id === data.user_id);
+  const [commentVis, setVis] = React.useState(false);
+  const [iconStr, setStr] = React.useState("comment_outlined");
+  let user = userById(users, data.user_id);
   let userId = `https://brainly.com/profile/${user.nick}-${user.id}`;
   let content = data.content;
-  let avatar = user.avatar?.[64] || null;
+
+  console.log(data);
 
   return (
     <Box 
       border 
       className = {
-        `item id-${id} ${data.settings.is_marked_abuse ? "reported" : ""}` 
+        `item id-${id} ${data.settings.is_marked_abuse ? "reported" : ""}` + "sg-flex sg-flex--column" 
       }
       padding = "s"
       style = {{ marginBottom: "8px" }}
@@ -24,7 +27,7 @@ export default function Item({ id, data, users, type }) {
         className = "sg-flex sg-flex--align-items-center"
         aside={
           <Avatar
-            imgSrc={avatar}
+            imgSrc={user.avatar?.[64] || null}
             link= {userId}
           />}
         contentArray={[
@@ -47,18 +50,98 @@ export default function Item({ id, data, users, type }) {
       />
       <Text className = "content" dangerouslySetInnerHTML={{ __html: content }}/>
       <Attachments attachments = {data.attachments} />
-      { 
+      <Flex
+        direction = "row"
+        justifyContent="flex-end"
+        className="preview-actions"
+        style={{ gap:"4px" }}
+      >
+        {
+          data.comments.count ? (
+            <Button
+              className="show-comments"
+              icon={<Icon color="adaptive" size={24} type={iconStr} > </Icon>} 
+              variant="transparent-light"
+              style= {{ padding:"0px 16px" }}
+              onClick={()=> {
+                setVis(!commentVis); 
+                setStr(iconStr == "comment_outlined" ? "comment" : "comment_outlined");
+              }}       
+            >{data.comments.count}</Button>
+          ) : ""
+        }
         <Button
           className = "rep-button"
           icon={<Icon color="adaptive" size={24} type="report_flag_outlined"/>}
           iconOnly
           size="m"
-          type="transparent-light"
-          onClick = {() => {
-            reportMenu(id, type);
+          variant="transparent-light"
+          onClick = {(e) => {
+            if (!document.querySelector(".loading-ext#report")) reportMenu(id, type, e.target);
           }}
         /> 
+        <Button
+          icon={<Icon color="adaptive" type="plus"/>}
+          target="_blank"
+          onClick={()=> {
+            document.querySelector("#modal.preview").remove();
+          }}
+          type={"button"}
+          variant="outline"
+          href = {`https://brainly.com/question/${id}?answering=true`}
+        >
+      Answer
+        </Button>
+      </Flex>
+      {
+        commentVis ? (
+          <Flex direction="column" className="preview-comments">
+            {
+              data.comments.items.map(comment => {
+                return <CommentItem data={comment} users={users} key={comment.id} />;
+              })
+            }
+          </Flex>
+        ) : ""
       }
     </Box>
   );
+}
+
+function CommentItem({ data, users }) {
+  let user = userById(users, data.user_id);
+  return (
+    <Flex
+      className="comment-item"
+      style={{ gap:"8px" }}
+      alignItems="center"
+    >
+      <Avatar
+        imgSrc={user.avatar?.[64] || null}
+        link={`https://brainly.com/app/profile/${user.id}`}
+        size="xs"
+      />
+      {data.content}
+      {
+        !data.is_marked_abuse && data.can_mark_abuse ? (
+          <Button
+            className = "rep-button"
+            icon={<Icon color="adaptive" size={16} type="report_flag_outlined"/>}
+            iconOnly
+            size="s"
+            variant="transparent-light"
+            onClick = {(e) => {
+              if (!document.querySelector(".loading-ext#report")) {
+                reportMenu(data.id, "comments", e.target);
+              }
+            }}
+          /> 
+        ) : ""
+      }
+    </Flex>
+  );
+}
+
+function userById(arr, user) {
+  return arr.find(({ id }) => id === user);
 }

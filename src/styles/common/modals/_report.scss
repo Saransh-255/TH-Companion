@@ -1,4 +1,7 @@
-#modal{
+@use "./app";
+
+#modal.report{
+  z-index: 999;
   .reportRadiogrp{
     .sg-flex{
       .sg-select{

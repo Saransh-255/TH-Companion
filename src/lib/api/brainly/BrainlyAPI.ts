@@ -54,10 +54,11 @@ export default new class BrainlyAPI {
   public async GetQuestion(id: number): Promise<GetQuestionResponse> {
     return await this.Legacy("GET", `api_tasks/main_view/${id}`);
   }
-  async ReportReasons(id: number, type: "task" | "response"):Promise<ReportData> {
+  async ReportReasons(id: number, type: "task" | "response" | "comments"):Promise<ReportData> {
     const MODEL_ID = {
       "task" : 1,
-      "response" : 2
+      "response" : 2,
+      "comments": 45
     };
     return await fetch("https://brainly.com/api/28/moderation_new/get_abuse_reasons", {
       method: "POST",
@@ -109,7 +110,7 @@ export default new class BrainlyAPI {
       "response" : 2
     };
 
-    return await fetch("https://brainly.com/api/28/api_moderation/abuse_report", {
+    let res = await fetch("https://brainly.com/api/28/api_moderation/abuse_report", {
       method: "POST",
       body: JSON.stringify({
         abuse: {
@@ -120,7 +121,8 @@ export default new class BrainlyAPI {
         model_id: data.id,
         model_type_id: MODEL_ID[data.type],
       })
-    });
+    }).then(data => data.json());
+    return res.success ? res : null;
   }
 
   async UploadImage() {
@@ -147,7 +149,7 @@ export default new class BrainlyAPI {
                     question{
                       content 
                       id
-                      points
+                      pointsForAnswer
                       attachments{
                         url
                       }

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { ReportData } from "@typings/brainly";
 import Subcategories from "./Subcategory";
 
-export default function ReportReasons(props: { reasons:ReportData, id, type }) {
+export default function ReportReasons(props: { reasons:ReportData, id, type, target }) {
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState(0);
   const [repData, setRepData] = useState("");
@@ -53,16 +53,22 @@ export default function ReportReasons(props: { reasons:ReportData, id, type }) {
       }
       <Button 
         size="m" 
-        type={"solid"}
+        variant={"solid"}
         onClick = {
           () => {
-            BrainlyAPI.ReportContent({
+            let res = BrainlyAPI.ReportContent({
               id: props.id,
               type: props.type,
               categoryId: +category,
               subId: subcategory || null,
               data: repData || null
             });
+            if (res) {
+              props.target.style.color = "red";
+              (props.target.querySelector("use") as HTMLElement)
+                .setAttribute("xlink:href", "#icon-report_flag");
+            }
+            document.querySelector(".report#modal").remove();
           }
         }
       >

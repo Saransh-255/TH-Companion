@@ -1,6 +1,9 @@
 @use "./sidebar";
 @use "./content";
 @use "./progress";
+html{
+  overflow: hidden;
+}
 .js-page-wrapper{
   display:none;
 }

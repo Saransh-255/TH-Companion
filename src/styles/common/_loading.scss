@@ -1,0 +1,12 @@
+.loading-ext{
+  position: fixed;
+  background: black;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 12px;
+  bottom: 2rem;
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}

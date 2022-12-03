@@ -1,6 +1,14 @@
-import { Flex, Box, Headline, Text, SeparatorHorizontal, SeparatorVertical } from "brainly-style-guide";
+import { Flex, Icon, Box, Headline, Text, SeparatorVertical } from "brainly-style-guide";
 import React from "react";
-import { startOfMonth, previousSaturday, startOfQuarter, startOfDay, isSaturday } from "date-fns";
+import { 
+  startOfMonth, 
+  previousSaturday, 
+  startOfQuarter, 
+  startOfDay, 
+  isSaturday, 
+  subDays,
+  sub
+} from "date-fns";
 import filterByTime from "@lib/filterTime";
 import { Doughnut } from "react-chartjs-2";
 import {
@@ -20,11 +28,10 @@ ChartJS.register(
 export default function Progress({ allAnswers }) {
   allAnswers = allAnswers.data.responses.items;
   let today = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
+  //today = sub(today, { years: 2, months: 3 });
 
   let startSat = isSaturday(today) ? startOfDay(today) : startOfDay(previousSaturday(today));
-
-  let qProgress = filterByTime(allAnswers, startSat , today, "created").length * 10;
-  let aCount = filterByTime(allAnswers, new Date(baseDate(2019)), today, "created").length;
+  let qProgress = filterByTime(allAnswers, startSat, today, "America/New_York").length * 10;
 
   return (
     <Flex 
@@ -36,7 +43,7 @@ export default function Progress({ allAnswers }) {
         color="transparent"
         padding="m"
       >
-        <Flex alignItems="center" justifyContent="space-evenly">
+        <Flex height="100%" alignItems="center" justifyContent="flex-start">
           <Flex className="chart">
             <Doughnut data={{
               labels: ["", ""],
@@ -56,53 +63,74 @@ export default function Progress({ allAnswers }) {
             }} 
             id="quota"
             />
-            <Text sizes = "m">Quota ({qProgress / 10} / 10)</Text>
+            <Text sizes = "m" style={{ width:"max-content" }}>Quota ({qProgress / 10} / 10)</Text>
           </Flex>
 
           <SeparatorVertical size="full" />
 
-          <Flex className="chart">
-            <Doughnut data={{
-              labels: ["2022", "2021", "2020", "2019"],
-              datasets: [{
-                label: "# of answers",
-                data: 
-                [2022, 2021, 2020, 2019].map(item => {
-                  return (filterByTime(
-                    allAnswers, new Date(baseDate(item)), new Date(baseDate(item + 1)), "created"
-                  ).length * 100 / aCount);
-                }),
-                backgroundColor: [
-                  "#60d399",
-                  "#fbbe2e",
-                  "#4fb3f6",
-                  "#6d83f3"
-                ],
-                borderWidth: 1
-              }]
-            }} 
-            options={{
-              responsive: true,
-              animation: false
-            }} />
-            <Text sizes = "m">History</Text>
+          <Flex style = {{ gap: "1rem", height:"100%" }}>
+            <StatItem 
+              head = {filterByTime(allAnswers, startOfMonth(today), today, "America/New_York").length}
+              text={"Month"}
+              before = {
+                filterByTime(
+                  allAnswers, 
+                  sub(startOfMonth(today), { months: 1 }), 
+                  startOfMonth(today), 
+                  "America/New_York"
+                ).length
+              }
+            />
+
+            <StatItem 
+              head = {filterByTime(allAnswers, startOfQuarter(today), today, "America/New_York").length}
+              text={"Quarter"}
+              before = {
+                filterByTime(
+                  allAnswers, 
+                  sub(startOfQuarter(today), { months: 3 }), 
+                  startOfQuarter(today), 
+                  "America/New_York"
+                ).length
+              }
+            />
           </Flex>
 
           <SeparatorVertical size="full" />
 
-          <Flex direction="column">
-            <StatItem 
-              head = {filterByTime(allAnswers, startOfMonth(today), today, "created").length}
-              text={"Answers this Month"} 
-            />
-
-            <SeparatorHorizontal type="short-spaced" />
-
-            <StatItem 
-              head = {filterByTime(allAnswers, startOfQuarter(today), today, "created").length}
-              text={"Answers this Quarter"} 
-            />
-          </Flex>
+          <Box className = "answer-rate">
+            <Flex
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Flex
+                alignItems="baseline"
+                justifyContent="center"
+                style={{ gap: "1rem" }}
+              >
+                <Headline
+                  extraBold
+                  size="xxxlarge"
+                  className="sg-text"
+                  color="text-white"
+                >
+                  {
+                    Math.round(
+                      filterByTime(
+                        allAnswers, 
+                        subDays(today, 6), 
+                        today, 
+                        "America/New_York"
+                      ).length * 100 / 7
+                    ) / 100
+                  }
+                </Headline>
+                <Text color="text-white" >
+                  answers/day
+                </Text>
+              </Flex>
+            </Flex>
+          </Box>
 
         </Flex>
       </Box>
@@ -110,14 +138,53 @@ export default function Progress({ allAnswers }) {
   );
 }
 
-function StatItem({ head, text }) {
+function StatItem({ head, text, before }) {
   return (
-    <Flex direction="column" >
-      <Headline extraBold size="xxlarge" className="sg-text" >{head}</Headline>
-      <Text color="text-gray-60">{text}</Text>
-    </Flex>
+    <Box
+      border
+      style={{ minWidth:"200px", gap: "1rem", width:"auto" }}
+    >
+      <Flex alignItems="center" >
+        <Icon 
+          type="answer" 
+          color="icon-gray-50"
+        />
+        <Text
+          size="small"
+          color="text-gray-50"
+        >
+          {text}
+        </Text>
+      </Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        style={{ flex: "1" }}
+      >
+        <Flex
+          alignItems="baseline"
+          direction="column"
+        >
+          <Headline
+            size="large"
+            className="sg-text"
+            color="text-gray-40"
+            style={{ lineHeight: "1.5rem" }}
+          >
+            {
+              before
+            }
+          </Headline>
+          <Headline
+            size="xxxlarge"
+            extraBold
+            className="sg-text"
+            style={{ lineHeight: "4rem" }}
+          >
+            {head}
+          </Headline>
+        </Flex>
+      </Flex>
+    </Box>
   );
-}
-function baseDate(year) {
-  return `${year}-01-01T00:00:00-00:00`;
 }

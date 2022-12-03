@@ -3,12 +3,18 @@ import createModal from "@lib/createModal";
 import { Headline } from "brainly-style-guide";
 import BrainlyAPI from "@api/brainly/BrainlyAPI";
 import ReportReasons from "./Components/ReasonList";
+import showLoading from "@lib/showLoading";
 
 export default async function reportMenu(
   id:number,
-  type: "task" | "response"
+  type: "task" | "response" | "comments",
+  target
 ) {
-  let reasons = await BrainlyAPI.ReportReasons(id, type);
+  if (document.querySelector(".loading-ext#report")) return;
+  let reasons;
+  await showLoading("Fetching Report Reasons", "report", async () => {
+    reasons = await BrainlyAPI.ReportReasons(id, type);
+  });
   createModal(
     <>
       <Headline
@@ -19,7 +25,6 @@ export default async function reportMenu(
       Report Content
       </Headline>
 
-      <ReportReasons reasons={reasons} id={id} type={type} key={id} />
-    </>,
-    "500px");
+      <ReportReasons target={target} reasons={reasons} id={id} type={type} key={id}/>
+    </>, "report", "500px");
 }

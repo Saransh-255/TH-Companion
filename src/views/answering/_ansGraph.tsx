@@ -28,6 +28,7 @@ ChartJS.register(
 
 export default function AnsGraph({ usersArr }) {
   let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
+  //now = sub(now, { years: 2, months: 3 });
   let intervalArr = eachDayOfInterval({ start: sub(now, { months: 1 }), end: now });
   return (
     <div className="ansGraph">
@@ -43,7 +44,7 @@ export default function AnsGraph({ usersArr }) {
               label: "You",
               data: intervalArr.map(
                 (day) => {
-                  return filterByTime(usersArr, day, endOfDay(day), "created").length;
+                  return filterByTime(usersArr, day, endOfDay(day)).length;
                 } 
               ),
               borderColor: "#014a82",
@@ -55,7 +56,12 @@ export default function AnsGraph({ usersArr }) {
         options={{
           responsive: true,
           maintainAspectRatio: false,
-          animation: false
+          animation: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
         }}
       />
     </div>

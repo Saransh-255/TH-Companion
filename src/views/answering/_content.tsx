@@ -1,26 +1,32 @@
-import React from "react";
-import { 
-  Avatar, 
-  Box, 
-  Counter, 
+import React, { useEffect } from "react";
+import {
+  Box,
   Flex, 
-  Label, 
   Link, 
   List, 
   ListItem,
   SeparatorHorizontal,
-  Text } from "brainly-style-guide";
+  SpinnerContainer } from "brainly-style-guide";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
-import { UserInfo, ContentList, Notifications } from "@typings/brainly";
+import { ContentList, Notifications } from "@typings/brainly";
 
 import Progress from "./_progress";
 import AnsGraph from "./_ansGraph";
 import NotificationItem from "./_notifications";
 
-export default function Content({ changeLoadState }) {
-  const [user, setUser] = React.useState<UserInfo>();
+export default function Content() {
+  //const [user, setUser] = React.useState<UserInfo>();
   const [answers, setAnswers] = React.useState<ContentList>();
   const [notifications, setNotif] = React.useState<Notifications>();
+
+  useEffect(() => {
+    const getData = async () => {
+      await BrainlyAPI.GetNotifications().then(notifs => setNotif(notifs));
+      await BrainlyAPI.GetContent("responses").then(ans => setAnswers(ans));
+      console.log("requests");
+    };
+    getData();
+  }, []);
 
   const teamLinks = [
     {
@@ -59,114 +65,51 @@ export default function Content({ changeLoadState }) {
       link: "https://www.emathhelp.net/calculators/algebra-1/synthetic-division-calculator/"
     }
   ];
-  React.useEffect(() => {
-    const getData = async () => {
-      let you = await BrainlyAPI.MyData();
-      setUser(you);
-      let notifs = await BrainlyAPI.GetNotifications();
-      setNotif(notifs);
-      let ans = await BrainlyAPI.GetContent("responses");
-      setAnswers(ans);
-      changeLoadState(false);
-    };
-    if (!user) {
-      getData();
-      setInterval(async() => {
-        let you = await BrainlyAPI.MyData();
-        setUser(you);
-        let notifs = await BrainlyAPI.GetNotifications();
-        setNotif(notifs);
-        let ans = await BrainlyAPI.GetContent("responses");
-        setAnswers(ans);
-      }, 15000);
-    }
-  });
-  if (user && answers && notifications) return (
-    <Flex className="content">
-      <Flex
-        className = "f1"
-        direction = "column"
-      >
-        <Flex
-          className = "f1 toprow"
-        >
-          <Flex 
-            className = "user-data"
-          >
-            <Box
-              border
-              color="transparent"
-              padding="m"
-            >
-              <Flex
-                justifyContent="center"
-                alignItems="center"
-                direction = "column"
-                style = {{ gap: "16px" }}
-              >
-                <Avatar
-                  imgSrc= {user.data.user.avatar[100]}
-                  link={`https://brainly.com/app/profile/${user.data.user.id}`}
-                  size="xl"
-                />
-                <Flex
-                  direction = "column"
-                >
-                  <Text
-                    size="large"
-                    weight="bold"
-                  >
-                    {user.data.user.nick}
-                  </Text>
-                  <Label
-                    color="yellow"
-                    type="default"
-                    style = {{ marginBottom: "8px" }}
-                  >
-                    {user.data.user.ranks.names[user.data.user.ranks.names.length - 1]}
-                  </Label>
-                  <Counter
-                    icon="points"
-                    size="xs"
-                  >
-                    {user.data.user.points} pts
-                  </Counter>
-                </Flex>
-              </Flex>
-            </Box>
-          </Flex>
 
-          <Progress allAnswers = {answers} />
-        </Flex>
+  if (notifications && answers) {
+    return (
+      <Flex className="content">
         <Flex
-          className = "bottomrow f1"
+          className = "f1"
+          direction = "column"
         >
           <Flex
-            className = "links"
+            className = "f1 toprow"
           >
-            <Box
-              border
-              color="transparent"
-              padding="m"
-            >
-              <LinkList arr={teamLinks} />
-              <SeparatorHorizontal type="short-spaced" />
-              <LinkList arr={links} />
-            </Box>
+            <Progress allAnswers = {answers} />
           </Flex>
-          <NotificationItem notif = {notifications} />
           <Flex
-            style = {{ flex : "2" }}
-            alignItems= "center"
-            justifyContent= "center"
-            className="illustration"
+            className = "bottomrow f1"
           >
-            <AnsGraph usersArr = {answers.data.responses.items} />
+            <Flex
+              className = "links"
+            >
+              <Box
+                border
+                color="transparent"
+                padding="m"
+              >
+                <LinkList arr={teamLinks} />
+                <SeparatorHorizontal type="short-spaced" />
+                <LinkList arr={links} />
+              </Box>
+            </Flex>
+            <NotificationItem notif = {notifications} />
+            <Flex
+              style = {{ flex : "2" }}
+              alignItems= "center"
+              justifyContent= "center"
+              className="illustration"
+            >
+              <AnsGraph usersArr = {answers.data.responses.items} />
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
-    </Flex>
-  );
+    );
+  } else {
+    return <SpinnerContainer loading ></SpinnerContainer>;
+  }
 }
 
 function LinkList({ arr }) {

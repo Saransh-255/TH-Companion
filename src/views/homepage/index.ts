@@ -5,9 +5,11 @@ import runForElem from "@lib/runForElem";
 //import BrainlyAPI from "@api/brainly/BrainlyAPI";
 import { buttonElem } from "@components";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
-import { ptsLabel, avatar } from "@components";
+import { link } from "@components";
+import feedItem from "./feedItem";
 // import reportMenu from "@modals/Report/report";
-// import Preview from "@modals/Preview/Preview";
+import Preview from "@modals/Preview/Preview";
+import reportMenu from "@modals/Report/report";
 
 // observeMutation({
 //   targetSelector: "#main-content",
@@ -96,32 +98,49 @@ import { ptsLabel, avatar } from "@components";
 //   }
 // });
 
-const forYouQs = [];
+
+//Dashboard Link
+runForElem("div[data-testid = 'navigation_header_subnav'] > div > div > div", 
+  (elem) => {
+    elem.appendChild(
+      link({
+        href: "https://brainly.com/companion/answering",
+        text: "Answering Dashboard",
+        size: "small",
+        target: "_blank",
+        classNames: ["sg-flex"],
+        noWrap: true,
+        weight: "regular",
+        color: "text-black"
+      })
+    );
+  }
+);
+
+
+// For You Feed
+let forYouQs = [];
 runForElem("meta[name='user_data']", async (elem) => {
   let userData = JSON.parse(elem.getAttribute("content"));
 
   let suggested = await BrainlyAPI.ForYou(userData.id);
 
+  const linkIds = [];
   suggested.data.user.answers.edges.forEach(ans => {
     ans.node.question.similar.forEach(item => {
-      if (item.question.canBeAnswered && 
-        (!item.question.answers.nodes.find(({ id }) => id === userData.id))) 
-        forYouQs.push(item);
+      if (
+        item.question.canBeAnswered && 
+        (!item.question.answers.nodes.find(({ id }) => id === userData.id)) &&
+        !linkIds.includes(item.question.id)
+      ) 
+        forYouQs.push(item); linkIds.push(item.question.id);
     });
   });
 });
 
 runForElem(".brn-white-background-feed-wrapper > div.sg-flex--row", 
   (elem) => {
-    runForElem("#main-content > .sg-animation-fade-in-fast", (elem) => {
-      elem.insertAdjacentHTML("afterend", "<div class = 'fyp-feed sg-animation-fade-in-fast'></div>");
-      let feed = document.querySelector(".fyp-feed");
-      forYouQs.forEach(ques => {
-        feed.insertAdjacentHTML("beforeend", feedItem(ques));
-      });
-    });
-
-    elem.insertAdjacentElement("beforeend", buttonElem({
+    elem.appendChild(buttonElem({
       text: "For you",
       icon: {
         size: "24",
@@ -137,43 +156,22 @@ runForElem(".brn-white-background-feed-wrapper > div.sg-flex--row",
         document.querySelector("#main-content").classList.toggle("for-you");
       }
     }));
-  });
+  }
+);
 
-function feedItem(data) {
-  return /*html*/`
-    <div class="fyp-feed-item sg-box sg-box--transparent sg-box--no-shadow sg-box--border-radius sg-box--padding-m">
-      <div class="sg-flex" style = "gap: 8px">
-        <a class="sg-text sg-text--link-unstyled sg-text--bold" href = "https://brainly.com/question/${atob(data.question.id).split(":")[1]}">
-          <div class = "sg-text sg-text--medium sg-text--break-words fyp-content">
-            ${data.question.content.trim().replaceAll("<br />\n", " ")}
-          </div>
-        </a>
-        ${ptsLabel("+" + data.question.points)}
-      </div>
-      <div class="sg-flex second">
-        <div class="sg-flex user" style = "gap: 4px;">
-          ${avatar({ id: atob(data.question.author.id).split(":")[1] + "", avatarURL: data.question.author.avatar?.thumbnailUrl + "" })}
-          <div class = "sg-text sg-text--text-gray-60 sg-text--medium sg-text--bold">
-            ${data.question.subject.name}
-          </div>
-        </div>
-        <div class="sg-flex">
-          ${
-  buttonElem({
-    icon: {
-      type: "answer",
-      size: "24",
-      color: "white",
-    },
-    type: "solid",
-    size: "m",
-    iconOnly: true,
-    classes: ["fyp"],
-    href: `https://brainly.com/question/${atob(data.question.id).split(":")[1]}?answering=true`,
-  }).outerHTML
-}
-        </div>
-      </div>
-    </div>
-  `;
-}
+runForElem("#main-content > .sg-animation-fade-in-fast", (elem) => {
+  elem.insertAdjacentHTML("afterend", "<div class = 'fyp-feed sg-animation-fade-in-fast'></div>");
+  let feed = document.querySelector(".fyp-feed");
+      
+  forYouQs.forEach(ques => {
+    let qid = atob(ques.question.id).split(":")[1];
+    feed.insertAdjacentHTML("beforeend", feedItem(ques));
+
+    feed.querySelector(`.fyp#id${qid}`).addEventListener("click", async function () {
+      await Preview(qid);
+    });
+    feed.querySelector(`.report#rep${qid}`).addEventListener("click", async function (e) {
+      await reportMenu(+qid, "task", e.target);
+    });
+  });
+});

@@ -4,10 +4,15 @@ import Head from "./Components/Head";
 import createModal from "@lib/createModal";
 import Item from "./Components/Item";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import showLoading from "@lib/showLoading";
 
 export default async function showPreview(id:string) {
-  let data = await BrainlyAPI.PreviewData(id);
-  let dRef = await BrainlyAPI.ReferenceData();
+  if (document.querySelector(".loading-ext#prev")) return;
+  let data, dRef;
+  await showLoading("Fetching Data", "prev", async () => {
+    data = await BrainlyAPI.PreviewData(id);
+    dRef = await BrainlyAPI.ReferenceData();
+  });
   
   let subject = dRef.data.subjects.find(({ id }) => id === data.data.task.subject_id).name;
   let grade = dRef.data.grades.find(({ id }) => id === data.data.task.grade_id).name;
@@ -28,5 +33,5 @@ export default async function showPreview(id:string) {
               type="response" />
           );
         })}
-      </div></>, "500px", "600px");
+      </div></>, "preview", "550px", "600px");
 }

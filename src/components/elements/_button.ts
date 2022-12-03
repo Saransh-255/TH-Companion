@@ -1,4 +1,5 @@
 import { addSpinner } from "@utils/spinner";
+import clsx from "clsx";
 import iconElem, { iconTypes } from "./_icon";
 
 type ButtonType = 
@@ -33,6 +34,7 @@ export default (data: {
   classes?: string[],
   href?: string,
   iconOnly: boolean,
+  id?: string,
   attributes?:{
     item:string, 
     value:string
@@ -49,18 +51,21 @@ export default (data: {
     button = document.createElement("button");
   }
 
-  button.classList.add("sg-button", `sg-button--${data.type}`, `sg-button--${data.size}`);
+  button.classList.add(...clsx({
+    [`sg-button sg-button--${data.type} sg-button--${data.size}`] : true,
+    ["sg-button--disabled"] : data.disabled,
+    ["sg-button--loading"] : data.loading,
+    
+  }).split(" "));
+
   data.classes ? button.classList.add(...data.classes) : {};
   data.clickEvent ? button.onclick = data.clickEvent : {};
-  data.disabled ? button.classList.add("sg-button--disabled") : {};
   data.attributes?.forEach(item => {
     button.setAttribute(item.item, item.value);
   });
 
-  if (data.loading) {
-    button.classList.add("sg-button--loading");
-    addSpinner(button, "white", "small");
-  }
+  data.id ? button.id = data.id : ""; 
+  if (data.loading) addSpinner(button, "white", "small");
   if (data.icon) { 
     button.insertAdjacentElement("afterbegin", iconElem(data.icon));
     
