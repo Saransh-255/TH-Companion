@@ -1,4 +1,4 @@
-//import React from "react";
+import React from "react";
 import { 
   Text, 
   Accordion, 
@@ -11,19 +11,21 @@ import {
   Icon 
 } from "brainly-style-guide";
 import filterByTime from "@lib/filterTime";
-import { startOfDay, startOfISOWeek, startOfMonth } from "date-fns";
+import { startOfDay, startOfISOWeek, startOfMonth, sub } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { formatDistance } from "date-fns";
 import showPreview from "@modals/Preview/Preview";
 
+let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
+
 export default function NotificationItem({ notif }) {
   notif = notif.data.items.filter(item => item.text.includes("commented"));
-  let now = new Date(formatInTimeZone(new Date(), "CET", "yyyy-MM-dd HH:mm:ss"));
 
   let thisDay = filterByTime(notif, startOfDay(now), now);
   let thisWeek = filterByTime(notif, startOfISOWeek(now), startOfDay(now));
   let thisMonth = filterByTime(notif, startOfMonth(now), startOfISOWeek(now));
-  let allVis = filterByTime(notif, startOfMonth(now), now);
+  let lastMonth = filterByTime(notif, sub(startOfMonth(now), { months: 1 }), startOfMonth(now));
+  let allVis = filterByTime(notif, sub(startOfMonth(now), { months: 1 }), now);
 
   if (allVis.length) return (
     <Flex
@@ -60,6 +62,14 @@ export default function NotificationItem({ notif }) {
               <NotifItem arr = {thisMonth}/>
             </AccordionItem> : ""
           }
+          {
+            lastMonth.length ? <AccordionItem
+              id="last-month"
+              title={`Last Month (${lastMonth.length})`}
+            >
+              <NotifItem arr = {lastMonth}/>
+            </AccordionItem> : ""
+          }
         </Accordion>
       </Box>
     </Flex>
@@ -84,11 +94,15 @@ function NotifItem({ arr }) {
                         href = {`https://brainly.com/question/${item[0].model_id}`}> #{item[0].model_id }
                       </Link>
                     </Text>
-                    <Text color="text-gray-70" style = {{ lineHeight: "1rem" }}>
+                    <Text size="small" color="text-gray-70" style = {{ lineHeight: "1rem" }}>
                       {
                         formatDistance(
-                          new Date(new Date(item[0].created).toUTCString()), 
-                          new Date(new Date().toUTCString())
+                          new Date(item[0].created), 
+                          now,
+                          {
+                            includeSeconds: true, 
+                            addSuffix: true
+                          }
                         )
                       }
                     </Text>

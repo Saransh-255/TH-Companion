@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { ptsLabel, avatar, buttonElem, subjectIcon, icon } from "@components";
+import { ptsLabel, avatar, buttonElem, subjectIcon, icon } from "components/elements";
 
 export default function feedItem(data) {
   let qid = atob(data.question.id).split(":")[1];
@@ -59,6 +59,20 @@ export default function feedItem(data) {
           </div>
         </div>
         <div class="sg-flex fyp-buttons" style = "gap: 0.5rem">
+        ${
+            buttonElem({
+              icon: {
+                type: "seen",
+                size: "24",
+                color: "white"
+              },
+              classes: ["fyp"],
+              type: "solid",
+              size: "m",
+              iconOnly: true,
+              id: "id" + qid
+            }).outerHTML
+          }
           ${
               buttonElem({
                 icon: {
@@ -73,20 +87,6 @@ export default function feedItem(data) {
                 href: `https://brainly.com/question/${qid}?answering=true`,
               }).outerHTML
             }
-            ${
-            buttonElem({
-              icon: {
-                type: "seen",
-                size: "24",
-                color: "white"
-              },
-              classes: ["fyp"],
-              type: "solid",
-              size: "m",
-              iconOnly: true,
-              id: "id" + qid
-            }).outerHTML
-          }
         </div>
       </div>
     </div>

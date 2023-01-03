@@ -1,5 +1,13 @@
 //@use "../common/header";
 @use "./feedItem";
 @use "../common/modals/report";
-@use "../common/modals/preview";
+// @use "../common/modals/preview";
+@use "../common/modals/ticket";
 @use "./fyp";
+
+.modticket, a.newansbut, .rep-button, .preview-button{
+  display: none!important;
+}
+.sg-button--disabled{
+  pointer-events: none!important;
+}

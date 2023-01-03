@@ -5,7 +5,7 @@ const zip = require("gulp-zip");
 
 gulp.task("sass", (done) => {
   gulp.src("./src/styles/*/index.scss")
-    .pipe(sass({ outputStyle: "compressed" }))
+    .pipe(sass().on("error", sass.logError))
     .pipe(gulp.dest("./dist/css"));
   done();
 });

@@ -1,5 +1,5 @@
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
-import { RadioGroup, Button, Flex, Radio } from "brainly-style-guide";
+import { RadioGroup, Button, Flex, Radio, Textarea } from "brainly-style-guide";
 import React, { useState } from "react";
 import { ReportData } from "@typings/brainly";
 import Subcategories from "./Subcategory";
@@ -38,6 +38,17 @@ export default function ReportReasons(props: { reasons:ReportData, id, type, tar
                 {reason.text}
               </Radio>
               {
+                reason.data?.type === "textarea" && (
+                  <Textarea
+                    type="text" 
+                    className = "reportData" 
+                    
+                    onChange = { ({ target }) => setRepData((target as HTMLInputElement).value) }
+                    value = { repData } 
+                  />
+                )
+              }
+              {
                 reason.subcategories &&
                   <Subcategories 
                     reason={reason} 
@@ -65,8 +76,14 @@ export default function ReportReasons(props: { reasons:ReportData, id, type, tar
             });
             if (res) {
               props.target.style.color = "red";
-              (props.target.querySelector("use") as HTMLElement)
-                .setAttribute("xlink:href", "#icon-report_flag");
+              if (!props.target.querySelector("use")) {
+                props.target.setAttribute("xlink:href", "#icon-report_flag");
+              } else {
+                props.target.querySelector("use").setAttribute("xlink:href", "#icon-report_flag");
+              }
+
+              props.target.closest(".sg-button").classList.add("sg-button--disabled");
+              props.target.closest(".sg-button").setAttribute("disabled", "true");
             }
             document.querySelector(".report#modal").remove();
           }

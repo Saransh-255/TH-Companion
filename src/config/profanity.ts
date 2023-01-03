@@ -1235,7 +1235,6 @@ let profList = [
   "lookin'",
   "shorty",
   "pad\\.let",
-  "∴",
   "a\\*\\*",
   "seks!-!ch!at",
   "homophobes",

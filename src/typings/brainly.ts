@@ -8,6 +8,9 @@ export interface ReportData {
   impl: string;
   schema: string;
   data: {
+    data?:{
+      type: string;
+    }
     visible: boolean;
     text: string;
     id: number;

@@ -13,6 +13,11 @@ export default new class BrainlyAPI {
   private legacyURL = `https://brainly.com/api/28`;
   private graphURL = `https://brainly.com/graphql/us`;
   private tokenLong: string;
+  private MODEL_ID = {
+    "task" : 1,
+    "response" : 2,
+    "comment": 45
+  };
 
   constructor() {
     this.SetAuthToken();
@@ -54,17 +59,12 @@ export default new class BrainlyAPI {
   public async GetQuestion(id: number): Promise<GetQuestionResponse> {
     return await this.Legacy("GET", `api_tasks/main_view/${id}`);
   }
-  async ReportReasons(id: number, type: "task" | "response" | "comments"):Promise<ReportData> {
-    const MODEL_ID = {
-      "task" : 1,
-      "response" : 2,
-      "comments": 45
-    };
+  async ReportReasons(id: number, type: "task" | "response" | "comment"):Promise<ReportData> {
     return await fetch("https://brainly.com/api/28/moderation_new/get_abuse_reasons", {
       method: "POST",
       body: JSON.stringify({
         model_id: id,
-        model_type_id: MODEL_ID[type]
+        model_type_id: this.MODEL_ID[type]
       })
     }).then(data => data.json()).then(data => data);
   }
@@ -100,15 +100,11 @@ export default new class BrainlyAPI {
   }
   async ReportContent(data: {
     id: number, 
-    type: "task" | "response",
+    type: "task" | "response" | "comment",
     categoryId: number,
     subId?: number,
     data?: string
   }) {
-    const MODEL_ID = {
-      "task" : 1,
-      "response" : 2
-    };
 
     let res = await fetch("https://brainly.com/api/28/api_moderation/abuse_report", {
       method: "POST",
@@ -119,7 +115,7 @@ export default new class BrainlyAPI {
           data: data.data ?? null
         },
         model_id: data.id,
-        model_type_id: MODEL_ID[data.type],
+        model_type_id: this.MODEL_ID[data.type],
       })
     }).then(data => data.json());
     return res.success ? res : null;
@@ -182,5 +178,43 @@ export default new class BrainlyAPI {
         }
       }`, { "id":btoa(`user:${id}`) }
     );
+  }
+  async OpenTicket(id:string | number) { 
+    return await this.Legacy("POST", "moderation_new/get_content", ({ 
+      "model_type_id":1, 
+      "model_id":id, 
+      "schema":"moderation.content.get" 
+    }
+    )); 
+  }
+  async CloseTicket(id:string | number) {
+    return await this.Legacy("POST", "moderate_tickets/expire", ({
+      "model_type_id":1, 
+      "model_id":id, 
+      "schema":"moderation.content.expire" 
+    }));
+  }
+  async DeleteContent(data:
+    {
+      type: "task" | "response" | "comment",
+      id:string | number, 
+      reasonId: string | number,
+      reason:string, 
+      warn:boolean, 
+      take_point?:boolean,
+      return_point?: boolean
+    }
+  ) {
+    return this.Legacy("POST", `moderation_new/delete_${data.type}_content`, ({
+      "reason_id":data.reasonId, 
+      "reason":data.reason, 
+      "give_warning":data.warn, 
+      "schema": data.type === "comment" ? "" : `moderation.${data.type}.delete`, 
+      "model_type_id": this.MODEL_ID[data.type], 
+      "model_id":data.id, 
+      ...(data.type !== "comment" ? { "take_points": data.take_point } : {}),
+      ...(data.type === "task" ? { "return_points": data.return_point } : {}) 
+    }
+    ));
   }
 };

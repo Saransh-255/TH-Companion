@@ -6,7 +6,8 @@ import {
   List, 
   ListItem,
   SeparatorHorizontal,
-  SpinnerContainer } from "brainly-style-guide";
+  SpinnerContainer, 
+} from "brainly-style-guide";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
 import { ContentList, Notifications } from "@typings/brainly";
 
@@ -23,7 +24,6 @@ export default function Content() {
     const getData = async () => {
       await BrainlyAPI.GetNotifications().then(notifs => setNotif(notifs));
       await BrainlyAPI.GetContent("responses").then(ans => setAnswers(ans));
-      console.log("requests");
     };
     getData();
   }, []);

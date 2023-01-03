@@ -1,5 +1,7 @@
-export default async function showLoading(text: string, id: string, fn) {
-  document.body.insertAdjacentHTML("beforeend", /*html*/`
+export default async function showLoading(text: string, id: string, fn, elem?) {
+  let target = elem || document.body;
+  console.log(target);
+  target.insertAdjacentHTML("beforeend", /*html*/`
   <div class="loading-ext sg-flex" id = "${id}">
     <div class="sg-spinner sg-spinner--white sg-spinner--xxsmall"> 
       <span class="sg-visually-hidden">loading</span> 

@@ -39,7 +39,7 @@
     "gulp-watch-sass": "^1.4.1",
     "gulp-zip": "^5.1.0",
     "react-router-dom": "^6.4.1",
-    "sass": "^1.54.4",
+    "sass": "^1.57.1",
     "ts-loader": "^9.3.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^4.7.4",
@@ -49,7 +49,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "brainly-style-guide": "^220.4.0",
+    "brainly-style-guide": "^220.7.3",
     "chart.js": "^3.9.1",
     "chartjs-react": "^3.6.0",
     "clsx": "^1.2.1",

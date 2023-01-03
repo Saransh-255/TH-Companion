@@ -1,8 +1,8 @@
 import { formatInTimeZone } from "date-fns-tz";
 
-export default function filterByTime(arr, fromDate:Date, toDate:Date, tz = "America/New_York") {
+export default function filterByTime(arr, fromDate:Date, toDate:Date) {
   return arr.filter(item => {
-    let itemDate = convertToTZ(item["created"], tz);
+    let itemDate = convertToTZ(item["created"], "America/New_York");
     if (fromDate < itemDate && toDate > itemDate) {
       return item;
     }

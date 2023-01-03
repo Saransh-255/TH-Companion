@@ -6,7 +6,7 @@ import Item from "./Components/Item";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
 import showLoading from "@lib/showLoading";
 
-export default async function showPreview(id:string) {
+export default async function showPreview(id:string, modalClose?: () => void) {
   if (document.querySelector(".loading-ext#prev")) return;
   let data, dRef;
   await showLoading("Fetching Data", "prev", async () => {
@@ -17,10 +17,10 @@ export default async function showPreview(id:string) {
   let subject = dRef.data.subjects.find(({ id }) => id === data.data.task.subject_id).name;
   let grade = dRef.data.grades.find(({ id }) => id === data.data.task.grade_id).name;
 
-  createModal(
-    <>
+  createModal({
+    element: (<>
       <Head subject={subject} grade={grade} id={id} data={data.data.task} />
-      <div className="items" style={{ flex:"1", overflow: "auto" }}>
+      <div className="items scroll-container" style={{ flex:"1", overflow: "auto" }}>
 
         <Item id={id} users={data.users_data} data={data.data.task} type="task" />
         {data.data.responses.map(({ id }, index) => {
@@ -33,5 +33,14 @@ export default async function showPreview(id:string) {
               type="response" />
           );
         })}
-      </div></>, "preview", "550px", "600px");
+      </div>
+    </>
+    ),
+    className: "preview",
+    minWidth: "550px",
+    maxWidth: "600px",
+    closeFn: () => {
+      if (modalClose) modalClose(); 
+    }
+  });
 }

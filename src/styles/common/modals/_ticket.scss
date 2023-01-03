@@ -1,0 +1,38 @@
+@use "./preview";
+
+#modal.ticket{
+  .item{
+    &.deleted{
+      transition-duration: 250ms;
+      background: #fff1f0;
+      border-color: #ff341a!important;
+      .sg-media{
+        transition-duration: 250ms;
+        background: #fff1f0;
+      }
+    }
+    .preview-comments{
+      .comment-item{
+        &.deleted{
+          transition-duration: 250ms;
+          background: #fff1f0;
+          border: 2px solid#ff341a!important;
+          border-radius:5px;
+          .show-delmenu{
+            display:none;
+          }
+        }
+      }
+    }
+  }
+  .comment-removal{
+    position:relative;
+    width:100%;
+    border-radius:5px;
+    bottom:0;
+    background: black;
+    position: relative;
+    padding: 8px 0px;
+    margin-top: 8px;
+  }
+}

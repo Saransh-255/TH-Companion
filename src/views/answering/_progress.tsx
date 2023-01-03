@@ -31,7 +31,7 @@ export default function Progress({ allAnswers }) {
   //today = sub(today, { years: 2, months: 3 });
 
   let startSat = isSaturday(today) ? startOfDay(today) : startOfDay(previousSaturday(today));
-  let qProgress = filterByTime(allAnswers, startSat, today, "America/New_York").length * 10;
+  let qProgress = filterByTime(allAnswers, startSat, today).length * 10;
 
   return (
     <Flex 
@@ -70,27 +70,25 @@ export default function Progress({ allAnswers }) {
 
           <Flex style = {{ gap: "1rem", height:"100%" }}>
             <StatItem 
-              head = {filterByTime(allAnswers, startOfMonth(today), today, "America/New_York").length}
+              head = {filterByTime(allAnswers, startOfMonth(today), today).length}
               text={"Month"}
               before = {
                 filterByTime(
                   allAnswers, 
                   sub(startOfMonth(today), { months: 1 }), 
-                  startOfMonth(today), 
-                  "America/New_York"
+                  startOfMonth(today)
                 ).length
               }
             />
 
             <StatItem 
-              head = {filterByTime(allAnswers, startOfQuarter(today), today, "America/New_York").length}
+              head = {filterByTime(allAnswers, startOfQuarter(today), today).length}
               text={"Quarter"}
               before = {
                 filterByTime(
                   allAnswers, 
                   sub(startOfQuarter(today), { months: 3 }), 
-                  startOfQuarter(today), 
-                  "America/New_York"
+                  startOfQuarter(today)
                 ).length
               }
             />
@@ -119,8 +117,7 @@ export default function Progress({ allAnswers }) {
                       filterByTime(
                         allAnswers, 
                         subDays(today, 6), 
-                        today, 
-                        "America/New_York"
+                        today
                       ).length * 100 / 7
                     ) / 100
                   }

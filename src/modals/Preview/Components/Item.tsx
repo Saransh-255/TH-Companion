@@ -9,8 +9,7 @@ export default function Item({ id, data, users, type }) {
   let user = userById(users, data.user_id);
   let userId = `https://brainly.com/profile/${user.nick}-${user.id}`;
   let content = data.content;
-
-  console.log(data);
+  let reported = data.settings.is_marked_abuse;
 
   return (
     <Box 
@@ -67,31 +66,41 @@ export default function Item({ id, data, users, type }) {
                 setVis(!commentVis); 
                 setStr(iconStr == "comment_outlined" ? "comment" : "comment_outlined");
               }}       
-            >{data.comments.count}</Button>
+            >{data.comments.items.length}</Button>
           ) : ""
         }
         <Button
-          className = "rep-button"
-          icon={<Icon color="adaptive" size={24} type="report_flag_outlined"/>}
+          className = "report-button"
+          icon={
+            reported ?  
+              <Icon color="icon-red-50" size={24} type="report_flag"/> :
+              <Icon color="adaptive" size={24} type="report_flag_outlined"/>
+          }
           iconOnly
           size="m"
+          disabled={reported}
           variant="transparent-light"
           onClick = {(e) => {
-            if (!document.querySelector(".loading-ext#report")) reportMenu(id, type, e.target);
+            reportMenu(id, type, e.target);
           }}
         /> 
-        <Button
-          icon={<Icon color="adaptive" type="plus"/>}
-          target="_blank"
-          onClick={()=> {
-            document.querySelector("#modal.preview").remove();
-          }}
-          type={"button"}
-          variant="outline"
-          href = {`https://brainly.com/question/${id}?answering=true`}
-        >
-      Answer
-        </Button>
+        {
+          (type === "task") ? (
+            <Button
+              icon={<Icon color="adaptive" type="plus"/>}
+              target="_blank"
+              disabled={data.responses >= 2}
+              onClick={()=> {
+                document.querySelector("#modal.preview").remove();
+              }}
+              type={"button"}
+              variant="outline"
+              href = {`https://brainly.com/question/${id}?answering=true`}
+            >
+          Answer
+            </Button>
+          ) : ""
+        }
       </Flex>
       {
         commentVis ? (
@@ -132,7 +141,7 @@ function CommentItem({ data, users }) {
             variant="transparent-light"
             onClick = {(e) => {
               if (!document.querySelector(".loading-ext#report")) {
-                reportMenu(data.id, "comments", e.target);
+                reportMenu(data.id, "comment", e.target);
               }
             }}
           /> 

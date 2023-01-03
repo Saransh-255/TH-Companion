@@ -1,103 +1,13 @@
 /* eslint-disable max-len */
-//import getId from "@lib/getId";
-//import observeMutation from "@lib/observeMutation";
+import getId from "@lib/getId";
+import observeMutation from "@lib/observeMutation";
 import runForElem from "@lib/runForElem";
-//import BrainlyAPI from "@api/brainly/BrainlyAPI";
-import { buttonElem } from "@components";
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
-import { link } from "@components";
+import BrainlyAPI from "@api/brainly/BrainlyAPI";
+import { buttonElem, link } from "components/elements";
 import feedItem from "./feedItem";
-// import reportMenu from "@modals/Report/report";
-import Preview from "@modals/Preview/Preview";
 import reportMenu from "@modals/Report/report";
-
-// observeMutation({
-//   targetSelector: "#main-content",
-//   hookInterval: 10,
-//   itemFn: async () => {
-//     const items = document.querySelectorAll(".brn-feed-items > div[data-testid = 'feed-item']");
-  
-//     for await (let item of Array.from(items)) {
-//       if ((<HTMLElement>item).dataset.modified) continue;
-//       (<HTMLElement>item).dataset.modified = "true";
-    
-//       let anchor: HTMLAnchorElement = item.querySelector("a[data-test=feed-item-link]");
-//       let questionId = +getId(anchor.href, "question");
-  
-//       let question = await BrainlyAPI.GetQuestion(questionId);
-  
-//       item.querySelector(".brn-feed-item__points .brn-points-on-feed")
-//         .insertAdjacentElement("afterbegin", buttonElem({
-//           size: "m",
-//           iconOnly: true,
-//           icon: {
-//             size: "24",
-//             type: "report_flag_outlined",
-//             color: "gray-50"
-//           },
-//           type: "transparent",
-//           classes: ["report-flag"],
-//           clickEvent: () => {
-//             reportMenu(questionId, "task");
-//           } 
-//         }));
-//       if (question.data.task.settings.is_marked_abuse) {
-//         item.classList.add("reported");
-//         item.querySelector(".report-flag").classList.add("sg-button--disabled");
-//         item.querySelector(".report-flag use").setAttribute("xlink:href", "#icon-report_flag");
-//       }
-  
-//       let actionMenu = document.createElement("div");
-//       actionMenu.classList.add("action-menu");
-      
-//       if (item?.querySelector("a.sg-button")) {
-//         item.querySelector("a.sg-button").remove();
-// eslint-disable-next-line max-len
-//         item.querySelector(".brn-feed-item__footer div").insertAdjacentElement("beforeend", actionMenu);
-  
-//         actionMenu.insertAdjacentElement("afterbegin", buttonElem({
-//           type: "solid",
-//           icon: {
-//             type: "answer",
-//             size: "24",
-//             color: "white"
-//           },
-//           iconOnly: true,
-//           href: `/question/${questionId}?answering=true`,
-//           size: "m"
-//         }));
-  
-//         actionMenu.insertAdjacentElement("afterbegin", buttonElem({
-//           type: "solid-indigo",
-//           icon: {
-//             type: "seen",
-//             size: "24",
-//             color: "adaptive"
-//           },
-//           iconOnly: true,
-//           size: "m",
-//           clickEvent: () => {
-//             Preview(questionId + "");
-//           },
-//           attributes:[{
-//             item: "style",
-//             value: `
-//               margin-right:4px;
-//               background: #bdc7fb;
-//             `
-//           }]
-//         }));
-//       }
-//     }
-//   },
-//   settings: {
-//     attributes: true,
-//     childList: true,
-//     characterData: true,
-//     subtree: true
-//   }
-// });
-
+import Preview from "@modals/Preview/Preview";
+import showTicket from "@modals/Ticket/Ticket";
 
 //Dashboard Link
 runForElem("div[data-testid = 'navigation_header_subnav'] > div > div > div", 
@@ -136,6 +46,109 @@ runForElem("meta[name='user_data']", async (elem) => {
         forYouQs.push(item); linkIds.push(item.question.id);
     });
   });
+
+  observeMutation({
+    targetSelector: ".js-feed-stream",
+    hookInterval: 0,
+    itemFn: async () => {
+      const items = document.querySelectorAll(".brn-feed-items > div[data-testid = 'feed-item']");
+    
+      for await (let item of Array.from(items)) {
+        if ((<HTMLElement>item).dataset.modified) continue;
+        (<HTMLElement>item).dataset.modified = "true";
+      
+        let anchor: HTMLAnchorElement = item.querySelector("a[data-test=feed-item-link]");
+        let questionId = +getId(anchor.href, "question");
+    
+        item.querySelector(".brn-feed-item__points > div > div")
+          .insertAdjacentElement("afterbegin", buttonElem({
+            size: "m",
+            iconOnly: true,
+            icon: {
+              size: "24",
+              type: "report_flag_outlined",
+              color: "gray-50"
+            },
+            type: "transparent",
+            classes: ["report-flag"],
+            clickEvent: (e) => {
+              reportMenu(questionId, "task", e.target);
+            } 
+          }));
+    
+        let actionMenu = document.createElement("div");
+        actionMenu.classList.add("action-menu");
+        item.querySelector(".brn-feed-item__footer div").insertAdjacentElement("beforeend", actionMenu);
+        
+        if (item.querySelector("a.sg-button")) {
+          item.querySelector("a.sg-button").remove();
+    
+          actionMenu.insertAdjacentElement("afterbegin", buttonElem({
+            type: "solid",
+            icon: {
+              type: "answer",
+              size: "24",
+              color: "white"
+            },
+            iconOnly: true,
+            href: `/question/${questionId}?answering=true`,
+            size: "m"
+          }));
+        }
+        actionMenu.insertAdjacentElement("afterbegin", buttonElem({
+          type: "solid-indigo",
+          icon: {
+            type: userData.isModerator ? "shield" : "seen",
+            size: "24",
+            color: "adaptive"
+          },
+          iconOnly: true,
+          size: "m",
+          clickEvent: () => {
+            userData.isModerator ? (
+              showTicket(questionId + "")
+            ) : (
+              Preview(
+                questionId + "", 
+                async () => {
+                  for await (let item of Array.from(items)) {
+                    let anchor: HTMLAnchorElement = item.querySelector("a[data-test=feed-item-link]"); 
+                    let question = await BrainlyAPI.GetQuestion(+getId(anchor.href, "question")); 
+                    if (question.data.task.settings.is_marked_abuse) {
+                      item.classList.add("reported"); 
+                      item.querySelector(".report-flag").classList.add("sg-button--disabled"); 
+                      item.querySelector(".report-flag use").setAttribute("xlink:href", "#icon-report_flag"); 
+                    } 
+                  }
+                }
+              )
+            );
+          },
+          attributes:[{
+            item: "style",
+            value: `
+              margin-right:4px;
+              background: #bdc7fb;
+            `
+          }]
+        }));
+  
+        let question = await BrainlyAPI.GetQuestion(questionId);
+        if (question.data.task.settings.is_marked_abuse) {
+          item.classList.add("reported");
+          item.querySelector(".report-flag").classList.add("sg-button--disabled");
+          item.querySelector(".report-flag use").setAttribute("xlink:href", "#icon-report_flag");
+        }
+      }
+    },
+    settings: {
+      attributes: true,
+      childList: true,
+      characterData: true,
+      subtree: true
+    }
+  });
+  
 });
 
 runForElem(".brn-white-background-feed-wrapper > div.sg-flex--row", 

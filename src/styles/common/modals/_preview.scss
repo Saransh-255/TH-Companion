@@ -1,7 +1,7 @@
 @use "./app";
 #modal.preview{
   z-index: 998;
-  .sg-box{
+  .item{
     gap:0.5rem;
     .sg-media{
       min-height: 2.75rem;
@@ -16,17 +16,41 @@
         justify-content: center;
         background: #ebf2f7;
         border-radius:10px;
+        position:relative;
         img{
           max-height: 200px;
           max-width:90%;
           border-radius:10px;
         }
+        .newtab-tool{
+          position: absolute;
+          right: 8px;
+          bottom: 8px;
+          
+        }
+      }
+      .thumbnails{
+        gap: 4px;
+        margin-top: 8px;
+        .attachment-thumb{
+          cursor: pointer;
+          height:64px;
+          width:64px;
+          border: 2px solid #e1eaf1;
+          padding: 6px;
+          border-radius:5px;
+          &.selected-thumb{
+            border-color: #4fb3f6;
+          }
+          >img{
+            height:100%;
+            width:100%;
+            border-radius:5px;
+          }
+        }
       }
     }
     .preview-comments{
-      border-top: 1px solid #c3d1dd;
-      margin-top:4px;
-      padding: 12px 0px;
       gap: 0.75rem;
     }
   }

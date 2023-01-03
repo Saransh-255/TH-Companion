@@ -39,7 +39,7 @@ export default (data: {
     item:string, 
     value:string
   }[]
-  clickEvent?: () => void,
+  clickEvent?: (e?) => void,
 }) => {
   let button : HTMLElement;
 

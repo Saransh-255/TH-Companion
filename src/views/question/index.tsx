@@ -1,5 +1,5 @@
 import observeMutation from "@lib/observeMutation";
-import { buttonElem } from "@components";
+import { buttonElem } from "components/elements";
 import createModal from "@lib/createModal";
 import { TextBit } from "brainly-style-guide";
 import Profanity from "@config/profanity";
@@ -31,15 +31,17 @@ observeMutation({
         size: "m",
         iconOnly: true,
         clickEvent: () => {
-          createModal( 
-            <>
+          createModal({
+            element: <>
               <TextBit size="small">graphing calculator</TextBit>
               <iframe 
                 id="calculator" 
                 src="https://www.geogebra.org/classic" 
               />
-            </>, "graph", "90vw"
-          );
+            </>,
+            className: "graph",
+            minWidth: "90vw"
+          });
         }
       }));
 
@@ -109,6 +111,7 @@ observeMutation({
           }
           Profanity.forEach(regProf => {
             if (regProf.test(line.innerHTML)) {
+              console.log(regProf);
               return line.querySelector("span[data-slate-node = 'text']").classList.add("highlight");
             }
           });

@@ -7,16 +7,16 @@ import showLoading from "@lib/showLoading";
 
 export default async function reportMenu(
   id:number,
-  type: "task" | "response" | "comments",
+  type: "task" | "response" | "comment",
   target
 ) {
   if (document.querySelector(".loading-ext#report")) return;
   let reasons;
   await showLoading("Fetching Report Reasons", "report", async () => {
     reasons = await BrainlyAPI.ReportReasons(id, type);
-  });
-  createModal(
-    <>
+  }, document.querySelector("#modal .sg-box"));
+  createModal({
+    element: (<>
       <Headline
         color="text-black"
         size="medium"
@@ -26,5 +26,9 @@ export default async function reportMenu(
       </Headline>
 
       <ReportReasons target={target} reasons={reasons} id={id} type={type} key={id}/>
-    </>, "report", "500px");
+    </>
+    ),
+    className: "report",
+    minWidth: "500px"
+  });
 }
