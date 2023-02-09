@@ -1,4 +1,5 @@
 import { IconType } from "brainly-style-guide";
+import clsx from "clsx";
 
 export type iconTypes = {
   size: "16" | "24" | "32" | "40" | "56" | "80" | "104",
@@ -13,13 +14,17 @@ export type iconTypes = {
   | "yellow-50" 
   | "gray-50" 
   | "gray-40" 
-  | "gray-70"
+  | "gray-70",
+  classNames?: string,
 }
 
 export default (data:iconTypes):HTMLElement => {
   let icon = document.createElement("div");
 
-  icon.classList.add("sg-icon", `sg-icon--icon-${data.color}`, `sg-icon--x${data.size}`);
+  icon.classList.add(...clsx({
+    [`sg-icon sg-icon--icon-${data.color} sg-icon--x${data.size}`]: true,
+    [data.classNames] : data.classNames
+  }).split(" "));
 
   icon.innerHTML = /*html*/`
   <svg class="sg-icon__svg">

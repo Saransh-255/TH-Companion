@@ -2,7 +2,7 @@
     "name": "TH-Companion",
     "description": "tools for brainly.",
     "manifest_version": 3,
-    "version":"1.0.44",
+    "version":"1.0.53",
     "host_permissions": [
       "*://brainly.com/*"
     ],
@@ -28,7 +28,13 @@
       {
         "matches": ["*://brainly.com/companion/answering"],
         "js": ["js/answerDash.js"],
-        "css": ["css/answering/index.css"],
+        "css": ["css/companion/answering/index.css"],
+        "run_at": "document_start"
+      },
+      {
+        "matches": ["*://brainly.com/companion/moderator/*"],
+        "js": ["js/viewMod.js"],
+        "css": ["css/companion/viewMod/index.css"],
         "run_at": "document_start"
       }
     ]

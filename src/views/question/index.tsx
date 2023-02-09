@@ -1,5 +1,5 @@
 import observeMutation from "@lib/observeMutation";
-import { buttonElem } from "components/elements";
+import { buttonElem } from "@components";
 import createModal from "@lib/createModal";
 import { TextBit } from "brainly-style-guide";
 import Profanity from "@config/profanity";
@@ -109,12 +109,9 @@ observeMutation({
               aStr += query.get("f");
             });
           }
-          Profanity.forEach(regProf => {
-            if (regProf.test(line.innerHTML)) {
-              console.log(regProf);
-              return line.querySelector("span[data-slate-node = 'text']").classList.add("highlight");
-            }
-          });
+          if (Profanity.test(line.innerHTML)) {
+            return line.querySelector("span[data-slate-node = 'text']").classList.add("highlight");
+          }
         });
 
         let count = document.querySelector(".remaining-count") as HTMLElement;

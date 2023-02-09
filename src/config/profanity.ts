@@ -1200,7 +1200,6 @@ let profList = [
   "penes",
   "a\\*s",
   "ni-gga",
-  "guidelines",
   "panty",
   "panties",
   "smexy",
@@ -1387,6 +1386,4 @@ let profList = [
   "Anyone need a friend"
 ];
 
-export default profList.map(item => {
-  return new RegExp(item);
-});
+export default RegExp(profList.join("|"));

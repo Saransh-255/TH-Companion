@@ -14,9 +14,10 @@
     "paths": {
       "@lib/*": ["lib/*"],
       "@api/*": ["lib/api/*"],
+      "@brainly/*": ["lib/api/brainly/*"],
       "@typings/*": ["typings/*"],
+      "@reactComponents": ["components/react/index.ts"],
       "@components": ["components/elements/index.ts"],
-      "@reactComponents/*": ["components/react/index.ts*"],
       "@utils/*": ["utils/*"],
       "@modals/*": ["modals/*"],
       "@config/*": ["config/*"],

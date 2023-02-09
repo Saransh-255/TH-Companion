@@ -82,7 +82,7 @@ function NotifItem({ arr }) {
         return (
           <Box border color="transparent" padding="s" key = {item[0].id} >
             <Flex alignItems="center">
-              <Flex justifyContent="space-between" style={{ width:"100%" }} >
+              <Flex alignItems="center" justifyContent="space-between" style={{ width:"100%" }} >
                 <Flex style = {{ gap:"1rem" }}>
                   <Headline>{ item.length }</Headline> 
                   <Flex wrap = {true} direction = "column" >
@@ -97,7 +97,11 @@ function NotifItem({ arr }) {
                     <Text size="small" color="text-gray-70" style = {{ lineHeight: "1rem" }}>
                       {
                         formatDistance(
-                          new Date(item[0].created), 
+                          new Date(
+                            formatInTimeZone(
+                              new Date(item.at(-1).created), "America/New_York", "yyyy-MM-dd HH:mm:ss"
+                            )
+                          ), 
                           now,
                           {
                             includeSeconds: true, 
@@ -117,7 +121,7 @@ function NotifItem({ arr }) {
                   iconOnly
                   onClick={
                     () => {
-                      if (!document.querySelector(".loading-ext#prev")) showPreview(item[0].model_id);
+                      showPreview(item[0].model_id);
                     }
                   }
                 />

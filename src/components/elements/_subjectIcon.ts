@@ -1,4 +1,5 @@
 import { SubjectIconType } from "brainly-style-guide";
+import clsx from "clsx";
 
 export type iconTypes = {
   size: "small" | "medium" | "normal",
@@ -17,14 +18,13 @@ export type iconTypes = {
 }
 
 export default (data:iconTypes):HTMLElement => {
-  let icon = document.createElement("div");
+  let icon = document.createElement("svg");
 
-
-  icon.innerHTML = /*html*/`
-  <svg 
-    class="sg-subject-icon sg-subject-icon--icon-${data.color} sg-subject-icon--${data.size}">
-    <use xlink:href="#icon-subject-${data.type}"></use>
-  </svg>`;
+  icon.classList.add(...clsx({
+    [`sg-subject-icon sg-subject-icon--icon-${data.color} sg-subject-icon--${data.size}`] : true
+  }).split(" "));
+  
+  icon.innerHTML = /*html*/`<use xlink:href="#icon-subject-${data.type}"></use>`;
     
   return icon;
 };

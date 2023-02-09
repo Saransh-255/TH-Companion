@@ -8,6 +8,7 @@ import feedItem from "./feedItem";
 import reportMenu from "@modals/Report/report";
 import Preview from "@modals/Preview/Preview";
 import showTicket from "@modals/Ticket/Ticket";
+import { shuffle } from "@lib/arrOps";
 
 //Dashboard Link
 runForElem("div[data-testid = 'navigation_header_subnav'] > div > div > div", 
@@ -42,10 +43,13 @@ runForElem("meta[name='user_data']", async (elem) => {
         item.question.canBeAnswered && 
         (!item.question.answers.nodes.find(({ id }) => id === userData.id)) &&
         !linkIds.includes(item.question.id)
-      ) 
-        forYouQs.push(item); linkIds.push(item.question.id);
+      ) {
+        forYouQs.push(item); 
+        linkIds.push(item.question.id);
+      }
     });
   });
+  shuffle(forYouQs);
 
   observeMutation({
     targetSelector: ".js-feed-stream",

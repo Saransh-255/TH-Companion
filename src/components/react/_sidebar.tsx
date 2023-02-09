@@ -1,7 +1,7 @@
 import { Flex, Logo } from "brainly-style-guide";
 import React from "react";
 
-export default function Sidebar() {
+export default function () {
   return (
     <Flex 
       className = "sidebar"

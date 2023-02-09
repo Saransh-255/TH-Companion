@@ -2,16 +2,16 @@
 
 .scroll-container{
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 3px;
   }
   &::-webkit-scrollbar-track {
     background: white; 
   }
   &::-webkit-scrollbar-thumb {
-    background: #c3d1dd; 
+    background: #ebf2f7; 
     border-radius:5px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: #c3d1dd; 
+    background: #ebf2f7; 
   }
 }

@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 import { ptsLabel, avatar, buttonElem, subjectIcon, icon } from "components/elements";
 
-export default function feedItem(data) {
-  let qid = atob(data.question.id).split(":")[1];
+export default function feedItem({ question }) {
+  let qid = atob(question.id).split(":")[1];
   let box = /*html*/`
     <div class="fyp-feed-item sg-box sg-box--transparent sg-box--no-shadow sg-box--border-radius sg-box--padding-m">
 
@@ -11,7 +11,7 @@ export default function feedItem(data) {
           href = "https://brainly.com/question/${qid}"
         >
           <div class = "sg-text sg-text--medium sg-text--break-words fyp-content">
-            ${data.question.content.trim().replaceAll("<br />\n", " ")}
+            ${question.content.trim().replaceAll("<br />\n", " ")}
           </div>
         </a>
         <div class="sg-flex report-pts">
@@ -30,30 +30,31 @@ export default function feedItem(data) {
             }).outerHTML
           }
           ${
-            ptsLabel("+" + data.question.pointsForAnswer)
+            ptsLabel("+" + question.pointsForAnswer)
           }
         </div>
       </div>
 
-      <div class="sg-flex info">
-        <div class="sg-flex user" style = "gap: 4px;">
+      <div class="sg-flex info" style="position:relative">
+        <div class="sg-flex user" style = "gap: 4px; height:32px;">
           ${avatar({ 
-            id: atob(data.question.author.id).split(":")[1] + "", 
-            avatarURL: data.question.author.avatar?.thumbnailUrl + "" 
+            id: atob(question.author.id).split(":")[1] + "", 
+            avatarURL: question.author.avatar?.thumbnailUrl
           })}
-          <div class = "sg-text sg-text--text-gray-60 sg-text--medium sg-text--bold">
+          <div class = "sg-flex">
             ${
               subjectIcon({
                 size: "medium",
-                type: data.question.subject.icon,
+                type: question.subject.icon,
                 color: "adaptive"
               }).outerHTML
             }
             ${
-              data.question.attachments.length ? icon({
-                size: "16",
+              question.attachments.length ? icon({
+                size: "24",
                 type: "attachment",
-                color: "gray-70"
+                color: "gray-50",
+                classNames: "centerElem"
               }).outerHTML : ""
             }
           </div>

@@ -1,6 +1,4 @@
-@use "./sidebar";
-@use "./content";
-@use "./progress";
+//setting the page
 html{
   overflow: hidden;
 }
@@ -16,5 +14,20 @@ html{
     width: -webkit-fill-available;
     background: white;
     z-index: 999;
+  }
+}
+
+
+//sidebar
+.sidebar{
+  width:72px;
+  border-right: 2px solid #ebf2f7;
+  padding: 16px 12px;
+  height: 100vh;
+  z-index: 100;
+  .sg-logo{
+    height:32px;
+    width:32px;
+    display:inline-block;
   }
 }

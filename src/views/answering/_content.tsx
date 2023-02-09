@@ -63,6 +63,10 @@ export default function Content() {
     {
       name: "Synthetic Division",
       link: "https://www.emathhelp.net/calculators/algebra-1/synthetic-division-calculator/"
+    },
+    {
+      name: "Vector Calculator",
+      link: "https://www.mathsisfun.com/algebra/vector-calculator.html"
     }
   ];
 

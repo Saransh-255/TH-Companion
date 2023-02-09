@@ -1,7 +1,7 @@
 import createPage from "@lib/createPage";
 import { Flex } from "brainly-style-guide";
 import React from "react";
-import Sidebar from "./_sidebar";
+import Sidebar from "../../components/react/_sidebar";
 import Content from "./_content";
 
 function AnsweringDashboard() {

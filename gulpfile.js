@@ -4,7 +4,7 @@ const sass = require("gulp-sass")(require("sass"));
 const zip = require("gulp-zip");
 
 gulp.task("sass", (done) => {
-  gulp.src("./src/styles/*/index.scss")
+  gulp.src("./src/styles/**/index.scss")
     .pipe(sass().on("error", sass.logError))
     .pipe(gulp.dest("./dist/css"));
   done();
