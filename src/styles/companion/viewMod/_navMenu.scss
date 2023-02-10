@@ -1,0 +1,17 @@
+.nav-menu{
+  background: black;
+  position: fixed;
+  border-radius: 10px;
+  bottom: 12px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+  gap: 4px;
+  z-index:900;
+
+  .sg-text{
+    color:white;
+    font-weight:600;
+  }
+}
