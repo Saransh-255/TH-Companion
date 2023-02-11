@@ -13,6 +13,10 @@ export default function shortDelRsn(reason) {
       keys: ["violates Brainly's Terms of Use"]
     },
     {
+      short: "Correction",
+      keys: ["requested", "opened for edit"]
+    },
+    {
       short: "Incorrect",
       keys: ["mistakes"]
     },
@@ -38,7 +42,8 @@ export default function shortDelRsn(reason) {
     },
     {
       short: "Nonsense",
-      keys: ["gibberish-like", "unclear or does not answer the question being asked."]
+      keys: ["gibberish-like", "unclear or does not answer the question being asked.", 
+        "missing some crucial info,"]
     },
     {
       short: "Off-topic",
@@ -68,6 +73,10 @@ export default function shortDelRsn(reason) {
     {
       short: "Too Trivial",
       keys: ["a bit too simple"]
+    },
+    {
+      short: "Multiple Posting",
+      keys: ["already been asked on Brainly."]
     },
     {
       short: "Wrong Subject",

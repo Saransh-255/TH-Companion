@@ -9,6 +9,8 @@ export async function getActions(id: string | number, endDate?: Date) {
     100, //not actual page count since it's not in the HTML but 100 pages is 3 million actions
     (i) => `https://brainly.com/moderation_new/view_moderator/${id}/page:${i}?limit=30000`,
     (doc) => {
+      if (!doc.querySelector(".tasksPagination")) dateArg = false;
+
       Array.from(doc.querySelectorAll("tr")).forEach((item) => {
         let data = (item.querySelector("tr td:nth-child(2)") as HTMLElement)
           .innerText.trim().split("\n");

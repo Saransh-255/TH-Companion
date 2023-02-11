@@ -16,7 +16,9 @@ export default function Content(
 
   return (
     <>
-      <NavMenu page={page} setPage={setPage} length={actions.length} />
+      {
+        actions.length > 1 ? <NavMenu page={page} setPage={setPage} length={actions.length} /> : ""
+      }
       <Flex
         wrap
         direction="row"
@@ -24,7 +26,9 @@ export default function Content(
           gap: "8px",
           padding: "12px",
           overflow: "auto",
-          flex: "1"
+          flex: "1",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(375px, 1fr))"
         }}
         className="scroll-container"
       >
