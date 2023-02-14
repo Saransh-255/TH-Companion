@@ -1,0 +1,9 @@
+.action-item{
+  &:hover{
+    border-color:#e1eaf1!important;
+
+    .action-content{
+      text-decoration: underline;
+    }
+  }
+}

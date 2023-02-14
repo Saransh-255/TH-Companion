@@ -6,7 +6,9 @@ import type {
   PreviewData,
   UserInfo,
   ContentList,
-  Notifications
+  Notifications,
+  GetQuestionLogResponse,
+  TicketData
 } from "@typings/brainly";
 
 export default new class BrainlyAPI {
@@ -120,7 +122,12 @@ export default new class BrainlyAPI {
     }).then(data => data.json());
     return res.success ? res : null;
   }
-
+  async Approve(id:string) {
+    await this.Legacy(`POST`, "api_content_quality/confirm", {
+      "model_type": 2,
+      "model_id": id
+    });
+  }
   async UploadImage() {
     let img = new Blob([], { type: "image/png" });
 
@@ -179,7 +186,7 @@ export default new class BrainlyAPI {
       }`, { "id":btoa(`user:${id}`) }
     );
   }
-  async OpenTicket(id:string | number) { 
+  async OpenTicket(id:string | number):Promise<TicketData> { 
     return await this.Legacy("POST", "moderation_new/get_content", ({ 
       "model_type_id":1, 
       "model_id":id, 
@@ -216,5 +223,8 @@ export default new class BrainlyAPI {
       ...(data.type === "task" ? { "return_points": data.return_point } : {}) 
     }
     ));
+  }
+  async GetLog(id:string | number):Promise<GetQuestionLogResponse> {
+    return await this.Legacy("GET", `/api_task_lines/big/${id}`);
   }
 };

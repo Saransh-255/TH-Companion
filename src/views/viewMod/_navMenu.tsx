@@ -33,9 +33,7 @@ function NavBut(
       iconOnly
       aria-label="arrow"
       onClick={
-        () => {
-          setPage(pos === "left" ? page - 1 : page + 1);
-        }
+        () => setPage(pos === "left" ? (page - 1) : (page + 1))
       }
     />
   );

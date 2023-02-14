@@ -11,9 +11,8 @@ import { userActions } from "@typings/scraped";
 import { isSaturday, startOfDay, previousSaturday } from "date-fns";
 import { makeChunks } from "@lib/arrOps";
 
-let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
-
 function ModActions() {
+  let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
   const [actions, setActions] = React.useState<userActions[]>();
   
   React.useEffect(() => {
@@ -28,7 +27,6 @@ function ModActions() {
       direction="row"
       fullHeight
       fullWidth
-      htmlTag="div"
     >
       <Sidebar />
       {

@@ -11,7 +11,6 @@ function AnsweringDashboard() {
       direction="row"
       fullHeight
       fullWidth
-      htmlTag="div"
     >
       <Sidebar />
 

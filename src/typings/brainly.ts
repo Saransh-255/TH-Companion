@@ -179,6 +179,17 @@ export interface UserInfo {
     };
   }
 }
+type DeleteReasons = {
+  abuse_category_id: number,
+  id: number,
+  subcategories?:{
+    id: number,
+    text: string,
+    title: string,
+    data?: string
+  }[],
+  text: string
+}[]
 // interface Rank {
 //   best_responses: number;
 //   color: string;
@@ -224,6 +235,16 @@ export interface Task {
   responses: number;
   source: string;
   tickets: number;
+  report?:{
+    created:string,
+    abuse:{
+      category_id: number,
+      subcategory_id: number,
+      name: string,
+      data: string
+    },
+    user:User
+  },
   user_category: number;
   user_id: number;
   the_best_resp_id?: number;
@@ -266,6 +287,15 @@ export interface Response {
   };
   attachments: Attachment[];
   best: boolean;
+  report?:{
+    created:string,
+    abuse:{
+      category_id: number,
+      subcategory_id: number,
+      name: string,
+      data: string
+    }
+  },
   client_type: string;
   comments: CommentsData;
   content: string;
@@ -435,7 +465,17 @@ export type GetMessagesResponse = CommonResponse<{
       new: boolean;
     }[];
   }>;
-  
+export type TicketData = CommonResponse<{
+  delete_reasons: [
+    comment: DeleteReasons,
+    response: DeleteReasons,
+    task: DeleteReasons
+  ],
+  responses:Response[],
+  task:Task,
+  user: User,
+  user_id: number
+}>
 export type GetQuestionResponse = CommonResponse<{
     task: Task;
     responses: Response[];

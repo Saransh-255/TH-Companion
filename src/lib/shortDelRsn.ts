@@ -1,6 +1,10 @@
 export default function shortDelRsn(reason) {
   const MATCHES = [
     {
+      short: "Plagiarism",
+      keys: ["plagiarism"]
+    },
+    {
       short: "External Link",
       keys: ["link to a website other than Brainly"]
     },
@@ -18,7 +22,7 @@ export default function shortDelRsn(reason) {
     },
     {
       short: "Incorrect",
-      keys: ["mistakes"]
+      keys: ["mistakes", "made a mistake somewhere"]
     },
     {
       short: "Personal Information",
@@ -31,6 +35,10 @@ export default function shortDelRsn(reason) {
     {
       short: "Cheating",
       keys: ["online calculators or translation software"]
+    },
+    {
+      short: "Expired Correction",
+      keys: ["Time to correct this answer has expired"]
     },
     {
       short: "Plagiarism",
@@ -51,7 +59,8 @@ export default function shortDelRsn(reason) {
     },
     {
       short: "Low Effort",
-      keys: ["hard to comprehend", "missing some important steps.", "it was incomplete"]
+      keys: ["hard to comprehend", "missing some important steps.", "it was incomplete", 
+        "include any necessary explanations and details."]
     },
     {
       short: "Wrong Context",
@@ -64,6 +73,10 @@ export default function shortDelRsn(reason) {
     {
       short: "Inappropriate",
       keys: ["zero-tolerance policy for inappropriate subjects"]
+    },
+    {
+      short: "Too Complex",
+      keys: ["too many rolled into one."]
     },
     {
       short: "Question about question",
@@ -96,7 +109,8 @@ export default function shortDelRsn(reason) {
     },
     {
       short: "Default",
-      keys: ["Guidelines, so we had to take it down."]
+      keys: ["Guidelines, so we had to take it down.", "Please check our Community Guidelines:",
+        "Please check out Honor Code:"]
     },
     {
       short: "Brainly-related",

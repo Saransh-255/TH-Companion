@@ -15,7 +15,7 @@ export default function Head({ subject, grade, id, data }) {
         extraBold
         size="large"
       >
-            Moderation Ticket 
+        Question Preview 
         <Link
           as="a"
           hideNewTabIndicator
@@ -23,15 +23,16 @@ export default function Head({ subject, grade, id, data }) {
           size="large"
           target="_blank"
           weight="bold"
+          color={data.settings.is_deleted ? "text-red-40" : "text-blue-60"}
         >
-            #{id}
+        #{id}
         </Link>
       </Headline>
       <Breadcrumb
         elements = {[
-          subject,
-          grade,
-          data.points.ptsForTask + " pts"
+          `${subject}`,
+          `${grade}`,
+          `${data.points.ptsForTask + " pts"}`
         ]}
       />
     </Flex>

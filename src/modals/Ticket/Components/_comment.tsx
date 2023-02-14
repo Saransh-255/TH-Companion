@@ -18,7 +18,7 @@ export default function CommentItem({ data, ticket, users, delArr, changeArr }) 
       >
         <Flex direction="column">
 
-          <Flex style={{ gap:"8px" }}>
+          <Flex className="comment-container" style={{ gap:"8px" }}>
             <Checkbox 
               className={(data.deleted || comDeleted) ? "sg-checkbox--disabled" : ""}
               id={"checkbox" + data.id}
@@ -45,14 +45,19 @@ export default function CommentItem({ data, ticket, users, delArr, changeArr }) 
               target="_blank"
               size="s"
             />
-            <Flex direction="column" >
+            <Flex direction="column" style={{ flex: "1" }} >
               <Text size="medium" weight="bold">{user.nick}</Text>
-              <Text style={{ flex: "1" }} size="small" dangerouslySetInnerHTML={{ __html: data.content }} />
+              <Text
+                style={{ flex: "1" }} 
+                size="small" 
+                dangerouslySetInnerHTML={{ __html: data.content }} 
+                breakWords
+              />
             </Flex>
           </Flex>
         </Flex>
         {
-          comDeleted ? (
+          !comDeleted ? (
             <Button
               className="show-delmenu"
               id={"delcmt" + data.id}
@@ -74,7 +79,9 @@ export default function CommentItem({ data, ticket, users, delArr, changeArr }) 
             type={"comment"} 
             successFn= {
               () => {
-                setRemoved(true);setDeleted(true);setComDel(false);
+                setRemoved(true);
+                setDeleted(true);
+                setComDel(false);
               }
             }
           />

@@ -9,7 +9,7 @@ import {
   subDays,
   sub
 } from "date-fns";
-import filterByTime from "@lib/filterTime";
+import { filterByTime } from "@lib/timeFns";
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,

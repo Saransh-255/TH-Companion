@@ -3,6 +3,7 @@ import { userActions } from "@typings/scraped";
 import { Flex, Box, Link, Icon, Label, Text } from "brainly-style-guide";
 import NavMenu from "./_navMenu";
 import React from "react";
+import showPreview from "@modals/Preview/Preview";
 
 export default function Content(
   { actions } : { actions: userActions[] }
@@ -38,6 +39,7 @@ export default function Content(
               border
               key={index}
               style={{ flex: "1", minWidth: "375px", height: "250px" }}
+              className={"action-item"}
             >
               <Flex direction="column" style={{ gap: "8px", height: "100%" }}>
                 <Flex justifyContent="space-between">
@@ -71,7 +73,16 @@ export default function Content(
                   </Label>
                 </Flex>
 
-                <Text className="scroll-container" style={{ overflow: "auto", overflowX: "hidden" }}>
+                <Text 
+                  className="scroll-container action-content" 
+                  breakWords
+                  style={{ overflow: "auto", overflowX: "hidden", cursor: "pointer" }}
+                  onClick={
+                    () => {
+                      showPreview(action.id + "");
+                    }
+                  }
+                >
                   {action.content}
                 </Text>
               </Flex>

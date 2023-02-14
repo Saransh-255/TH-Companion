@@ -4,10 +4,13 @@ import createModal from "@lib/createModal";
 import { TextBit } from "brainly-style-guide";
 import Profanity from "@config/profanity";
 import Chart from "chart.js/auto";
+import runForElem from "@lib/runForElem";
+import showTicket from "@modals/Ticket/Ticket";
+import getId from "@lib/getId";
 
 //answering box observer
 observeMutation({
-  targetSelector: "div[data-testid = 'question_box_actions']",
+  target: "div[data-testid = 'question_box_actions']",
   hookInterval: 100,
   settings: {
     attributes: false,
@@ -82,7 +85,7 @@ observeMutation({
     });
 
     observeMutation({
-      targetSelector: "#slate-editable",
+      target: "#slate-editable",
       hookInterval: 0,
       settings: {
         attributes: false,
@@ -128,4 +131,28 @@ observeMutation({
       }
     });
   } 
+});
+
+runForElem("meta[name='user_data']", async (elem) => {
+  let userData = JSON.parse(elem.getAttribute("content"));
+
+  if (!userData.isModerator) return;
+
+  runForElem("body", (elem) => {
+    elem.appendChild(buttonElem({
+      icon: {
+        type: "spark",
+        color: "white",
+        size: "24"
+      },
+      type: "solid",
+      text: "Moderate",
+      classes: ["moderate-new"],
+      size: "m",
+      iconOnly: false,
+      clickEvent: () => {
+        showTicket(getId(window.location.href, "question"));
+      }
+    }));
+  });
 });

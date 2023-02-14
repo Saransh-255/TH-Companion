@@ -3,11 +3,14 @@ import getId from "@lib/getId";
 import observeMutation from "@lib/observeMutation";
 import runForElem from "@lib/runForElem";
 import BrainlyAPI from "@api/brainly/BrainlyAPI";
+
 import { buttonElem, link } from "components/elements";
-import feedItem from "./feedItem";
+import feedItem from "./_feedItem";
+
 import reportMenu from "@modals/Report/report";
 import Preview from "@modals/Preview/Preview";
 import showTicket from "@modals/Ticket/Ticket";
+
 import { shuffle } from "@lib/arrOps";
 
 //Dashboard Link
@@ -36,7 +39,7 @@ runForElem("meta[name='user_data']", async (elem) => {
 
   let suggested = await BrainlyAPI.ForYou(userData.id);
 
-  const linkIds = [];
+  let linkIds = [];
   suggested.data.user.answers.edges.forEach(ans => {
     ans.node.question.similar.forEach(item => {
       if (
@@ -52,7 +55,7 @@ runForElem("meta[name='user_data']", async (elem) => {
   shuffle(forYouQs);
 
   observeMutation({
-    targetSelector: ".js-feed-stream",
+    target: ".js-feed-stream",
     hookInterval: 0,
     itemFn: async () => {
       const items = document.querySelectorAll(".brn-feed-items > div[data-testid = 'feed-item']");

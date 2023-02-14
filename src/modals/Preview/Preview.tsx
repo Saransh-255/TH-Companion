@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import react, { useEffect } from "react";
-import Head from "./Components/Head";
+import Head from "./Components/_head";
 import createModal from "@lib/createModal";
-import Item from "./Components/Item";
+import Item from "./Components/_item";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
 import showLoading from "@lib/showLoading";
 
@@ -37,7 +37,7 @@ export default async function showPreview(id:string, modalClose?: () => void) {
     </>
     ),
     className: "preview",
-    minWidth: "550px",
+    minWidth: "600px",
     maxWidth: "600px",
     closeFn: () => {
       if (modalClose) modalClose(); 

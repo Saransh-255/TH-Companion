@@ -6,6 +6,9 @@ module.exports = {
   entry: {
     homepage: path.join(__dirname, "src/views/homepage/index.ts"),
     question: path.join(__dirname, "src/views/question/index.tsx"),
+    search: path.join(__dirname, "src/views/search/index.ts"),
+
+    redirects: path.join(__dirname, "src/views/redirects.ts"),
 
     answerDash: ["core-js", path.join(__dirname, "src/views/answering/index.tsx")],
     viewMod: ["core-js", path.join(__dirname, "src/views/viewMod/index.tsx")]

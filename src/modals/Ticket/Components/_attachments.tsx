@@ -34,9 +34,7 @@ function SelectList({ attachments, changeAtt, selectedAtt }) {
             <div 
               className={`attachment-thumb ${selectedAtt === index ? "selected-thumb" : ""}`}
               onClick={
-                () => {
-                  changeAtt(index);
-                }
+                () => changeAtt(index)
               }
             >
               <img id = {index} src = {item.thumbnail} />

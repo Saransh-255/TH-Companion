@@ -7,20 +7,27 @@ import {
   Icon, 
   Box, 
   Flex,
-  SeparatorHorizontal 
+  SeparatorHorizontal,
+  Label
 } from "brainly-style-guide";
 import Attachments from "./_attachments";
 import reportMenu from "@modals/Report/report";
 import { format } from "date-fns";
 import DelMenu from "./_delMenu";
 import CommentItem from "./_comment";
+import { VerifiedHead } from "@reactComponents";
+import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
 
-export default function Item({ id, ticket, data, users, type, delArr, changeArr }) {
+export default function Item(
+  { id, ticket, data, users, type, delArr, changeArr, qData }
+) {
   const [commentVis, setVis] = React.useState(false);
   const [iconStr, setStr] = React.useState("comment_outlined");
   const [delVis, setDelVis] = React.useState(false);
+  const [verified, setVerified] = React.useState(!!qData.approved?.approver);
 
   const [deleted, setDeleted] = React.useState(false);
+  const [report, setReported] = React.useState(false);
   
   let user = userById(users, data.user_id);
   let userId = `https://brainly.com/profile/${user.nick}-${user.id}`;
@@ -30,13 +37,35 @@ export default function Item({ id, ticket, data, users, type, delArr, changeArr 
     <Box 
       border 
       className = {
-        `sg-flex sg-flex--column item id-${id}` + 
-        `${data.report ? "reported" : ""} ` + 
-        `${deleted ? "deleted" : ""}`
+        `sg-flex sg-flex--column item id-${id} ` + 
+        `${(reported || report) ? "reported" : ""} ` + 
+        `${deleted ? "deleted" : ""} ` + 
+        `${verified ? "approved" : ""}`
       }
       padding = "s"
-      style = {{ marginBottom: "8px" }}
+      style = {{ marginBottom: "8px", position: "relative" }}
     >
+      {
+        (verified) ? (
+          <VerifiedHead 
+            Approver={users.find(({ id }) => id === (qData.approved?.approver?.id))} />
+        ) : ""
+      }
+      {
+        (reported) ? (
+          <Label
+            color="red"
+            type="solid"
+            style={{
+              position:"absolute",
+              top: "12px",
+              right: "12px"
+            }}
+          >
+            {data.report.abuse.name}
+          </Label>
+        ) : ""
+      }
       <Media
         noPadding
         small
@@ -56,29 +85,22 @@ export default function Item({ id, ticket, data, users, type, delArr, changeArr 
           <Text
             size="xsmall"
             color="text-gray-50"
-            weight="bold"
           >
             {format(new Date(data.created), "dd/MM/yy HH:mm:ss")}
           </Text>
         ]}
       />
-      <Text className = "content" dangerouslySetInnerHTML={{ __html: data.content }}/>
+      <Text 
+        breakWords
+        className = "content" 
+        dangerouslySetInnerHTML={{ __html: data.content }}/>
       <Attachments attachments = {data.attachments} />
       <Flex
         direction = "row"
         justifyContent="flex-end"
         className="preview-actions"
         style={{ gap:"4px" }}
-      >
-        <Button
-          className="show-delmenu"
-          icon={<Icon color="icon-red-50" size={24} type="trash" > </Icon>}
-          iconOnly 
-          variant="transparent"
-          onClick={()=> {
-            setDelVis(!delVis); 
-          }}       
-        />    
+      >  
         {
           data.comments?.length ? (
             <Button
@@ -93,30 +115,64 @@ export default function Item({ id, ticket, data, users, type, delArr, changeArr 
             >{data.comments?.length}</Button>
           ) : ""
         }
-        <Button
-          className = "report-button"
-          icon={
-            reported ?  
-              <Icon color="icon-red-50" size={24} type="report_flag"/> :
-              <Icon color="adaptive" size={24} type="report_flag_outlined"/>
-          }
-          iconOnly
-          size="m"
-          disabled={reported}
-          variant="transparent-light"
-          onClick = {(e) => {
-            reportMenu(id, type, e.target);
-          }}
-        /> 
+        {
+          (!verified && !deleted) ? (
+            <>
+              <Button
+                className="show-delmenu"
+                icon={<Icon color="icon-red-50" size={24} type="trash" > </Icon>}
+                iconOnly 
+                variant="transparent"
+                onClick={()=> {
+                  setDelVis(!delVis); 
+                }}       
+              />  
+              {
+                type !== "task" ? (
+                  <Button
+                    className="verify-answer"
+                    icon={<Icon color="icon-green-50" size={24} type="verified" > </Icon>} 
+                    variant="transparent-light"
+                    style= {{ padding:"0px 16px" }}
+                    iconOnly
+                    onClick={()=> {
+                      setVerified(true);
+                      BrainlyAPI.Approve(data.id);
+                    }}       
+                  />
+                ) : ""
+              }
+              <Button
+                className = "report-button"
+                icon={
+                  reported ?  
+                    <Icon color="icon-red-50" size={24} type="report_flag"/> :
+                    <Icon color="adaptive" size={24} type="report_flag_outlined"/>
+                }
+                iconOnly
+                size="m"
+                disabled={reported}
+                variant="transparent-light"
+                onClick = {(e) => {
+                  reportMenu(
+                    id, 
+                    type, 
+                    e.target,
+                    () => {
+                      setReported(true);
+                    }
+                  );
+                }}
+              />
+            </>
+          ) : ""
+        }
         {
           (type === "task") && (
             <Button
               icon={<Icon color="adaptive" type="plus"/>}
               target="_blank"
               disabled={data.responses >= 2}
-              onClick={()=> {
-                document.querySelector("#modal.preview").remove();
-              }}
               type={"button"}
               variant="outline"
               href = {`https://brainly.com/question/${id}?answering=true`}
@@ -158,7 +214,9 @@ export default function Item({ id, ticket, data, users, type, delArr, changeArr 
                         changeArr={changeArr}
                         data={comment}
                         users={users}
-                        key={comment.id} />
+                        key={comment.id} 
+                      />
+
                       <SeparatorHorizontal />
                     </>
                   );

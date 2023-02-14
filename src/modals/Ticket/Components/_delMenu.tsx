@@ -27,16 +27,16 @@ export default function DelMenu({ reasons, id, type, successFn }) {
       direction="row"
       name={"categories" + id}
       value={cat}
-      onChange={({ target }) => {
-        setCat((target as HTMLInputElement).value);
-      } }
+      onChange={
+        ({ target }) => setCat((target as HTMLInputElement).value)
+      }
     >
       <Flex wrap>
         {
           reasons.map((reason) => {
             return (
-              <Radio labelSize="small" key={reason.id} value={reason.id}>
-                <Text weight="bold" style={{ width: "max-content" }} breakWords={false} size="small">
+              <Radio labelSize="small" key={reason.id} value={reason.id + ""}>
+                <Text weight="bold" style={{ width: "max-content" }} breakWords size="small">
                   {reason.text}
                 </Text>
               </Radio>
@@ -45,7 +45,9 @@ export default function DelMenu({ reasons, id, type, successFn }) {
         }
       </Flex>
     </RadioGroup>
+
     <SeparatorHorizontal />
+
     <RadioGroup 
       direction="row"
       name={"subcat" + id} 
@@ -62,7 +64,7 @@ export default function DelMenu({ reasons, id, type, successFn }) {
         {
           activeRsn?.subcategories.map((subCategory) => {
             return (
-              <Radio labelSize="small" key={subCategory.id} value={subCategory.id}>
+              <Radio labelSize="small" key={subCategory.id} value={subCategory.id + ""}>
                 <Text weight="bold" style={{ width: "max-content" }} breakWords={false} size="small">
                   {subCategory.title}
                 </Text>

@@ -1,5 +1,7 @@
 @use "./desmos";
 @use "./answerBox";
+@use "./modBtn";
+@use "../common/modals/ticket";
 .js-dialog{
   z-index: 998!important;
 }

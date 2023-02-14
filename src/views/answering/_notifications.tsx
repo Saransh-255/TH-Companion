@@ -10,13 +10,13 @@ import {
   Button, 
   Icon 
 } from "brainly-style-guide";
-import filterByTime from "@lib/filterTime";
+import { filterByTime, getNow } from "@lib/timeFns";
 import { startOfDay, startOfISOWeek, startOfMonth, sub } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { formatDistance } from "date-fns";
 import showPreview from "@modals/Preview/Preview";
 
-let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
+let now = getNow();
 
 export default function NotificationItem({ notif }) {
   notif = notif.data.items.filter(item => item.text.includes("commented"));

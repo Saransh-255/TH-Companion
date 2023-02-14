@@ -1,7 +1,7 @@
 export default function observeMutation(data: {
-    targetSelector: string,
+    target: string | Element,
     hookInterval: number,
-    itemFn: MutationCallback,
+    itemFn: () => void,
     settings: {
       attributes: boolean,
       childList: boolean,
@@ -11,15 +11,17 @@ export default function observeMutation(data: {
 }) {
   const observer = new MutationObserver(data.itemFn);
   function addFunctionOnTarget() {
-    let target = document.querySelector(data.targetSelector);
-    if (!target) return setTimeout(addFunctionOnTarget, data.hookInterval);
+    let targetElem = (typeof data.target === "string") ? 
+      document.querySelector(data.target) : data.target;
+    if (!targetElem) return setTimeout(addFunctionOnTarget, data.hookInterval);
     
-    observer.observe(target, { 
+    observer.observe(targetElem, { 
       attributes: data.settings.attributes, 
       childList: data.settings.childList, 
       subtree: data.settings.subtree, 
       characterData: data.settings.characterData 
     });
+    data.itemFn();
   }
 
   addFunctionOnTarget();

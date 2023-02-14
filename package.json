@@ -49,7 +49,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "brainly-style-guide": "^222.1.0",
+    "brainly-style-guide": "^223.0.0",
     "chart.js": "^3.9.1",
     "chartjs-react": "^3.6.0",
     "clsx": "^1.2.1",

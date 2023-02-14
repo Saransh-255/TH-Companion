@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { ReportData } from "@typings/brainly";
 import Subcategories from "./Subcategory";
 
-export default function ReportReasons(props: { reasons:ReportData, id, type, target }) {
+export default function ReportReasons(
+  { reasons, id, type, target, success } : 
+  { reasons: ReportData, id: number, type: "task" | "response" | "comment", 
+  target: HTMLElement, success:()=> void } 
+) {
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState(0);
   const [repData, setRepData] = useState("");
@@ -12,18 +16,19 @@ export default function ReportReasons(props: { reasons:ReportData, id, type, tar
     <RadioGroup 
       name ="report-menu"
       className ="reportRadiogrp sg-flex"
-      onChange={(e) => {
-        let eventTarget = e.target as HTMLInputElement;
+      value={category}
+      onChange={({ target }) => {
+        let eventTarget = target as HTMLInputElement;
 
-        let reason = props.reasons.data.find((item) => {
-          if (item.id === +eventTarget.id) return item;
+        let reason = reasons.data.find((item) => {
+          return (item.id === +eventTarget.id);
         });
 
         setCategory(reason.id + "");
         setSubcategory(reason.subcategories?.[0].id ?? null);
       }} >
       {
-        props.reasons.data.map((reason) => {
+        reasons.data.map((reason) => {
           return (
             <Flex 
               direction = "column"
@@ -32,8 +37,9 @@ export default function ReportReasons(props: { reasons:ReportData, id, type, tar
             >
               <Radio
                 labelSize = "small"
-                id = {reason.id + ""}
                 key = {reason.id}
+                id={reason.id + ""}
+                value={reason.id + ""}
               >
                 {reason.text}
               </Radio>
@@ -68,22 +74,23 @@ export default function ReportReasons(props: { reasons:ReportData, id, type, tar
         onClick = {
           () => {
             let res = BrainlyAPI.ReportContent({
-              id: props.id,
-              type: props.type,
+              id: id,
+              type: type,
               categoryId: +category,
               subId: subcategory || null,
               data: repData || null
             });
             if (res) {
-              props.target.style.color = "red";
-              if (!props.target.querySelector("use")) {
-                props.target.setAttribute("xlink:href", "#icon-report_flag");
+              target.style.color = "red";
+              if (!target.querySelector("use")) {
+                target.setAttribute("xlink:href", "#icon-report_flag");
               } else {
-                props.target.querySelector("use").setAttribute("xlink:href", "#icon-report_flag");
+                target.querySelector("use").setAttribute("xlink:href", "#icon-report_flag");
               }
 
-              props.target.closest(".sg-button").classList.add("sg-button--disabled");
-              props.target.closest(".sg-button").setAttribute("disabled", "true");
+              target.closest(".sg-button").classList.add("sg-button--disabled");
+              target.closest(".sg-button").setAttribute("disabled", "true");
+              if (success) success();
             }
             document.querySelector(".report#modal").remove();
           }

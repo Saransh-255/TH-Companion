@@ -8,7 +8,8 @@ import showLoading from "@lib/showLoading";
 export default async function reportMenu(
   id:number,
   type: "task" | "response" | "comment",
-  target
+  target,
+  successFn?: () => void
 ) {
   if (document.querySelector(".loading-ext#report")) return;
   let reasons;
@@ -25,7 +26,7 @@ export default async function reportMenu(
       Report Content
       </Headline>
 
-      <ReportReasons target={target} reasons={reasons} id={id} type={type} key={id}/>
+      <ReportReasons success={successFn} target={target} reasons={reasons} id={id} type={type} key={id}/>
     </>
     ),
     className: "report",

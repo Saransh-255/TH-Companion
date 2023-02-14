@@ -1,6 +1,7 @@
 
 
 .scroll-container{
+  overflow: auto!important;
   &::-webkit-scrollbar {
     width: 3px;
   }
