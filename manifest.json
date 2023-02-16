@@ -2,14 +2,14 @@
     "name": "TH-Companion",
     "description": "tools for brainly.",
     "manifest_version": 3,
-    "version":"1.0.67",
+    "version":"1.0.71",
     "host_permissions": [
       "*://brainly.com/*"
     ],
     "content_scripts": [
       {
         "matches": ["*://brainly.com/*"],
-        "js": ["js/homepage.js"],
+        "js": ["js/homepage.js", "js/redirects.js"],
         "css": ["css/homepage/index.css"],
         "exclude_globs": [
           "https://brainly.com/question/*", 
@@ -17,11 +17,6 @@
           "https://brainly.com/profile/*",
           "https://brainly.com/users/*"
         ],
-        "run_at": "document_start"
-      },
-      {
-        "matches": ["*://brainly.com/*"],
-        "js": ["js/redirects.js"],
         "run_at": "document_start"
       },
       {
@@ -35,6 +30,14 @@
         "css": ["css/question/index.css"],
         "run_at": "document_start"
       },
+      {
+        "matches": ["*://brainly.com/profile/*"],
+        "js": ["js/oldProfile.js"],
+        "css": ["css/oldProfile/index.css"],
+        "run_at": "document_start"
+      },
+
+
       {
         "matches": ["*://brainly.com/companion/answering"],
         "js": ["js/answerDash.js"],

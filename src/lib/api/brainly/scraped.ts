@@ -1,4 +1,5 @@
 import allPages from "@lib/allPages";
+import parsePage from "@lib/parsePage";
 //import { groupSimilar } from "@lib/arrOps";
 
 export async function getActions(id: string | number, endDate?: Date) {
@@ -44,4 +45,20 @@ export async function getActions(id: string | number, endDate?: Date) {
   );
   //return groupSimilar(actions, "reason");
   return actions;
+}
+
+export async function getWarnings(id:string | number) {
+  return parsePage(`https://brainly.com/users/view_user_warns/${id}`)
+    .then(page => Array.from(page.querySelectorAll("#content-old tr:not(:nth-child(1))")))
+    .then(rows => {
+      return rows.map((row) => {
+        return {
+          date: row.children[0].innerHTML,
+          reason: row.children[1].innerHTML,
+          content: row.children[2].innerHTML,
+          moderator: row.children[4].children[0].innerHTML,
+          isRevoked: row.children[5].children[0].innerHTML !== "Undo"
+        };
+      });
+    });
 }

@@ -7,6 +7,7 @@ module.exports = {
     homepage: path.join(__dirname, "src/views/homepage/index.ts"),
     question: path.join(__dirname, "src/views/question/index.tsx"),
     search: path.join(__dirname, "src/views/search/index.ts"),
+    oldProfile: path.join(__dirname, "src/views/oldProfile/index.ts"),
 
     redirects: path.join(__dirname, "src/views/redirects.ts"),
 

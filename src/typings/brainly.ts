@@ -1,5 +1,14 @@
 /* eslint-disable max-lines */
 /* eslint-disable camelcase */
+
+export type colors = "white" | 
+"gray-40" | "transparent" | "gray-20" | "gray-10" | 
+"blue-40" | "blue-30" | "blue-20" | 
+"green-40" | "green-30" | "green-20" | "green-10" | 
+"indigo-40" | "indigo-20" | "indigo-10" | 
+"red-40" | "red-30" | "red-20" | 
+"yellow-40" | "yellow-20";
+
 export interface ReportData {
   success: boolean;
   validates: boolean;

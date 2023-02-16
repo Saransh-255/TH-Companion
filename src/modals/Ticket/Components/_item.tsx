@@ -1,8 +1,6 @@
 import React from "react";
 import { 
-  Avatar, 
   Text, 
-  Media, 
   Button, 
   Icon, 
   Box, 
@@ -12,11 +10,11 @@ import {
 } from "brainly-style-guide";
 import Attachments from "./_attachments";
 import reportMenu from "@modals/Report/report";
-import { format } from "date-fns";
 import DelMenu from "./_delMenu";
 import CommentItem from "./_comment";
 import { VerifiedHead } from "@reactComponents";
 import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import UserData from "./_userData";
 
 export default function Item(
   { id, ticket, data, users, type, delArr, changeArr, qData }
@@ -66,35 +64,13 @@ export default function Item(
           </Label>
         ) : ""
       }
-      <Media
-        noPadding
-        small
-        className = "sg-flex sg-flex--align-items-center"
-        aside={
-          <Avatar
-            imgSrc={user.avatar?.[64] || null}
-            link= {userId}
-          />}
-        contentArray={[
-          <Text 
-            weight="bold"
-          >
-            {user.nick}
-          </Text>,
-            
-          <Text
-            size="xsmall"
-            color="text-gray-50"
-          >
-            {format(new Date(data.created), "dd/MM/yy HH:mm:ss")}
-          </Text>
-        ]}
-      />
+      <UserData user={user} userId={userId} data={data} />
       <Text 
         breakWords
         className = "content" 
         dangerouslySetInnerHTML={{ __html: data.content }}/>
       <Attachments attachments = {data.attachments} />
+
       <Flex
         direction = "row"
         justifyContent="flex-end"

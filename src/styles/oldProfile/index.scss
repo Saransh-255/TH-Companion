@@ -1,0 +1,149 @@
+@use "../common/modals/ticket";
+
+* {
+  font-family: ProximaNova, Helvetica, Arial, sans-serif!important;
+}
+
+.bold {
+  font-weight: 900!important;
+}
+
+#html body.mint[clickbox="body"]{
+  .show{
+    a, h3, span{
+      font-size:12px!important;
+    }
+  }
+
+  #container{
+    #profile{
+      display:flex!important;
+
+      #main-left{
+        .personal_info{
+          border-radius:10px!important;
+          border-color: #e1eaf1!important;
+          .header{
+            display:flex!important;
+            .info{
+              .info_bottom{
+                .danke .mint-button-secondary{
+                  background: black!important;
+                  border-color: black!important;
+                }
+              }
+            }
+          }
+          .comp-links{
+            gap:4px;
+            .sg-box{
+              border-radius:5px;
+              border-width:2px!important;
+              > .sg-flex {
+                flex-direction: column;
+                align-items:center;
+                gap:12px;
+                .sg-text{
+                  font-weight:900;
+                  font-size:2rem;
+                }
+              }
+              &:hover{
+                border-color:#e1eaf1!important;
+              }
+            }
+          }
+
+          // > a{
+          //   display:none!important;
+          // }
+
+          .helped_info{
+            display:none;
+          }
+
+          .mod-profile-panel{
+            //margin-top: 12px!important;
+            border-top: none!important;
+
+            font-size: 12px!important;
+
+            #profile-mod-panel ul li{
+              font-size:12px!important;
+            }
+            > .fright, >br{
+              display:none;
+            }
+             a, span, input, li{
+              font-size:0.8rem!important;
+            }
+            span.huge{ font-size: 1rem; }
+          }
+        }
+        .Users#tasks-solved{
+          border: 2px solid #e1eaf1;
+          border-radius: 10px;
+          padding: 0px 12px!important;
+
+          margin-top: 12px!important;
+          
+          .tasks-list .task{
+            border-bottom: 1px solid #e1eaf1;
+            position:relative!important;
+
+            .task-header .fleft{
+              .points{
+                display:none!important;
+              }
+              .pts-label{
+                position: absolute;
+                top: 24px;
+                right:12px;
+              }
+            }
+            .sg-button{
+              position: absolute;
+              left: -5px;
+              bottom: 12px;
+            }
+          }
+          .pager {
+            display:flex;
+            gap: 8px;
+            justify-content: center;
+          
+            >a{
+              color: black!important;
+            }
+          
+            span, a{
+              height: 32px;
+              width: 32px;
+              display: inherit;
+              padding: 8px 12px;
+              border-radius: 50px;
+          
+              font-weight:600;
+              line-height:1rem;
+          
+              a{
+                padding:0px!important;
+                margin: 0px!important;
+                color: black!important;
+        
+                height:1rem;
+              }
+          
+              &.current{
+                background:black!important;
+              }
+              &:hover{
+                background:#ebf2f7;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

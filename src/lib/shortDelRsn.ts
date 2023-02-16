@@ -110,7 +110,8 @@ export default function shortDelRsn(reason) {
     {
       short: "Default",
       keys: ["Guidelines, so we had to take it down.", "Please check our Community Guidelines:",
-        "Please check out Honor Code:"]
+        "Please check out Honor Code:", 
+        "content has been removed for violating our Community Guidelines"]
     },
     {
       short: "Brainly-related",

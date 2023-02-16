@@ -1,6 +1,6 @@
 export default (pointsTxt:string) => {
   return /*html*/`
-    <div role="button">
+    <div role="button" class="pts-label">
       <div data-testid="points_counter" class="sg-counter sg-counter--xs sg-counter--red-60 sg-counter--with-icon">
         <div class="sg-flex sg-counter__icon-container">
           <div aria-hidden="false" class="sg-icon sg-icon--icon-black sg-icon--x24 sg-counter__icon">
