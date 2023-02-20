@@ -144,6 +144,24 @@
           }
         }
       }
+      #main-right{
+        .warnbox{
+          display:none;
+        }
+        .comp-warnings{
+          max-height: 174px;
+          height:max-content;
+          overflow:hidden;
+          &.expand{
+            max-height:10000vh!important;
+          }
+          .warning-comp{
+            height:58px;
+            padding: 8px 0px;
+            border-bottom: 1px solid #e1eaf1;
+          }
+        }
+      }
     }
   }
 }

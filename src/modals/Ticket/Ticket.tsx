@@ -2,23 +2,23 @@ import { useState } from "react";
 import Head from "./Components/_head";
 import createModal from "@lib/createModal";
 import Item from "./Components/_item";
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import { Legacy } from "@brainly";
 import showLoading from "@lib/showLoading";
 import flashMsg from "@lib/flashMsg";
 import CmtDel from "./Components/_cmtDel";
 import Log from "./Components/_log";
 import { GetQuestionLogResponse, PreviewData, ReferenceData, TicketData } from "@typings/brainly";
 
-export default async function showTicket(id:string) {
+export default async function showTicket(id:string | number, onClose?: () => void) {
   if (document.querySelector(".loading-ext#prev")) return;
 
   let ticket, dRef, log, qData;
   await showLoading("Fetching Data", "prev", async () => {
     try {
-      ticket = await BrainlyAPI.OpenTicket(id);
-      qData = await BrainlyAPI.PreviewData(id);
-      dRef = await BrainlyAPI.ReferenceData();
-      log = await BrainlyAPI.GetLog(id);
+      ticket = await Legacy.OpenTicket(id);
+      qData = await Legacy.PreviewData(id);
+      dRef = await Legacy.ReferenceData();
+      log = await Legacy.GetLog(id);
     } catch (err) {
       return flashMsg(err + "", "error");
     }
@@ -30,14 +30,16 @@ export default async function showTicket(id:string) {
     minWidth: "650px",
     maxWidth: "650px",
     closeFn: () => {
-      BrainlyAPI.CloseTicket(id);
+      Legacy.CloseTicket(id);
+      onClose?.();
     }
   });
 }
 
 function Ticket(
   { ticket, id, dRef, log, qData }:
-  { ticket: TicketData, id:string, dRef:ReferenceData, log:GetQuestionLogResponse, qData:PreviewData }
+  { ticket: TicketData, id:string | number, dRef:ReferenceData, 
+    log:GetQuestionLogResponse, qData:PreviewData }
 ) {
   const [delArr, addComment] = useState([]);
   const [delLoading, setLoading] = useState(false);

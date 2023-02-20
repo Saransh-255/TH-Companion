@@ -1,4 +1,4 @@
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import { Legacy } from "@brainly";
 import { 
   Radio, 
   RadioGroup, 
@@ -112,7 +112,7 @@ export default function DelMenu({ reasons, id, type, successFn }) {
         variant="outline"
         onClick = {
           async () => {
-            await BrainlyAPI.DeleteContent({
+            await Legacy.DeleteContent({
               type: type,
               id: id,
               reasonId: cat,

@@ -6,7 +6,7 @@ import { Sidebar } from "components/react/index";
 import Content from "./_content";
 
 import { formatInTimeZone } from "date-fns-tz";
-import { getActions } from "@brainly/scraped";
+import { Scrape } from "@brainly";
 import { userActions } from "@typings/scraped";
 import { isSaturday, startOfDay, previousSaturday } from "date-fns";
 import { makeChunks } from "@lib/arrOps";
@@ -16,7 +16,7 @@ function ModActions() {
   const [actions, setActions] = React.useState<userActions[]>();
   
   React.useEffect(() => {
-    getActions(
+    Scrape.getActions(
       +window.location.href.replace("https://brainly.com/companion/moderator/", "").split("/")[0],
       isSaturday(now) ? startOfDay(now) : startOfDay(previousSaturday(now))
     ).then(data => setActions(makeChunks(data, 12)));

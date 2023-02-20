@@ -12,7 +12,7 @@ import {
 import { format } from "date-fns";
 
 import { useHover, useInteractions, useFloating, safePolygon } from "@floating-ui/react";
-import { getWarnings } from "@lib/api/brainly/scraped";
+import { Scrape } from "@brainly";
 import shortDelRsn from "@lib/shortDelRsn";
 
 export default function UserData({ user, userId, data }) {
@@ -99,10 +99,9 @@ export default function UserData({ user, userId, data }) {
 function Warnings({ id }) {
   const [loading, setLoading] = React.useState(true);
   const [warnings, setWarnings] = React.useState([]);
-  const [expand, setExpand] = React.useState(false);
   React.useEffect(
     () => {
-      getWarnings(id).then(data => {
+      Scrape.getWarnings(id).then(data => {
         setWarnings(
           data.filter(
             ({ isRevoked }) => !isRevoked
@@ -122,39 +121,7 @@ function Warnings({ id }) {
       >
         {
           warnings.map(warn => {
-            return (
-              <Box border>
-                <Flex justifyContent="space-between">
-                  <Flex direction="column">
-                    <Text color="text-black" size="medium" weight="bold" >
-                      {shortDelRsn(warn.reason)}
-                    </Text>
-                    <Text size="small" as="span" color="text-blue-60">
-                      {warn.moderator}
-                    </Text>
-                  </Flex>
-                  
-                  <Button 
-                    variant="transparent"
-                    icon={
-                      <Icon type={"arrow_" + (expand ? "up" : "down")} size={24} color="icon-gray-50"> </Icon>
-                    }
-                    iconOnly
-                    size="m"
-                    onClick={
-                      () => setExpand(!expand)
-                    }
-                  />
-                </Flex>
-                <Text size="small" color="text-gray-60">{warn.date}</Text>
-                {
-                  expand ? (
-                    <Text size="small">{warn.reason}</Text>
-                  ) : ""
-                }
-
-              </Box>
-            );
+            return <WarnItem warn={warn} />;
           })
         }
       </Flex>
@@ -164,4 +131,41 @@ function Warnings({ id }) {
       <SpinnerContainer style={{ height:"150px" }} fullWidth loading />
     );
   }
+}
+function WarnItem({ warn }) {
+  const [expand, setExpand] = React.useState(false);
+
+  return (
+    <Box border>
+      <Flex justifyContent="space-between">
+        <Flex direction="column">
+          <Text color="text-black" size="medium" weight="bold" >
+            {shortDelRsn(warn.reason)}
+          </Text>
+          <Text size="small" as="span" color="text-blue-60">
+            {warn.moderator}
+          </Text>
+        </Flex>
+        
+        <Button 
+          variant="transparent"
+          icon={
+            <Icon type={"arrow_" + (expand ? "up" : "down")} size={24} color="icon-gray-50"> </Icon>
+          }
+          iconOnly
+          size="m"
+          onClick={
+            () => setExpand(!expand)
+          }
+        />
+      </Flex>
+      <Text size="small" color="text-gray-60">{warn.date}</Text>
+      {
+        expand ? (
+          <Text size="small">{warn.reason}</Text>
+        ) : ""
+      }
+
+    </Box>
+  );
 }

@@ -8,6 +8,16 @@ export type colors = "white" |
 "indigo-40" | "indigo-20" | "indigo-10" | 
 "red-40" | "red-30" | "red-20" | 
 "yellow-40" | "yellow-20";
+export interface UserData {
+  content: {
+    data: GetQuestionResponse,
+    created: string,
+    content: string
+  }[],
+  avatar: string,
+  nick: string,
+  lastPage?: boolean
+}
 
 export interface ReportData {
   success: boolean;

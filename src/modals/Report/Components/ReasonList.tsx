@@ -1,4 +1,4 @@
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import { Legacy } from "@brainly";
 import { RadioGroup, Button, Flex, Radio, Textarea } from "brainly-style-guide";
 import React, { useState } from "react";
 import { ReportData } from "@typings/brainly";
@@ -73,7 +73,7 @@ export default function ReportReasons(
         variant={"solid"}
         onClick = {
           () => {
-            let res = BrainlyAPI.ReportContent({
+            let res = Legacy.ReportContent({
               id: id,
               type: type,
               categoryId: +category,

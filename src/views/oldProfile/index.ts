@@ -1,7 +1,7 @@
 /* eslint-disable indent */
-import { box, buttonElem, icon, ptsLabel } from "@components";
+import { box, buttonElem, icon, ptsLabel, text } from "@components";
 import addStyleguides from "@lib/addStyleguide";
-import { getWarnings } from "@lib/api/brainly/scraped";
+import { Scrape } from "@brainly";
 import getId from "@lib/getId";
 import runForElem from "@lib/runForElem";
 import shortDelRsn from "@lib/shortDelRsn";
@@ -10,7 +10,11 @@ import showTicket from "@modals/Ticket/Ticket";
 addStyleguides();
 
 const userId = getId(window.location.href, "profile");
-const ITEMS:{ name:"warning" | "answer" | "question", selector:string, link:string }[] = [
+const ITEMS:{ 
+  name:"warning" | "answer" | "question", 
+  selector:string, 
+  link:string 
+}[] = [
   {
     name: "warning",
     selector: "#profile-mod-panel > ul:nth-child(2) > li:nth-child(6) > span",
@@ -31,57 +35,125 @@ const ITEMS:{ name:"warning" | "answer" | "question", selector:string, link:stri
 runForElem(
   "#profile-mod-panel",
   async () => {
-    const warnings = await getWarnings(getId(window.location.href, "profile"));
+    let content = await Scrape.getUserContent(userId, "solved", 60);
+    console.log(content);
+    const warnings = await Scrape.getWarnings(getId(window.location.href, "profile"));
     
     document.querySelector("#main-left .header")
       .insertAdjacentHTML("afterend", `
       <div class="comp-links sg-flex">
       ${
         ITEMS.map(element => {
-          return addLink(
-            element.name, 
-            document.querySelector(element.selector).innerHTML,
-            element.link
-          );
+          return box({
+            padding: "m",
+            border: true,
+            classes: ["link-item"],
+            href: element.link,
+            children: `
+              <div class="sg-flex flex-direction-column">
+                ${
+                  icon({
+                    size: "24",
+                    type: element.name,
+                    color: "black"
+                  }).outerHTML
+                }
+                <div class="sg-text">${
+                  document.querySelector(element.selector).innerHTML
+                }</div>
+              </div>
+            `
+          }).outerHTML;
         }).join("")
       }
       </div>`);
     
-      warnings.length && document.querySelector("#main-right").insertAdjacentHTML("beforeend", `
-      <div class="comp-warnings">
-      ${
-        warnings.map(warn => {
-          return (`
-          <div class="warning-comp sg-flex sg-flex--column sg-flex--justify-content-space-between">
-            <div class="sg-flex sg-flex--justify-content-space-between">
-              <div class="reason sg-headline sg-headline--small sg-headline--bold">
-                ${shortDelRsn(warn.reason)}
+      if (warnings.length) {
+        document.querySelector("#main-right").insertAdjacentHTML("beforeend", `
+          ${
+            text({
+              variant:"sg-text-bit",
+              text: "warnings",
+              transform: "uppercase",
+              color: "text-gray-70",
+              weight: "bold",
+              size: "small",
+              style:"font-size: 1.2rem;"
+            }).outerHTML
+          }
+          <div class="comp-warnings">
+          ${
+            warnings.map(warn => {
+              return (`
+              <div class="warning-comp sg-flex sg-flex--column sg-flex--justify-content-space-between">
+                <div class="sg-flex sg-flex--justify-content-space-between">
+                  ${
+                    text({
+                      text: shortDelRsn(warn.reason),
+                      color: warn.isRevoked ? "text-red-40" : "text-black",
+                      size:"small",
+                      weight: "bold",
+                      variant: "sg-headline"
+                    }).outerHTML
+                    +
+                    text({
+                      text: warn.date,
+                      color: "text-gray-50",
+                      size:"xsmall"
+                    }).outerHTML
+                  }
+                </div>
+      
+                <div 
+                  class="sg-flex sg-flex--justify-content-space-between sg-flex--align-items-baseline"
+                  style="gap: 12px;"
+                >
+                  ${
+                    text({
+                      text: warn.content,
+                      color: "text-black",
+                      size: "small",
+                      style: "height:1.3rem; overflow: hidden; font-size: 1rem;"
+                    }).outerHTML 
+                    + 
+                    text({
+                      color: "text-yellow-40",
+                      size: "small",
+                      weight: "bold",
+                      text: warn.moderator,
+                      style:"color:#6d83f3;"
+                    }).outerHTML
+                  }
+                </div>
               </div>
-              <div class="time sg-text sg-text--text-gray-50 sg-text--small">
-                ${warn.date}
-              </div>
-            </div>
-  
-            <div class="sg-flex sg-flex--justify-content-space-between">
-              <div 
-                class="content sg-text sg-text--text-gray-60 sg-text--small sg-text--medium"
-                style="height:1.2rem; overflow: hidden;"
-              >
-                ${warn.content}
-              </div>
-              <div 
-                class="mod sg-headline sg-headline--small sg-headline--bold"
-                style="color: #6d83f3;"
-              >
-                ${warn.moderator}
-              </div>
-            </div>
-          </div>
-          `);
-        }).join()
-      }
-      </div>
+              `);
+            }).join("")
+          }
+        </div>
+        <div 
+          class="sg-flex sg-flex--justify-content-center load-more"
+          style="margin: 12px;"
+        ></div>
       `);
+      if (warnings.length > 3) {
+        document.querySelector(".load-more").appendChild(
+          buttonElem({
+            text: "show all",
+            type: "outline",
+            size: "s",
+            iconOnly: false,
+            attributes:[{
+              item: "style",
+              value: "border-color: #6d83f3; font-size: 1rem;"
+            }],
+            clickEvent: ({ target }) => {
+              target.innerHTML = document.querySelector(".comp-warnings").classList.toggle("expand") 
+                ? "show less" : "show all";
+            }
+          })
+        );
+      }
+    }
 
     Array.from(document.querySelectorAll(".task")).forEach(
       (task:HTMLElement) => {
@@ -110,24 +182,3 @@ runForElem(
     );
   }
 );
-
-function addLink(type: "warning" | "question" | "answer", stat:string, link:string) {
-  let iconStr = icon({
-    size: "24",
-    type: type,
-    color: "black"
-  }).outerHTML;
-
-  return box({
-    padding: "m",
-    border: true,
-    classes: ["link-item"],
-    href: link,
-    children: `
-      <div class="sg-flex flex-direction-column">
-        ${iconStr}
-        <div class="sg-text">${stat}</div>
-      </div>
-    `
-  }).outerHTML;
-}

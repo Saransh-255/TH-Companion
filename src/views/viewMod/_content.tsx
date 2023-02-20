@@ -1,7 +1,7 @@
 import shortDelRsn from "@lib/shortDelRsn";
 import { userActions } from "@typings/scraped";
 import { Flex, Box, Link, Icon, Label, Text } from "brainly-style-guide";
-import NavMenu from "./_navMenu";
+import { NavMenu } from "@reactComponents";
 import React from "react";
 import showPreview from "@modals/Preview/Preview";
 
@@ -18,7 +18,14 @@ export default function Content(
   return (
     <>
       {
-        actions.length > 1 ? <NavMenu page={page} setPage={setPage} length={actions.length} /> : ""
+        actions.length > 1 ? 
+          <NavMenu 
+            final = {false} 
+            page={page} 
+            setPage={setPage} 
+            length={actions.length} 
+            black={true}
+          /> : ""
       }
       <Flex
         wrap

@@ -13,7 +13,11 @@ html{
     height: -webkit-fill-available;
     width: -webkit-fill-available;
     background: white;
-    z-index: 999;
+    z-index: 998;
+    .sg-spinner-container__overlay{
+      background: rgba(255, 255, 255, 0.6)!important;
+      z-index:998;
+    }
   }
 }
 

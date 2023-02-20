@@ -1,4 +1,4 @@
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import { Legacy } from "@brainly";
 import { SpinnerContainer, Flex, Button, Icon, Text } from "brainly-style-guide";
 
 export default function CmtDel({ delLoading, delArr, setLoading, ticket, addComment }) {
@@ -24,7 +24,7 @@ export default function CmtDel({ delLoading, delArr, setLoading, ticket, addComm
               () => {
                 setLoading(!delLoading);
                 delArr.forEach(async (comment) => {
-                  await BrainlyAPI.DeleteContent({
+                  await Legacy.DeleteContent({
                     type: "comment",
                     id: comment.replace("checkbox", ""),
                     reasonId: "35",

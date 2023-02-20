@@ -9,10 +9,11 @@ module.exports = {
     search: path.join(__dirname, "src/views/search/index.ts"),
     oldProfile: path.join(__dirname, "src/views/oldProfile/index.ts"),
 
-    redirects: path.join(__dirname, "src/views/redirects.ts"),
+    common: path.join(__dirname, "src/views/common.ts"),
 
     answerDash: ["core-js", path.join(__dirname, "src/views/answering/index.tsx")],
-    viewMod: ["core-js", path.join(__dirname, "src/views/viewMod/index.tsx")]
+    viewMod: ["core-js", path.join(__dirname, "src/views/viewMod/index.tsx")],
+    userContent: ["core-js", path.join(__dirname, "src/views/userContent/index.tsx")]
   },
   output: {
     path: path.join(__dirname, "dist/js"),

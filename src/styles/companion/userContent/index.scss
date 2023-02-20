@@ -1,0 +1,14 @@
+@use "../common";
+@use "../../common/scrollbar";
+@use "./item.scss";
+
+.action-menu-comp{
+  position: absolute;
+  bottom: 2rem;
+  background: black;
+  left: 50%;
+  transform: translateX(-50%);
+  height: max-content!important;
+  border-radius:5px;
+  color: white!important;
+}

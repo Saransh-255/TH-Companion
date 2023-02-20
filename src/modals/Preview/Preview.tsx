@@ -3,15 +3,15 @@ import react, { useEffect } from "react";
 import Head from "./Components/_head";
 import createModal from "@lib/createModal";
 import Item from "./Components/_item";
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import { Legacy } from "@brainly";
 import showLoading from "@lib/showLoading";
 
 export default async function showPreview(id:string, modalClose?: () => void) {
   if (document.querySelector(".loading-ext#prev")) return;
   let data, dRef;
   await showLoading("Fetching Data", "prev", async () => {
-    data = await BrainlyAPI.PreviewData(id);
-    dRef = await BrainlyAPI.ReferenceData();
+    data = await Legacy.PreviewData(id);
+    dRef = await Legacy.ReferenceData();
   });
   
   let subject = dRef.data.subjects.find(({ id }) => id === data.data.task.subject_id).name;

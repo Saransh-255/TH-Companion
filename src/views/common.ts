@@ -2,7 +2,11 @@ const REDIRECT = [
   {
     match: "https://brainly.com/moderation_new/view_moderator/",
     url: "https://brainly.com/companion/moderator/"
-  }
+  },
+  // {
+  //   match: "https://brainly.com/users/user_content/",
+  //   url: "https://brainly.com/companion/user/"
+  // }
 ];
 
 let page = window.location.href;

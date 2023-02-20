@@ -1,0 +1,14 @@
+.content-box-comp{
+  .content-text-comp{
+    max-height: 3.2rem;
+    height: max-content;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    flex:1;
+    &:hover{
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

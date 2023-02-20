@@ -2,7 +2,7 @@
 import getId from "@lib/getId";
 import observeMutation from "@lib/observeMutation";
 import runForElem from "@lib/runForElem";
-import BrainlyAPI from "@api/brainly/BrainlyAPI";
+import { GQL, Legacy } from "@brainly";
 
 import { buttonElem, link } from "components/elements";
 import feedItem from "./_feedItem";
@@ -37,7 +37,7 @@ let forYouQs = [];
 runForElem("meta[name='user_data']", async (elem) => {
   let userData = JSON.parse(elem.getAttribute("content"));
 
-  let suggested = await BrainlyAPI.ForYou(userData.id);
+  let suggested = await GQL.ForYou(userData.id);
 
   let linkIds = [];
   suggested.data.user.answers.edges.forEach(ans => {
@@ -120,7 +120,7 @@ runForElem("meta[name='user_data']", async (elem) => {
                 async () => {
                   for await (let item of Array.from(items)) {
                     let anchor: HTMLAnchorElement = item.querySelector("a[data-test=feed-item-link]"); 
-                    let question = await BrainlyAPI.GetQuestion(+getId(anchor.href, "question")); 
+                    let question = await Legacy.GetQuestion(+getId(anchor.href, "question")); 
                     if (question.data.task.settings.is_marked_abuse) {
                       item.classList.add("reported"); 
                       item.querySelector(".report-flag").classList.add("sg-button--disabled"); 
@@ -140,7 +140,7 @@ runForElem("meta[name='user_data']", async (elem) => {
           }]
         }));
   
-        let question = await BrainlyAPI.GetQuestion(questionId);
+        let question = await Legacy.GetQuestion(questionId);
         if (question.data.task.settings.is_marked_abuse) {
           item.classList.add("reported");
           item.querySelector(".report-flag").classList.add("sg-button--disabled");

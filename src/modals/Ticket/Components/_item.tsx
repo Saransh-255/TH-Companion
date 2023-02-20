@@ -13,7 +13,7 @@ import reportMenu from "@modals/Report/report";
 import DelMenu from "./_delMenu";
 import CommentItem from "./_comment";
 import { VerifiedHead } from "@reactComponents";
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import { Legacy } from "@brainly";
 import UserData from "./_userData";
 
 export default function Item(
@@ -113,7 +113,7 @@ export default function Item(
                     iconOnly
                     onClick={()=> {
                       setVerified(true);
-                      BrainlyAPI.Approve(data.id);
+                      Legacy.Approve(data.id);
                     }}       
                   />
                 ) : ""

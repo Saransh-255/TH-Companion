@@ -8,7 +8,7 @@ import {
   SeparatorHorizontal,
   SpinnerContainer, 
 } from "brainly-style-guide";
-import BrainlyAPI from "@lib/api/brainly/BrainlyAPI";
+import { Legacy } from "@brainly";
 import { ContentList, Notifications } from "@typings/brainly";
 
 import Progress from "./_progress";
@@ -22,8 +22,8 @@ export default function Content() {
 
   useEffect(() => {
     const getData = async () => {
-      await BrainlyAPI.GetNotifications().then(notifs => setNotif(notifs));
-      await BrainlyAPI.GetContent("responses").then(ans => setAnswers(ans));
+      await Legacy.GetNotifications().then(notifs => setNotif(notifs));
+      await Legacy.GetContent("responses").then(ans => setAnswers(ans));
     };
     getData();
   }, []);

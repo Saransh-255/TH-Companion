@@ -13,7 +13,6 @@ import type {
 
 export default new class BrainlyAPI {
   private legacyURL = `https://brainly.com/api/28`;
-  private graphURL = `https://brainly.com/graphql/us`;
   private tokenLong: string;
   private MODEL_ID = {
     "task" : 1,
@@ -44,20 +43,6 @@ export default new class BrainlyAPI {
     return res;
   }
 
-  private async GQL(
-    query: string, 
-    variables?
-  ) {
-    return await fetch(this.graphURL, {
-      method: "POST",
-      body: JSON.stringify({ query, variables }),
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "X-B-Token-Long": this.tokenLong
-      }
-    }).then(data => data.json());
-  }
-
   public async GetQuestion(id: number): Promise<GetQuestionResponse> {
     return await this.Legacy("GET", `api_tasks/main_view/${id}`);
   }
@@ -74,7 +59,7 @@ export default new class BrainlyAPI {
     return await fetch("https://brainly.com/api/28/api_config/desktop_view")
       .then(data => data.json());
   }
-  async PreviewData(id:string):Promise<PreviewData> {
+  async PreviewData(id:string | number):Promise<PreviewData> {
     return await fetch(`https://brainly.com/api/28/api_tasks/main_view/${id}`)
       .then(data => data.json());
   }
@@ -139,52 +124,6 @@ export default new class BrainlyAPI {
       method: "POST",
       body: form
     });
-  }
-  async ForYou(id: string) {
-    return this.GQL(
-      `query($id:ID!){
-        user(id:$id){
-          answers{
-            edges{
-              node{
-                question{
-                  similar{
-                    question{
-                      content 
-                      id
-                      pointsForAnswer
-                      attachments{
-                        url
-                      }
-                      canBeAnswered
-                      subject{
-                        name
-                        icon
-                      }
-                      author{
-                        id
-                        avatar{
-                          thumbnailUrl
-                        }
-                      }
-                      answers{
-                        nodes{
-                          author{
-                            nick
-                            id
-                          }
-                        }
-                      }
-                    }
-                    similarity
-                  }
-                }
-              }
-            }
-          }
-        }
-      }`, { "id":btoa(`user:${id}`) }
-    );
   }
   async OpenTicket(id:string | number):Promise<TicketData> { 
     return await this.Legacy("POST", "moderation_new/get_content", ({ 
