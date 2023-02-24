@@ -1,4 +1,5 @@
 import { Scrape, Legacy } from "@brainly";
+import CompanionAPI from "@api/companion/index";
 
 import createPage from "@lib/createPage";
 import { Sidebar } from "@reactComponents";
@@ -9,6 +10,14 @@ import React from "react";
 import Head from "./_head";
 import ContentList from "./_contentList";
 
+const thisUser = CompanionAPI.SavedData();
+
+if (thisUser.isModerator) createPage((
+  <Flex style={{ height:"100vh" }}>
+    <Sidebar />
+    <Content />
+  </Flex>
+), "User Content");
 
 let dataStr = window.location.href.replace("https://brainly.com/companion/user/", "").split("/");
 let id = dataStr[0];
@@ -59,10 +68,3 @@ function Content() {
     );
   }
 }
-
-createPage((
-  <Flex style={{ height:"100vh" }}>
-    <Sidebar />
-    <Content />
-  </Flex>
-), "User Content");

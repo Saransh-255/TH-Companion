@@ -14,10 +14,15 @@ import { findContent } from "./_contentList";
 
 export default function Item(
   { data, dref, dum, setDum, type, delArr, setArr } : 
-  { data:UserData["content"][0], dref: ReferenceData, 
-    dum:boolean, setDum: React.Dispatch<React.SetStateAction<boolean>>, type: string,
-    delArr: number[], setArr: React.Dispatch<React.SetStateAction<number[]>>
-   }
+  {
+    data:UserData["content"][0], 
+    dref: ReferenceData, 
+    dum:boolean, 
+    setDum: React.Dispatch<React.SetStateAction<boolean>>, 
+    type: string,
+    delArr: number[], 
+    setArr: React.Dispatch<React.SetStateAction<number[]>>
+  }
 ) {
   const [check, setCheck] = React.useState(false);
 
@@ -86,7 +91,7 @@ export default function Item(
             ) : "" : ""
           }
           {
-            !isComments ? userTask.report ? (
+            !isComments ? userTask.settings.is_marked_abuse ? (
               <Label
                 color="red"
                 type="solid"

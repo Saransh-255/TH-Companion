@@ -1,3 +1,5 @@
+import CompanionAPI from "@api/companion/index";
+
 const REDIRECT = [
   {
     match: "https://brainly.com/moderation_new/view_moderator/",
@@ -18,3 +20,9 @@ REDIRECT.forEach(({ url, match }) => {
     window.location.href = url + id;
   }
 });
+
+
+//save perms in localStorage
+CompanionAPI.UserData().then(
+  data => localStorage.setItem("comp-perms", JSON.stringify(data.perms))
+);

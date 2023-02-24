@@ -4,8 +4,15 @@ import React from "react";
 import Sidebar from "../../components/react/_sidebar";
 import Content from "./_content";
 
-function AnsweringDashboard() {
+import CompanionAPI from "@api/companion/index";
 
+const thisUser = CompanionAPI.SavedData();
+
+if (thisUser.isAnswerer || thisUser.isAdmin) createPage(
+  <AnsweringDashboard />, "Dashboard"
+);
+
+function AnsweringDashboard() {
   return (
     <Flex
       direction="row"
@@ -13,13 +20,7 @@ function AnsweringDashboard() {
       fullWidth
     >
       <Sidebar />
-
       <Content />
-      
     </Flex>
   );
 }
-
-createPage(
-  <AnsweringDashboard />, "Dashboard"
-);

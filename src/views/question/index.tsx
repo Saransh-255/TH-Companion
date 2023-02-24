@@ -8,8 +8,12 @@ import runForElem from "@lib/runForElem";
 import showTicket from "@modals/Ticket/Ticket";
 import getId from "@lib/getId";
 
+import CompanionAPI from "@api/companion/index";
+
+const thisUser = CompanionAPI.SavedData();
+
 //answering box observer
-observeMutation({
+if (thisUser.isAnswerer) observeMutation({
   target: "div[data-testid = 'question_box_actions']",
   hookInterval: 100,
   settings: {
@@ -133,7 +137,8 @@ observeMutation({
   } 
 });
 
-runForElem("meta[name='user_data']", async (elem) => {
+//moderation ticket button
+if (thisUser.isModerator) runForElem("meta[name='user_data']", async (elem) => {
   let userData = JSON.parse(elem.getAttribute("content"));
 
   if (!userData.isModerator) return;

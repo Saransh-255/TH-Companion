@@ -11,6 +11,14 @@ import { userActions } from "@typings/scraped";
 import { isSaturday, startOfDay, previousSaturday } from "date-fns";
 import { makeChunks } from "@lib/arrOps";
 
+import CompanionAPI from "@api/companion/index";
+
+const thisUser = CompanionAPI.SavedData();
+
+if (thisUser.isMentor) createPage(
+  <ModActions />, "Mentee Overview"
+);
+
 function ModActions() {
   let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
   const [actions, setActions] = React.useState<userActions[]>();
@@ -57,7 +65,3 @@ function ModActions() {
     </Flex>
   );
 }
-
-createPage(
-  <ModActions />, "Mentee Overview"
-);
