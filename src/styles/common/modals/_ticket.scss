@@ -45,3 +45,21 @@
     margin-top: 8px;
   }
 }
+
+//popup
+.comp-popup{
+  .comp-close-area{
+    height: 100%;
+    width: 100%;
+    z-index: 998;
+  }
+  .comp-popup-content{
+    position: absolute!important;
+    z-index: 999;
+    transition-duration: 150ms;
+    transition-property: margin;
+    .warnpop{
+      width: 400px!important;
+    }
+  }
+}

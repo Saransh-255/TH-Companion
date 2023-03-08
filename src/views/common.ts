@@ -12,7 +12,6 @@ const REDIRECT = [
 ];
 
 let page = window.location.href;
-console.log(page, "page");
 REDIRECT.forEach(({ url, match }) => {
   let id = page.replace(match, "").split("/")[0]?.split("?")[0] ?? "";
 
@@ -24,5 +23,5 @@ REDIRECT.forEach(({ url, match }) => {
 
 //save perms in localStorage
 CompanionAPI.UserData().then(
-  data => localStorage.setItem("comp-perms", JSON.stringify(data.perms))
+  data => localStorage.setItem("comp-perms", JSON.stringify(data && data.perms))
 );

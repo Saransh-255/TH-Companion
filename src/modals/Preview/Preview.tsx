@@ -6,7 +6,7 @@ import Item from "./Components/_item";
 import { Legacy } from "@brainly";
 import showLoading from "@lib/showLoading";
 
-export default async function showPreview(id:string, modalClose?: () => void) {
+export default async function showPreview(id:string | number, modalClose?: () => void) {
   if (document.querySelector(".loading-ext#prev")) return;
   let data, dRef;
   await showLoading("Fetching Data", "prev", async () => {

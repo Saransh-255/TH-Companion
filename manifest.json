@@ -2,7 +2,7 @@
     "name": "TH-Companion",
     "description": "tools for brainly.",
     "manifest_version": 3,
-    "version":"1.0.76",
+    "version":"1.0.77",
     "host_permissions": [
       "*://brainly.com/*"
     ],

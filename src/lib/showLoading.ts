@@ -1,6 +1,11 @@
-export default async function showLoading(text: string, id: string, fn, elem?) {
-  let target = elem || document.body;
-  console.log(target);
+export default async function showLoading(
+  text: string, 
+  id: string, 
+  fn: () => Promise<void>, 
+  elem?: Element
+) {
+  let target = elem ?? document.body;
+
   target.insertAdjacentHTML("beforeend", /*html*/`
   <div class="loading-ext sg-flex" id = "${id}">
     <div class="sg-spinner sg-spinner--white sg-spinner--xxsmall"> 
@@ -12,5 +17,6 @@ export default async function showLoading(text: string, id: string, fn, elem?) {
   </div>
   `);
   await fn();
+
   document.querySelector(".loading-ext#" + id).remove();
 }

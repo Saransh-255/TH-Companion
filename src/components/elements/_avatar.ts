@@ -9,12 +9,11 @@ export default (data: {
   if (data.avatarURL) {
     avatar = `<img class="sg-avatar__image sg-avatar sg-avatar--xs" src="${data.avatarURL}" alt="">`;
   } else {
-    avatar = `<div class = "sg-icon sg-icon--icon-gray-40 sg-icon--x24 sg-avatar__icon">
-      ${_icon({
-    type: "profile", size: "24",
-    color: "gray-40"
-  }).outerHTML}
-    </div>`;
+    avatar = `
+    <div class = "sg-icon sg-icon--icon-gray-40 sg-icon--x24 sg-avatar__icon">
+      ${_icon({ type: "profile", size: "24", color: "gray-40" }).outerHTML}
+    </div>
+    `;
   }
 
   return /*html*/ `

@@ -6,7 +6,7 @@ import { Legacy } from "@brainly";
 import flashMsg from "@lib/flashMsg";
 
 export default new class CompanionAPI {
-  firebaseConfig = {
+  private firebaseConfig = {
     projectId: "brainly-companion"
   };
 
@@ -29,21 +29,13 @@ export default new class CompanionAPI {
 
     localStorage.setItem("comp-uid", user.id + "");
 
-    console.log(user.id);
-
     let docm = await getDoc(doc(
       getFirestore(initializeApp(this.firebaseConfig)), 
       `users/u-${user.id}`
     ));
 
-    if (docm.exists()) {
-      console.log(docm.data());
-      return docm.data();
-    } else {
-      console.log(user.nick, "does not exist");
-      flashMsg(
-        `User ${user.nick} not found. Please Contact Saransh to add you to the extension`, "error"
-      );
-    }
+    return docm.exists ? docm.data() : flashMsg(
+      `User ${user.nick} not found. Please Contact Saransh to add you to the extension`, "error"
+    );
   }
 };

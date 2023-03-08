@@ -12,7 +12,9 @@ import { GetQuestionLogResponse, PreviewData, ReferenceData, TicketData } from "
 export default async function showTicket(id:string | number, onClose?: () => void) {
   if (document.querySelector(".loading-ext#prev")) return;
 
-  let ticket, dRef, log, qData;
+  let error:string;
+
+  let ticket:TicketData, dRef:ReferenceData, log:GetQuestionLogResponse, qData:PreviewData;
   await showLoading("Fetching Data", "prev", async () => {
     try {
       ticket = await Legacy.OpenTicket(id);
@@ -20,9 +22,13 @@ export default async function showTicket(id:string | number, onClose?: () => voi
       dRef = await Legacy.ReferenceData();
       log = await Legacy.GetLog(id);
     } catch (err) {
-      return flashMsg(err + "", "error");
+      error = err;
     }
+
+    if (!error) error = ticket.message ?? null;
   });
+
+  if (error) return flashMsg(error, "error");
 
   createModal({
     element: <Ticket ticket={ticket} id={id} dRef={dRef} log={log} qData={qData} />,

@@ -12,7 +12,8 @@ export default function ({ Approver }) {
             {
               Approver ? (
                 <>
-                  <Text color="text-gray-50" size="xsmall">Verified by</Text><Text
+                  <Text color="text-gray-50" size="xsmall">Verified by</Text>
+                  <Text
                     size="xsmall"
                     style={{ color: Approver.ranks.color }}
                     href={`https://brainly.com/profile/${Approver.nick}-${Approver.id}`}

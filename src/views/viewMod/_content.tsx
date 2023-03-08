@@ -18,14 +18,14 @@ export default function Content(
   return (
     <>
       {
-        actions.length > 1 ? 
+        actions.length > 1 && 
           <NavMenu 
             final = {false} 
             page={page} 
             setPage={setPage} 
             length={actions.length} 
             black={true}
-          /> : ""
+          />
       }
       <Flex
         wrap
@@ -36,7 +36,7 @@ export default function Content(
           overflow: "auto",
           flex: "1",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(375px, 1fr))"
+          gridTemplateColumns: "repeat(auto-fit, minmax(375px, 49%))"
         }}
         className="scroll-container"
       >
@@ -86,7 +86,7 @@ export default function Content(
                   style={{ overflow: "auto", overflowX: "hidden", cursor: "pointer" }}
                   onClick={
                     () => {
-                      showPreview(action.id + "");
+                      showPreview(action.id);
                     }
                   }
                 >

@@ -59,15 +59,14 @@ if (thisUser.isAnswerer) {
 
   // For You Feed
   let forYouQs = [];
-  runForElem("meta[name='user_data']", async (elem) => {
-    let userData = JSON.parse(elem.getAttribute("content"));
-    let suggested = await GQL.ForYou(userData.id);
+  const createFeed = async () => {
+    let suggested = await GQL.ForYou(thisUser.id);
     let linkIds = [];
     suggested.data.user.answers.edges.forEach(ans => {
       ans.node.question.similar.forEach(item => {
         if (
           item.question.canBeAnswered && 
-        (!item.question.answers.nodes.find(({ id }) => id === userData.id)) &&
+        (!item.question.answers.nodes.find(({ id }) => id === thisUser.id)) &&
         !linkIds.includes(item.question.id)
         ) {
           forYouQs.push(item); 
@@ -76,7 +75,8 @@ if (thisUser.isAnswerer) {
       });
     });
     shuffle(forYouQs);
-  });
+  };
+  createFeed();
 
   //Insert the actual feed
   runForElem("#main-content > .sg-animation-fade-in-fast", (elem) => {
@@ -97,7 +97,7 @@ if (thisUser.isAnswerer) {
   });
 }
 
-observeMutation({
+if (thisUser.isModerator || thisUser.isAnswerer) observeMutation({
   target: ".js-feed-stream",
   hookInterval: 0,
   itemFn: async () => {

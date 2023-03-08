@@ -2,32 +2,12 @@ import { addSpinner } from "@utils/spinner";
 import clsx from "clsx";
 import iconElem, { iconTypes } from "./_icon";
 
-type ButtonType = 
-  | "solid"
-  | "solid-inverted"
-  | "solid-indigo"
-  | "solid-indigo-inverted"
-  | "solid-light"
-  | "outline"
-  | "outline-indigo"
-  | "outline-inverted"
-  | "transparent"
-  | "transparent-light"
-  | "transparent-red"
-  | "transparent-inverted"
-  | "facebook"
-  | "google"
-  | "apple"
-  | "solid-peach"
-  | "outline-green"
-  | "solid-orange"
-  | "outline-peach"
-  | "solid-green";
+import { ButtonPropsType } from "brainly-style-guide";
 
 export default (data: {
   text?: string,
   icon?: iconTypes,
-  type: ButtonType,
+  type: ButtonPropsType["variant"],
   size: "l" | "m" | "s",
   loading?: boolean,
   disabled?: boolean,
@@ -58,23 +38,24 @@ export default (data: {
     
   }).split(" "));
 
-  data.classes ? button.classList.add(...data.classes) : {};
-  data.clickEvent ? button.onclick = data.clickEvent : {};
-  data.attributes?.forEach(item => {
-    button.setAttribute(item.item, item.value);
-  });
+  data.classes && button.classList.add(...data.classes);
+  button.onclick = data.clickEvent ?? null;
 
-  data.id ? button.id = data.id : ""; 
-  if (data.loading) addSpinner(button, "white", "small");
+  data.attributes?.forEach(item => button.setAttribute(item.item, item.value));
+
+  button.id = data.id ?? "";
+
+  data.loading && addSpinner(button, "white", "small");
+
   if (data.icon) { 
     button.insertAdjacentElement("afterbegin", iconElem(data.icon));
     
     if (!data.iconOnly) button.querySelector(".sg-icon").classList.add("sg-button__icon");
     else button.classList.add("sg-button--icon-only");
   }
-  data.text ? button.insertAdjacentHTML("beforeend", /*html*/`
-    <span class="sg-button__text">${data.text}</span>
-  `) : {};
+  data.text && button.insertAdjacentHTML("beforeend",
+    `<span class="sg-button__text">${data.text}</span>`
+  );
 
   return button;
 };

@@ -1,7 +1,8 @@
 import clsx from "clsx";
 
 export default function flashMsg(message:string, type: "success" | "error" | "info") {
-  let flashbox = document.querySelector(".flash-messages-container") 
+  let flashbox = document.querySelector(".comp-messages-container")
+    || document.querySelector(".flash-messages-container") 
     || document.querySelector("#flash-msg");
 
   let flashmsg = document.createElement("div");
@@ -17,6 +18,7 @@ export default function flashMsg(message:string, type: "success" | "error" | "in
   flashmsg.addEventListener("click", function() {
     flashmsg.remove();
   });
+  setTimeout(() => flashmsg.remove(), 2000);
   
   flashbox.appendChild(flashmsg);
 }

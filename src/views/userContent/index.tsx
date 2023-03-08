@@ -43,8 +43,7 @@ function Content() {
   if (userInfo?.nick && dref) {
     return (
       <Box padding="s">
-        <Flex direction="column" style={{ height:"100%" }}>
-
+        <Flex direction="column" style={{ height:"100%", flex: "1" }}>
           <Head 
             setType={setType}
             isLast={lastPage}
@@ -62,6 +61,8 @@ function Content() {
             page={page}
             setLoad={setLoad}
           />
+
+          <div className="comp-messages-container"></div>
 
         </Flex>
       </Box>

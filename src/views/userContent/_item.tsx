@@ -40,7 +40,7 @@ export default function Item(
     >
       <Flex justifyContent="space-between" >
         <Flex alignItems="center">
-          <Checkbox 
+          <Checkbox
             onChange={({ target }) => {
               let old = ((target as HTMLElement).getAttribute("aria-checked") === "true");
               setCheck(!old);

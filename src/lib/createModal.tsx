@@ -1,25 +1,19 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import react from "react";
-import reactDOM from "react-dom/client";
+import React from "react";
 import { Overlay, Flex, Box, Button, Icon } from "brainly-style-guide";
+
+import renderJSX from "./renderJSX";
 
 export default function createModal(
   data:
     {
-      element: react.ReactNode,
+      element: React.ReactNode,
       className: string,
       minWidth?: string,
       maxWidth?: string,
       closeFn?: () => void
   }
 ) {
-  document.body.insertAdjacentHTML("afterbegin", 
-    `<div id = "modal" class = "${data.className}" ></div>`
-  );
-  let root = reactDOM.createRoot(
-    document.querySelector(`.${data.className.replaceAll(" ", ".")}#modal`)
-  );
-  root.render(
+  renderJSX(
     <Overlay color="black">
       <Flex
         alignItems="center"
@@ -51,6 +45,8 @@ export default function createModal(
           {data.element}
         </Box>
       </Flex>
-    </Overlay>
+    </Overlay>,
+    data.className,
+    "modal"
   );
 }

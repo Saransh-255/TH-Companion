@@ -138,26 +138,20 @@ if (thisUser.isAnswerer) observeMutation({
 });
 
 //moderation ticket button
-if (thisUser.isModerator) runForElem("meta[name='user_data']", async (elem) => {
-  let userData = JSON.parse(elem.getAttribute("content"));
-
-  if (!userData.isModerator) return;
-
-  runForElem("body", (elem) => {
-    elem.appendChild(buttonElem({
-      icon: {
-        type: "spark",
-        color: "white",
-        size: "24"
-      },
-      type: "solid",
-      text: "Moderate",
-      classes: ["moderate-new"],
-      size: "m",
-      iconOnly: false,
-      clickEvent: () => {
-        showTicket(getId(window.location.href, "question"));
-      }
-    }));
-  });
+if (thisUser.isModerator) runForElem("body", (elem) => {
+  elem.appendChild(buttonElem({
+    icon: {
+      type: "spark",
+      color: "white",
+      size: "24"
+    },
+    type: "solid",
+    text: "Moderate",
+    classes: ["moderate-new"],
+    size: "m",
+    iconOnly: false,
+    clickEvent: () => {
+      showTicket(getId(window.location.href, "question"));
+    }
+  }));
 });

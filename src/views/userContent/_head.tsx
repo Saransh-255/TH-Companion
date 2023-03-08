@@ -27,13 +27,17 @@ export default function Head({ user, setPage, page, setType, type, isLast, load 
             gap: "8px"
           }}
         >
-          <NavMenu 
-            black={false} 
-            final={isLast} 
-            page={page} 
-            setPage={setPage} 
-            length={-1}
-          />
+          {
+            (isLast && !!page) ?? (
+              <NavMenu 
+                black={false} 
+                final={isLast} 
+                page={page} 
+                setPage={setPage} 
+                length={-1}
+              />
+            )
+          }
           <Select 
             ref={selectRef}
             value={type}

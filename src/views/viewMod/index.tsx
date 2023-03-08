@@ -5,11 +5,12 @@ import React from "react";
 import { Sidebar } from "components/react/index";
 import Content from "./_content";
 
-import { formatInTimeZone } from "date-fns-tz";
 import { Scrape } from "@brainly";
 import { userActions } from "@typings/scraped";
 import { isSaturday, startOfDay, previousSaturday } from "date-fns";
 import { makeChunks } from "@lib/arrOps";
+
+import { getNow } from "@lib/timeFns";
 
 import CompanionAPI from "@api/companion/index";
 
@@ -20,7 +21,7 @@ if (thisUser.isMentor) createPage(
 );
 
 function ModActions() {
-  let now = new Date(formatInTimeZone(new Date(), "America/New_York", "yyyy-MM-dd HH:mm:ss"));
+  const now = getNow();
   const [actions, setActions] = React.useState<userActions[]>();
   
   React.useEffect(() => {

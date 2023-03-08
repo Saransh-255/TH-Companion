@@ -459,6 +459,7 @@ export type CommonResponse<T = void> = {
     impl?: string;
     protocol?: "28";
     schema?: string;
+    message?: string;
   };
   
 export type GetConversationResponse = CommonResponse<{

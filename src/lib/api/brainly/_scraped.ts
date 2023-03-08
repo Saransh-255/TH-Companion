@@ -61,6 +61,7 @@ export default new class {
         });
       });
   }
+
   async getUser(id: string| number) {
     let doc = await parsePage(
       `https://brainly.com/users/view/${id}/page:/limit:0/`
@@ -100,7 +101,12 @@ export default new class {
       nick: doc.querySelector(
         isComments ? "#content-old > div:nth-child(1) > div:nth-child(2) > h1 > a" : ".info .ranking a"
       ).innerHTML,
-      lastPage: doc.querySelector(".pager span:nth-child(9)")?.classList.contains("current") ?? null
+      lastPage: isComments ? (
+        doc.querySelectorAll("#content-old > div:nth-child(3) > p > a").length == 1 
+          ?? !!doc.querySelector("#content-old>div:nth-child(3)>p>a[style='color: #3366cc;']:last-child")
+      ) : (doc.querySelector(".pager span:nth-child(9)")?.classList.contains("current") 
+        ?? !!doc.querySelectorAll(".pager > span")
+        ?? null)
     };
   }
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { 
   Media, 
   Avatar, 
@@ -11,31 +11,11 @@ import {
 } from "brainly-style-guide";
 import { format } from "date-fns";
 
-import { useHover, useInteractions, useFloating, safePolygon } from "@floating-ui/react";
 import { Scrape } from "@brainly";
 import shortDelRsn from "@lib/shortDelRsn";
+import makePopup from "@lib/makePopup";
 
 export default function UserData({ user, userId, data }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const { x, y, strategy, refs, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-  });
-  
-  const hover = useHover(context, {
-    delay: {
-      open: 300,
-      close: 200,
-    },
-    handleClose: safePolygon({
-      buffer: 1,
-    }),
-  });
-  
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-  ]);
 
   return (
     <Media
@@ -52,36 +32,19 @@ export default function UserData({ user, userId, data }) {
           <Text weight="bold"> {user.nick}</Text>
           {
             data.user.warnings_count ? (
-              <>
-                <div ref={refs.setReference} {...getReferenceProps()}>
-                  <Icon type="warning" color="icon-yellow-60" size={24} />
-                </div>
-                {
-                  isOpen && (
-                    <Box
-                      ref={refs.setFloating}
-                      style={{
-                        position: strategy,
-                        top: y > 0 ? y : 0,
-                        left: x > 0 ? x : 0,
-                        zIndex: "999",
-                        width:"400px",
-                        minHeight:"160px"
-                      }}
-                      {...getFloatingProps()}
-                      color="white"
-                      padding="m"
-                      border
-                      tabIndex={2}
-                    >
-                      <Warnings id={user.id} />
-                    </Box>
-                  )
+              <Icon 
+                type="warning"
+                color="icon-yellow-60"
+                onClick={
+                  ({ target }) => {
+                    return (
+                      makePopup(target as HTMLElement, <Warnings id={user.id} />)
+                    );
+                  }
                 }
-              </>
-            ) : (
-              <Text weight="bold">[0]</Text>
-            )
+              >
+              </Icon>
+            ) : (<Text weight="bold">[0]</Text>)
           }
         </Flex>,
             
@@ -111,26 +74,33 @@ function Warnings({ id }) {
       });
     }, []
   );
-
-  if (warnings.length && !loading) {
-    return (
-      <Flex 
-        className="scroll-container" 
-        direction="column" 
-        style={{ gap: "4px", overflow:"auto", maxHeight: "300px", height: "100%" }}
-      >
-        {
-          warnings.map(warn => {
-            return <WarnItem warn={warn} />;
-          })
-        }
-      </Flex>
-    );
-  } else {
-    return (
-      <SpinnerContainer style={{ height:"150px" }} fullWidth loading />
-    );
-  }
+  
+  return (
+    <Box
+      color="white"
+      padding="s"
+      border
+      className="warnpop"
+    >
+      {
+        warnings.length && !loading ? (
+          <Flex 
+            className="scroll-container" 
+            direction="column" 
+            style={{ gap: "4px", overflow:"auto", maxHeight: "300px", height: "100%" }}
+          >
+            {
+              warnings.map(warn => {
+                return <WarnItem warn={warn} key={warn.date} />;
+              })
+            }
+          </Flex>
+        ) : (
+          <SpinnerContainer style={{ height:"150px", width: "400px" }} fullWidth loading />
+        )
+      }
+    </Box>
+  );
 }
 function WarnItem({ warn }) {
   const [expand, setExpand] = React.useState(false);
@@ -162,7 +132,12 @@ function WarnItem({ warn }) {
       <Text size="small" color="text-gray-60">{warn.date}</Text>
       {
         expand ? (
-          <Text size="small">{warn.reason}</Text>
+          <Text 
+            size="small"
+            style={{
+              overflowWrap: "break-word"
+            }}
+          >{warn.reason}</Text>
         ) : ""
       }
 

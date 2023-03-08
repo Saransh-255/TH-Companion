@@ -24,7 +24,7 @@ export default new class GQL {
     }).then(data => data.json());
   }
 
-  async ForYou(id: string) {
+  async ForYou(id: string | number) {
     return this.GQL(
       `query($id:ID!){
         user(id:$id){
