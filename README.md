@@ -1,6 +1,21 @@
 # TH-Companion
 Tools to supercharge your Brainly experience.
 
+---
+- [Installation Guide](https://github.com/Saransh-255/TH-Companion#installation-guide)
+- [Getting Started](https://github.com/Saransh-255/TH-Companion#getting-started)
+-  [Features](https://github.com/Saransh-255/TH-Companion#features)
+	- [Answering](https://github.com/Saransh-255/TH-Companion#answering)
+		- ["For You" Feed](https://github.com/Saransh-255/TH-Companion#for-you-feed)
+		- [Question Preview](https://github.com/Saransh-255/TH-Companion#question-preview)
+		- [Answering Dashboard](https://github.com/Saransh-255/TH-Companion#answering-dashboard)
+		- [Answer Input Box Features](https://github.com/Saransh-255/TH-Companion#answer-input-box-features)
+	- [Moderation](https://github.com/Saransh-255/TH-Companion#moderation)
+		- [Moderation Ticket](https://github.com/Saransh-255/TH-Companion#moderation-ticket)
+			- [Warnings Preview](https://github.com/Saransh-255/TH-Companion#warnings-preview)
+		- [JM Mentoring View](https://github.com/Saransh-255/TH-Companion#jm-mentoring-view)
+---
+
 ## Installation Guide
 This extension is exclusively available on chromium-based browsers. 
 
@@ -60,3 +75,18 @@ Measures the characters used so you never have to worry about passing the word l
 Click on the rightmost button on the action menu to open a Graphing Calculator.
 
 <img src="https://i.gyazo.com/77a7f6152b29fb6de98d0f4b68767797.png" height=300 />
+
+### Moderation
+
+#### Moderation Ticket
+Open a better version of the moderation ticket from basically anywhere to save time.
+
+##### Warnings Preview
+Check the user's warnings directly from the ticket without having to waste time going to their profile.
+
+<img src="https://i.gyazo.com/a3b4a5f0d17206d3b30fc9a064afd5fe.gif" height=300 />
+
+#### JM Mentoring View
+If you're a JM Mentor, you get an upgraded page to review your Mentee's Mod Actions.
+
+<img src="https://gyazo.com/072fae9300f7bc0d1c18d0ad5b515afb.png" height=300 />
