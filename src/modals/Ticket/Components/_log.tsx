@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Avatar, Flex, Text, SeparatorHorizontal, Button, Icon } from "brainly-style-guide";
 import { GetQuestionLogResponse } from "@typings/brainly";
 
@@ -22,7 +22,7 @@ export default function Log({ data }: { data: GetQuestionLogResponse }) {
 }
 
 function LogItem({ index, user, entry, owner }) {
-  const [expanded, setExpand] = React.useState(false);
+  const [expanded, setExpand] = useState(false);
   let secondProf = entry.text.includes("%3$s");
   let contentArr = entry.text.replace("%1$s ", "").split("%3$s");
 

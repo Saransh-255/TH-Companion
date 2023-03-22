@@ -11,7 +11,7 @@ export default (data: {
   } else {
     avatar = `
     <div class = "sg-icon sg-icon--icon-gray-40 sg-icon--x24 sg-avatar__icon">
-      ${_icon({ type: "profile", size: "24", color: "gray-40" }).outerHTML}
+      ${_icon({ type: "profile", size: 24, color: "icon-gray-40" }).outerHTML}
     </div>
     `;
   }

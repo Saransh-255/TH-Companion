@@ -1,4 +1,3 @@
-import React from "react";
 import { filterByTime } from "@lib/timeFns";
 import {
   Chart as ChartJS,

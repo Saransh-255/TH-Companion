@@ -4,10 +4,33 @@
 @use "../common/modals/ticket";
 @use "./fyp";
 @use "../common/basic";
+@use "../common/tooltip";
+@use "../common/modals/msg";
 
 .modticket, a.newansbut, .rep-button, .preview-button{
   display: none!important;
 }
 .sg-button--disabled{
   pointer-events: none!important;
+}
+
+.comp-gb{
+  padding: 16px;
+  gap: 8px;
+  display:flex;
+  flex-direction: row;
+
+  border-top: 2px solid #ebf2f7;
+
+  >.sg-box{
+    gap: 8px;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    cursor: pointer;
+    > .sg-text-bit{
+      font-size: 1rem;
+      line-height: initial;
+    }
+  }
 }

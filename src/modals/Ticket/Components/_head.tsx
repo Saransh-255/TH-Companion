@@ -1,4 +1,3 @@
-import React from "react";
 import { Headline, Breadcrumb, Flex, Link } from "brainly-style-guide";
 
 export default function Head({ subject, grade, id, data }) {

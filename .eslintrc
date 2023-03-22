@@ -54,7 +54,7 @@
         "skipBlankLines": true,
         "skipComments": true  
       }],
-      "max-params": ["warn", 4],
+      "max-params": ["warn", 5],
       "max-depth": ["warn", 4]
     }
   }

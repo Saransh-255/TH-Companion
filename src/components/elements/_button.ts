@@ -1,12 +1,12 @@
 import { addSpinner } from "@utils/spinner";
 import clsx from "clsx";
-import iconElem, { iconTypes } from "./_icon";
+import iconElem, { IconTypes } from "./_icon";
 
 import { ButtonPropsType } from "brainly-style-guide";
 
 export default (data: {
   text?: string,
-  icon?: iconTypes,
+  icon?: IconTypes,
   type: ButtonPropsType["variant"],
   size: "l" | "m" | "s",
   loading?: boolean,

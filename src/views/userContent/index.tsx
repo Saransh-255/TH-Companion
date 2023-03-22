@@ -5,12 +5,12 @@ import createPage from "@lib/createPage";
 import { Sidebar } from "@reactComponents";
 import { ReferenceData } from "@typings/brainly";
 import { Flex, Box } from "brainly-style-guide";
-import React from "react";
+import { useState, useEffect } from "react";
 
 import Head from "./_head";
 import ContentList from "./_contentList";
 
-const thisUser = CompanionAPI.SavedData();
+const thisUser = CompanionAPI.SavedData().user;
 
 if (thisUser.isModerator) createPage((
   <Flex style={{ height:"100vh" }}>
@@ -22,16 +22,16 @@ if (thisUser.isModerator) createPage((
 let dataStr = window.location.href.replace("https://brainly.com/companion/user/", "").split("/");
 let id = dataStr[0];
 function Content() {
-  const [userInfo, setUser] = React.useState<{avatar: string, nick: string}>();
-  const [dref, setdRef] = React.useState<ReferenceData>();
+  const [userInfo, setUser] = useState<{avatar: string, nick: string}>();
+  const [dref, setdRef] = useState<ReferenceData>();
 
-  const [page, setPage] = React.useState(1);
-  const [type, setType] = React.useState("solved");
+  const [page, setPage] = useState(1);
+  const [type, setType] = useState("solved");
 
-  const [lastPage, setLast] = React.useState(false);
-  const [load, setLoad] = React.useState(false);
+  const [lastPage, setLast] = useState(false);
+  const [load, setLoad] = useState(false);
   
-  React.useEffect(() => {
+  useEffect(() => {
     const UserInfo = async () => {
       await Scrape.getUser(id).then(data => setUser(data));
       await Legacy.ReferenceData().then(data => setdRef(data));

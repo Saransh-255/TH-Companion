@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { 
   Text, 
   Button, 
@@ -19,13 +19,13 @@ import UserData from "./_userData";
 export default function Item(
   { id, ticket, data, users, type, delArr, changeArr, qData }
 ) {
-  const [commentVis, setVis] = React.useState(false);
-  const [iconStr, setStr] = React.useState("comment_outlined");
-  const [delVis, setDelVis] = React.useState(false);
-  const [verified, setVerified] = React.useState(!!qData.approved?.approver);
+  const [commentVis, setVis] = useState(false);
+  const [iconStr, setStr] = useState("comment_outlined");
+  const [delVis, setDelVis] = useState(false);
+  const [verified, setVerified] = useState(!!qData.approved?.approver);
 
-  const [deleted, setDeleted] = React.useState(false);
-  const [report, setReported] = React.useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const [report, setReported] = useState(false);
   
   let user = userById(users, data.user_id);
   let userId = `https://brainly.com/profile/${user.nick}-${user.id}`;

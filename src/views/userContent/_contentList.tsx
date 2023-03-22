@@ -1,17 +1,17 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Item from "./_item";
 import { UserData } from "@typings/brainly";
 import { Box, Flex, Headline, SpinnerContainer } from "brainly-style-guide";
 import { Scrape } from "@brainly";
 
 export default function ContentList({ userId, dref, type, page, setLast, setLoad }) {
-  const [dum, setDum] = React.useState(false);
+  const [dum, setDum] = useState(false);
 
-  const [uData, setData] = React.useState<UserData>();
+  const [uData, setData] = useState<UserData>();
 
-  const [delArr, setArr] = React.useState<number[]>([]);
+  const [delArr, setArr] = useState<number[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const UserInfo = async () => {
       setLoad(true);
       await Scrape.getUserContent(userId, type, 30, page).then(data => {

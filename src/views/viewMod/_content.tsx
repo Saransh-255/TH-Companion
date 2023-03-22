@@ -2,13 +2,13 @@ import shortDelRsn from "@lib/shortDelRsn";
 import { userActions } from "@typings/scraped";
 import { Flex, Box, Link, Icon, Label, Text } from "brainly-style-guide";
 import { NavMenu } from "@reactComponents";
-import React from "react";
+import { useState } from "react";
 import showPreview from "@modals/Preview/Preview";
 
 export default function Content(
   { actions } : { actions: userActions[] }
 ) {
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   const TYPE_COLORS = {
     answer: "#6d83f3",
     question: "#323c45",

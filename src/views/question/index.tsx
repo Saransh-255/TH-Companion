@@ -10,7 +10,7 @@ import getId from "@lib/getId";
 
 import CompanionAPI from "@api/companion/index";
 
-const thisUser = CompanionAPI.SavedData();
+const thisUser = CompanionAPI.SavedData().user;
 
 //answering box observer
 if (thisUser.isAnswerer) observeMutation({
@@ -31,8 +31,8 @@ if (thisUser.isAnswerer) observeMutation({
       .insertAdjacentElement("beforeend", buttonElem({
         icon: {
           type: "draw",
-          size: "24",
-          color: "black"
+          size: 24,
+          color: "icon-black"
         },
         type: "transparent",
         size: "m",
@@ -142,8 +142,8 @@ if (thisUser.isModerator) runForElem("body", (elem) => {
   elem.appendChild(buttonElem({
     icon: {
       type: "spark",
-      color: "white",
-      size: "24"
+      color: "icon-white",
+      size: 24
     },
     type: "solid",
     text: "Moderate",

@@ -1,12 +1,12 @@
 import { Flex, Checkbox, Avatar, Button, Icon, Text } from "brainly-style-guide";
-import React from "react";
+import { useState } from "react";
 import DelMenu from "./_delMenu";
 
 export default function CommentItem({ data, ticket, users, delArr, changeArr }) {
   let user = userById(users, data.user_id);
-  const [comDeleted, setDeleted] = React.useState(false);
-  const [commentDel, setComDel] = React.useState(false);
-  const [cmtRemoved, setRemoved] = React.useState(data.deleted);
+  const [comDeleted, setDeleted] = useState(false);
+  const [commentDel, setComDel] = useState(false);
+  const [cmtRemoved, setRemoved] = useState(data.deleted);
 
   return (
     <Flex direction="column" >

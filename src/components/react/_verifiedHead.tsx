@@ -1,5 +1,4 @@
 import { Flex, Icon, Headline, Text } from "brainly-style-guide";
-import React from "react";
 
 export default function ({ Approver }) {
   return (

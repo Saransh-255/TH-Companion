@@ -1,4 +1,3 @@
-import React from "react";
 import createModal from "@lib/createModal";
 import { Headline } from "brainly-style-guide";
 import { Legacy } from "@brainly";

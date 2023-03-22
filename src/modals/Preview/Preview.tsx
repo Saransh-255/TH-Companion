@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import react, { useEffect } from "react";
+import { useEffect } from "react";
 import Head from "./Components/_head";
 import createModal from "@lib/createModal";
 import Item from "./Components/_item";

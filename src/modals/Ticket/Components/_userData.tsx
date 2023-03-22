@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { 
   Media, 
   Avatar, 
@@ -60,9 +60,9 @@ export default function UserData({ user, userId, data }) {
 }
 
 function Warnings({ id }) {
-  const [loading, setLoading] = React.useState(true);
-  const [warnings, setWarnings] = React.useState([]);
-  React.useEffect(
+  const [loading, setLoading] = useState(true);
+  const [warnings, setWarnings] = useState([]);
+  useEffect(
     () => {
       Scrape.getWarnings(id).then(data => {
         setWarnings(
@@ -103,7 +103,7 @@ function Warnings({ id }) {
   );
 }
 function WarnItem({ warn }) {
-  const [expand, setExpand] = React.useState(false);
+  const [expand, setExpand] = useState(false);
 
   return (
     <Box border>

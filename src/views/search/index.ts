@@ -7,7 +7,7 @@ import showTicket from "@modals/Ticket/Ticket";
 
 import CompanionAPI from "@api/companion/index";
 
-const thisUser = CompanionAPI.SavedData();
+const thisUser = CompanionAPI.SavedData().user;
 
 runForElem(
   "[data-testid='search_stream_wrapper']",
@@ -44,8 +44,8 @@ runForElem(
                       iconOnly:true,
                       icon: {
                         type: thisUser.isModerator ? "shield" : "seen",
-                        color: "gray-50",
-                        size: "24"
+                        color: "icon-gray-50",
+                        size: 24
                       },
                       type: "transparent",
                       size: "m",

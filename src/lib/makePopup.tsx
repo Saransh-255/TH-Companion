@@ -1,5 +1,5 @@
 import renderJSX from "@lib/renderJSX";
-import React from "react";
+import { useRef, useEffect } from "react";
 
 export default function makePopup(elem:HTMLElement, content:React.ReactNode) {
   renderJSX(
@@ -24,9 +24,9 @@ export default function makePopup(elem:HTMLElement, content:React.ReactNode) {
 
 function FluidPopup({ elem, content } : { elem: HTMLElement, content: React.ReactNode }) {
   const rect = elem.getBoundingClientRect();
-  const popupRef = React.useRef<HTMLDivElement>();
+  const popupRef = useRef<HTMLDivElement>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const popup = popupRef?.current;
     if (!popup) return;
     

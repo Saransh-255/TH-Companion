@@ -22,8 +22,8 @@ export default function feedItem({ question }) {
               iconOnly: true,
               icon: {
                 type: "report_flag_outlined",
-                color: "gray-50",
-                size: "24"
+                color: "icon-gray-50",
+                size: 24
               },
               id: "rep" + qid,
               classes: ["report"]
@@ -51,9 +51,9 @@ export default function feedItem({ question }) {
             }
             ${
               question.attachments.length ? icon({
-                size: "24",
+                size: 24,
                 type: "attachment",
-                color: "gray-50",
+                color: "icon-gray-50",
                 classNames: "centerElem"
               }).outerHTML : ""
             }
@@ -64,8 +64,8 @@ export default function feedItem({ question }) {
             buttonElem({
               icon: {
                 type: "seen",
-                size: "24",
-                color: "white"
+                size: 24,
+                color: "icon-white"
               },
               classes: ["fyp"],
               type: "solid",
@@ -78,8 +78,8 @@ export default function feedItem({ question }) {
               buttonElem({
                 icon: {
                   type: "answer",
-                  size: "24",
-                  color: "white",
+                  size: 24,
+                  color: "icon-white",
                 },
                 type: "solid",
                 size: "m",

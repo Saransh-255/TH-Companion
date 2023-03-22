@@ -8,7 +8,7 @@ import {
   Label,
   Text 
 } from "brainly-style-guide";
-import React from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 
 import { findContent } from "./_contentList";
 
@@ -18,13 +18,13 @@ export default function Item(
     data:UserData["content"][0], 
     dref: ReferenceData, 
     dum:boolean, 
-    setDum: React.Dispatch<React.SetStateAction<boolean>>, 
+    setDum: Dispatch<SetStateAction<boolean>>, 
     type: string,
     delArr: number[], 
-    setArr: React.Dispatch<React.SetStateAction<number[]>>
+    setArr: Dispatch<SetStateAction<number[]>>
   }
 ) {
-  const [check, setCheck] = React.useState(false);
+  const [check, setCheck] = useState(false);
 
   let isComments = type === "comments";
 

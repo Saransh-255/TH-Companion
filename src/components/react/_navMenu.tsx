@@ -1,5 +1,5 @@
 import { Flex, Button, Icon, Text } from "brainly-style-guide";
-import React, { Dispatch } from "react";
+import { Dispatch } from "react";
 
 export default function NavMenu({ page, setPage, length, final, black }) {
   return (

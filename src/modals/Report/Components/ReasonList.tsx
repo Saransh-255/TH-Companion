@@ -1,6 +1,6 @@
 import { Legacy } from "@brainly";
 import { RadioGroup, Button, Flex, Radio, Textarea } from "brainly-style-guide";
-import React, { useState } from "react";
+import { useState } from "react";
 import { ReportData } from "@typings/brainly";
 import Subcategories from "./Subcategory";
 

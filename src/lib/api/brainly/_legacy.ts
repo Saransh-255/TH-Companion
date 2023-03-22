@@ -166,4 +166,17 @@ export default new class BrainlyAPI {
   async GetLog(id:string | number):Promise<GetQuestionLogResponse> {
     return await this.Legacy("GET", `/api_task_lines/big/${id}`);
   }
+  async SendMessage(id: string | number, content: string) {
+    type convoIdResp = {
+      data: {
+        conversation_id: number
+      }
+    }
+    let convo = await this.Legacy("POST", "api_messages/check", ({ user_id: id }));
+    console.log(convo, "convo");
+    await this.Legacy("POST", "api_messages/send", ({
+      "conversation_id": (convo as convoIdResp).data.conversation_id,
+      "content": content
+    }));
+  }
 };

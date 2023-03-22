@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Flex, 
@@ -15,62 +15,29 @@ import Progress from "./_progress";
 import AnsGraph from "./_ansGraph";
 import NotificationItem from "./_notifications";
 
+import CompanionAPI from "@lib/api/companion";
+
 export default function Content() {
   //const [user, setUser] = React.useState<UserInfo>();
-  const [answers, setAnswers] = React.useState<ContentList>();
-  const [notifications, setNotif] = React.useState<Notifications>();
+  const [answers, setAnswers] = useState<ContentList>();
+  const [notifications, setNotif] = useState<Notifications>();
+  const [alinks, setLinks] = useState<unknown>();
 
   useEffect(() => {
     const getData = async () => {
       await Legacy.GetNotifications().then(notifs => setNotif(notifs));
       await Legacy.GetContent("responses").then(ans => setAnswers(ans));
+      await CompanionAPI.Links().then(data => {
+        setLinks(data);
+        console.log(data);
+      });
     };
     getData();
   }, []);
 
-  const teamLinks = [
-    {
-      name: "Report a QA User",
-      link: "https://forms.gle/6mDdeYeLxHrabFHZ8"
-    },
-    {
-      name: "Request Verification",
-      // eslint-disable-next-line max-len
-      link: "https://docs.google.com/forms/d/e/1FAIpQLScVcmT45ky6FnymWutuRaDRxyw1pXPG7oOvZTCNc_2daPs_NA/viewform?usp=sf_link"
-    },
-  ];
-  const links = [
-    {
-      name: "Desmos",
-      link: "https://desmos.com"
-    },
-    {
-      name: "Google Sheets",
-      link: "https://docs.google.com/spreadsheets/u/0/"
-    },
-    {
-      name: "Triangle Solver",
-      link: "https://www.calculator.net/triangle-calculator.html"
-    },
-    {
-      name: "Unicode Characters",
-      link: "https://unicode-table.com/en/sets/mathematical-signs/"
-    },
-    {
-      name: "Polynomial Long Division",
-      link: "https://www.emathhelp.net/calculators/algebra-1/polynomial-long-division-calculator/"
-    },
-    {
-      name: "Synthetic Division",
-      link: "https://www.emathhelp.net/calculators/algebra-1/synthetic-division-calculator/"
-    },
-    {
-      name: "Vector Calculator",
-      link: "https://www.mathsisfun.com/algebra/vector-calculator.html"
-    }
-  ];
-
-  if (notifications && answers) {
+  if (notifications && answers && alinks) {
+    const teamLinks = alinks["team"];
+    const links = alinks["useful"];
     return (
       <Flex className="content">
         <Flex
@@ -120,16 +87,16 @@ function LinkList({ arr }) {
   return (
     <List>
       {
-        arr.map(link => {
+        Object.keys(arr).map(key => {
           return (
-            <ListItem key = {link.name}>
+            <ListItem key = {key}>
               <Link
                 hideNewTabIndicator
-                href={link.link}
+                href={arr[key]}
                 newTabLabel=""
                 target="_blank"
               >
-                {link.name}
+                {key}
               </Link>
             </ListItem>
           );

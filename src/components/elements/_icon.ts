@@ -1,28 +1,19 @@
-import { IconType } from "brainly-style-guide";
+import { IconPropsType } from "brainly-style-guide";
 import clsx from "clsx";
 
-export type iconTypes = {
-  size: "16" | "24" | "32" | "40" | "56" | "80" | "104",
-  type: IconType,
-  color: 
-  | "adaptive" 
-  | "black" 
-  | "white" 
-  | "blue-50" 
-  | "green-50" 
-  | "indigo-50" 
-  | "yellow-50" 
-  | "gray-50" 
-  | "gray-40" 
-  | "gray-70",
+export type IconTypes = {
+  type: IconPropsType["type"],
+  size: IconPropsType["size"],
+  color: IconPropsType["color"],
   classNames?: string,
+  title?: string
 }
 
-export default (data:iconTypes):HTMLElement => {
+export default (data:IconTypes):HTMLElement => {
   let icon = document.createElement("div");
 
   icon.classList.add(...clsx({
-    [`sg-icon sg-icon--icon-${data.color} sg-icon--x${data.size}`]: true,
+    [`sg-icon sg-icon--${data.color} sg-icon--x${data.size}`]: true,
     [data.classNames] : data.classNames
   }).split(" "));
 

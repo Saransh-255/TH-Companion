@@ -1,0 +1,19 @@
+@use "./app";
+
+#modal.comp-et-msg{
+  .et-msg-main{
+    height: 500px;
+    margin-top:8px;
+
+    .sg-input__wrapper{
+      flex:1;
+      textarea{
+        height: 100%;
+      }
+    }
+    .et-msg-input{
+      flex:1;
+      gap: 8px;
+    }
+  }
+}

@@ -9,18 +9,18 @@ import {
   Checkbox,
   Button
 } from "brainly-style-guide";
-import React from "react";
+import { useState } from "react";
 
 export default function DelMenu({ reasons, id, type, successFn }) {
-  const [cat, setCat] = React.useState("");
-  const [take, setTake] = React.useState(false);
-  const [returnPts, setReturn] = React.useState(true);
-  const [warn, setWarn] = React.useState(true);
+  const [cat, setCat] = useState("");
+  const [take, setTake] = useState(false);
+  const [returnPts, setReturn] = useState(true);
+  const [warn, setWarn] = useState(true);
 
   let activeRsn = reasons.find(({ id }) => id + "" === cat + "") || null;
-  const [subcat, setSub] = React.useState(null);
+  const [subcat, setSub] = useState(null);
 
-  const [rsnTxt, setTxt] = React.useState("");
+  const [rsnTxt, setTxt] = useState("");
 
   return (<>
     <RadioGroup 

@@ -10,16 +10,26 @@ export default new class CompanionAPI {
     projectId: "brainly-companion"
   };
 
+  private async GetData(method:string) {
+    const docm = await getDoc(doc(
+      getFirestore(initializeApp(this.firebaseConfig)), method)
+    );
+    return docm.data();
+  }
+
   SavedData() {
-    let permArr = JSON.parse(localStorage.getItem("comp-perms"));
-    let userId = localStorage.getItem("comp-uid");
+    const permArr = JSON.parse(localStorage.getItem("comp-perms"));
+    const userId = localStorage.getItem("comp-uid");
 
     return {
-      isModerator: permArr.includes(1),
-      isAnswerer: permArr.includes(11),
-      isMentor: permArr.includes(31),
-      isAdmin: permArr.includes(0),
-      id: +userId
+      user: {
+        isModerator: permArr.includes(1),
+        isAnswerer: permArr.includes(11),
+        isMentor: permArr.includes(31),
+        isAdmin: permArr.includes(0),
+        isET: permArr.includes(41),
+        id: +userId
+      }
     };
   }
 
@@ -29,13 +39,19 @@ export default new class CompanionAPI {
 
     localStorage.setItem("comp-uid", user.id + "");
 
-    let docm = await getDoc(doc(
-      getFirestore(initializeApp(this.firebaseConfig)), 
-      `users/u-${user.id}`
-    ));
+    let docm = await this.GetData(`users/u-${user.id}`);
 
-    return docm.exists ? docm.data() : flashMsg(
+    return docm ? docm : flashMsg(
       `User ${user.nick} not found. Please Contact Saransh to add you to the extension`, "error"
     );
+  }
+  async Config() {
+    return this.GetData("data/config");
+  }
+  async MsgTemplates() {
+    return this.GetData("data/msgTemplates");
+  }
+  async Links() {
+    return this.GetData("data/aLinks");
   }
 };

@@ -1,11 +1,11 @@
-import React from "react";
+import { useState } from "react";
 import { Avatar, Text, Media, Button, Icon, Box, Flex } from "brainly-style-guide";
 import Attachments from "./_attachments";
 import reportMenu from "@modals/Report/report";
 
 export default function Item({ id, data, users, type }) {
-  const [commentVis, setVis] = React.useState(false);
-  const [iconStr, setStr] = React.useState("comment_outlined");
+  const [commentVis, setVis] = useState(false);
+  const [iconStr, setStr] = useState("comment_outlined");
   let user = userById(users, data.user_id);
   let userId = `https://brainly.com/profile/${user.nick}-${user.id}`;
   let content = data.content;

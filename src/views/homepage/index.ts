@@ -1,10 +1,11 @@
+/* eslint-disable max-lines */
 /* eslint-disable max-len */
 import getId from "@lib/getId";
 import observeMutation from "@lib/observeMutation";
 import runForElem from "@lib/runForElem";
 import { GQL, Legacy } from "@brainly";
 
-import { buttonElem, link } from "components/elements";
+import { buttonElem, box, icon } from "components/elements";
 import feedItem from "./_feedItem";
 
 import reportMenu from "@modals/Report/report";
@@ -13,37 +14,22 @@ import showTicket from "@modals/Ticket/Ticket";
 
 import { shuffle } from "@lib/arrOps";
 import CompanionAPI from "@lib/api/companion";
+import MassMsg from "@modals/MassMsg";
 
-const thisUser = CompanionAPI.SavedData();
+const data = CompanionAPI.SavedData();
+
+const thisUser = data.user;
 
 if (thisUser.isAnswerer) {
-  //Answering Dashboard Link
-  runForElem("div[data-testid = 'navigation_header_subnav'] > div > div > div", 
-    (elem) => {
-      elem.appendChild(
-        link({
-          href: "https://brainly.com/companion/answering",
-          text: "Answering Dashboard",
-          size: "small",
-          target: "_blank",
-          classNames: ["sg-flex"],
-          noWrap: true,
-          weight: "regular",
-          color: "text-black"
-        })
-      );
-    }
-  );
-
   // FYP Button
   runForElem(".brn-white-background-feed-wrapper > div.sg-flex--row", 
     (elem) => {
       elem.appendChild(buttonElem({
         text: "For you",
         icon: {
-          size: "24",
+          size: 24,
           type: "spark",
-          color: "white"
+          color: "icon-white"
         },
         type: "solid",
         size: "m",
@@ -97,6 +83,8 @@ if (thisUser.isAnswerer) {
   });
 }
 
+
+// Preview/Moderate buttons
 if (thisUser.isModerator || thisUser.isAnswerer) observeMutation({
   target: ".js-feed-stream",
   hookInterval: 0,
@@ -115,9 +103,9 @@ if (thisUser.isModerator || thisUser.isAnswerer) observeMutation({
           size: "m",
           iconOnly: true,
           icon: {
-            size: "24",
+            size: 24,
             type: "report_flag_outlined",
-            color: "gray-50"
+            color: "icon-gray-50"
           },
           type: "transparent",
           classes: ["report-flag"],
@@ -137,8 +125,8 @@ if (thisUser.isModerator || thisUser.isAnswerer) observeMutation({
           type: "solid",
           icon: {
             type: "answer",
-            size: "24",
-            color: "white"
+            size: 24,
+            color: "icon-white"
           },
           iconOnly: true,
           href: `/question/${questionId}?answering=true`,
@@ -149,7 +137,7 @@ if (thisUser.isModerator || thisUser.isAnswerer) observeMutation({
         type: "solid-indigo",
         icon: {
           type: thisUser.isModerator ? "shield" : "seen",
-          size: "24",
+          size: 24,
           color: "adaptive"
         },
         iconOnly: true,
@@ -198,3 +186,73 @@ if (thisUser.isModerator || thisUser.isAnswerer) observeMutation({
     subtree: true
   }
 });
+
+// Game Box Tools
+observeMutation({
+  target: ".sg-layout__aside-content",
+  hookInterval: 0,
+  itemFn: async () => {
+    const config = await CompanionAPI.Config();
+    //slight delay in render, need to await the element first
+    runForElem("[data-testid='game_box_current_plan']", (elem) => {
+      if (document.querySelector(".comp-gb")) return;
+
+      elem.insertAdjacentHTML("afterend", "<div class = 'sg-box comp-gb'></div>");
+      const gbox = document.querySelector(".comp-gb");
+
+      gbox.appendChild(
+        gBoxElem("Volunteer Dashboard", "#0F9D58", "answers", config.vdashURL)
+      );
+      if (thisUser.isET) gbox.appendChild(
+        gBoxElem("Message Users", "#46535f", "messages", "" , () => MassMsg())
+      );
+      if (thisUser.isAnswerer) {
+        gbox.appendChild(
+          gBoxElem("Answering Dashboard", "#133191", "star", "https://brainly.com/companion/answering")
+        );
+      }
+      if (thisUser.isModerator) {
+        gbox.appendChild(
+          gBoxElem("Mod Handbook", "#c98600", "textbook", config.modURL)
+        );
+      }
+    });
+  },
+  settings: {
+    attributes: false,
+    childList: true,
+    subtree: false,
+    characterData: false
+  }
+});
+
+function gBoxElem(
+  text:string, color:string, iconType?:string, link?:string, clickEvent?: () => void
+):HTMLAnchorElement | HTMLDivElement {
+  return box({
+    padding: "s",
+    border: true,
+    borderRadius: true,
+    classes: ["sg-flex tooltip"],
+    href: link ?? null,
+    onClick: () => clickEvent?.(),
+    borderColor: "white",
+    attributes: [
+      {
+        key: "data-tooltip",
+        value: text
+      },
+      {
+        key: "style",
+        value: `background:${color}`
+      }
+    ],
+    children: (
+      icon({
+        type: iconType,
+        size: 16,
+        color: "icon-white",
+      }).outerHTML
+    )
+  });
+}

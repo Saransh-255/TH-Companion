@@ -1,6 +1,6 @@
 import createPage from "@lib/createPage";
 import { Flex, Headline, SpinnerContainer } from "brainly-style-guide";
-import React from "react";
+import { useState, useEffect } from "react";
 
 import { Sidebar } from "components/react/index";
 import Content from "./_content";
@@ -14,7 +14,7 @@ import { getNow } from "@lib/timeFns";
 
 import CompanionAPI from "@api/companion/index";
 
-const thisUser = CompanionAPI.SavedData();
+const thisUser = CompanionAPI.SavedData().user;
 
 if (thisUser.isMentor) createPage(
   <ModActions />, "Mentee Overview"
@@ -22,9 +22,9 @@ if (thisUser.isMentor) createPage(
 
 function ModActions() {
   const now = getNow();
-  const [actions, setActions] = React.useState<userActions[]>();
+  const [actions, setActions] = useState<userActions[]>();
   
-  React.useEffect(() => {
+  useEffect(() => {
     Scrape.getActions(
       +window.location.href.replace("https://brainly.com/companion/moderator/", "").split("/")[0],
       isSaturday(now) ? startOfDay(now) : startOfDay(previousSaturday(now))

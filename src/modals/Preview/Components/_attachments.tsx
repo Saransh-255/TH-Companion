@@ -1,8 +1,8 @@
 import { Flex, Button, Icon } from "brainly-style-guide";
-import React from "react";
+import { useState } from "react";
 
 export default function Attachments({ attachments }) {
-  const [attachment, setAttachment] = React.useState(0);
+  const [attachment, setAttachment] = useState(0);
   if (attachments.length) return (
     <div className = "attachments">
       <div className = "attachment-view">

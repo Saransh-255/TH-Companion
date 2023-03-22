@@ -1,5 +1,4 @@
 import { Flex, Icon, Box, Headline, Text, SeparatorVertical } from "brainly-style-guide";
-import React from "react";
 import { 
   startOfMonth, 
   previousSaturday, 

@@ -53,9 +53,9 @@ runForElem(
               <div class="sg-flex flex-direction-column">
                 ${
                   icon({
-                    size: "24",
+                    size: 24,
                     type: element.name,
-                    color: "black"
+                    color: "icon-black"
                   }).outerHTML
                 }
                 <div class="sg-text">${
@@ -162,8 +162,8 @@ runForElem(
             iconOnly: true,
             icon: {
               type: "shield",
-              color: "gray-50",
-              size:"24"
+              color: "icon-gray-50",
+              size:24
             },
             type:"transparent",
             size:"m",

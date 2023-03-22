@@ -1,7 +1,7 @@
 import { Input, Select, Textarea } from "brainly-style-guide";
-import React from "react";
+import { Component } from "react";
 
-export default class Subcategories extends React.Component<
+export default class Subcategories extends Component<
   { reason, subcategory, setSubcategory, repData, setRep }> {
   constructor(props) {
     super(props);

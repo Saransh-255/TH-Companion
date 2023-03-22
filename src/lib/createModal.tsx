@@ -1,6 +1,4 @@
-import React from "react";
 import { Overlay, Flex, Box, Button, Icon } from "brainly-style-guide";
-
 import renderJSX from "./renderJSX";
 
 export default function createModal(
