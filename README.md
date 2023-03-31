@@ -1,6 +1,8 @@
 # TH-Companion
 Tools to supercharge your Brainly experience.
-
+---
+# This version was made for the Brainly TH-Team and has been discontinued. 
+## Please use the [Public Version](https://github.com/Saransh-255/Brainly-Companion) instead
 ---
 - [Installation Guide](https://github.com/Saransh-255/TH-Companion#installation-guide)
 - [Getting Started](https://github.com/Saransh-255/TH-Companion#getting-started)
